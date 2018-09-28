@@ -1,0 +1,10 @@
+{
+  "name": "next-tip-calc",
+  "alias": "tipcalc",
+  "regions": ["all"],
+  "public": true,
+  "type": "docker",
+  "features": {
+    "cloud": "v2"
+  }
+}

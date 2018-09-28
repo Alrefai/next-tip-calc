@@ -1,0 +1,30 @@
+{
+  "name": "next-tip-calc",
+  "scripts": {
+    "dev": "next",
+    "build": "next build",
+    "start": "next start"
+  },
+  "dependencies": {
+    "next": "^7.0.0",
+    "ramda": "latest",
+    "react": "^16.5.2",
+    "react-dom": "^16.5.2"
+  },
+  "author": "Mohammed Alrefai",
+  "license": "MIT",
+  "description": "Tip Calculator (demo) – React app built with Next.js.",
+  "private": true,
+  "devDependencies": {
+    "@fortawesome/fontawesome-svg-core": "latest",
+    "@fortawesome/free-regular-svg-icons": "latest",
+    "@fortawesome/free-solid-svg-icons": "latest",
+    "@fortawesome/react-fontawesome": "latest",
+    "@zeit/next-css": "latest",
+    "modern-normalize": "latest",
+    "tachyons": "latest"
+  },
+  "version": "1.0.0",
+  "main": "index.js",
+  "repository": "https://github.com/Alrefai/next-tip-calc.git"
+}
