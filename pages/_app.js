@@ -1,15 +1,8 @@
 import App, { Container } from 'next/app'
-// import { library as fontawesome } from '@fortawesome/fontawesome-svg-core'
-// import {} from '@fortawesome/free-solid-svg-icons'
-// import {} from '@fortawesome/free-regular-svg-icons'
 import Head from '../components/head'
 import reducer from '../reducers'
 import { initModel, meta } from '../constants'
-// import '@fortawesome/fontawesome-svg-core/styles.css'
-import 'tachyons/css/tachyons.min.css'
 import 'modern-normalize/modern-normalize.css' //keep it the last import
-
-// fontawesome.add()
 
 export default class MyApp extends App {
   state = reducer(initModel, {})
