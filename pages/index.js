@@ -1,12 +1,14 @@
+import { Box } from 'rebass'
 import Header from '../components/header'
 
-const Main = ({ dispatch, model }) => (
-  <div className={`mh2`}>
+const TipCalculator = ({ dispatch, model }) =>
+  <Box mx={2}>
     <Header />
-    <pre className={`f5`}>
+    <pre>
       {JSON.stringify(model, null, 2)}
     </pre>
-  </div>
-)
+  </Box>
 
-export default Main
+TipCalculator.displayName = 'TipCalculator'
+
+export default TipCalculator
