@@ -2,7 +2,7 @@ import styled, { keyframes } from 'styled-components'
 import { Flex, Box, Heading, Card } from 'rebass'
 import { meta } from '../constants'
 
-const Badge = props =>
+const Badge = ({ displayName = `Badge`, ...props }) =>
   <Card {...props} as='h4' color='black' bg='cyan' p={1} borderRadius={4} />
 
 // Bar animation bootstraped from:
@@ -19,7 +19,7 @@ const grow = keyframes`
 `
 
 const Divider = styled(Box)`
-  & {
+  & { /* '&' to override modern-normalize 'hr' element class */
     margin: 0;
     border: 0;
     height: 3px;
@@ -32,17 +32,13 @@ const Divider = styled(Box)`
   }
 `
 
-Divider.defaultProps = { as: `hr` }
-
-const Header = () =>
+const Header = ({ displayName = `Header` }) =>
   <Box my={3}>
     <Flex py={2} alignItems='flex-end' justifyContent='space-between'>
       <Heading as='h1' fontSize={[5, 6]}>{meta.title}</Heading>
       <Badge my={0}>Demo</Badge>
     </Flex>
-    <Divider />
+    <Divider as='hr' />
   </Box>
-
-Header.displayName = 'Header'
 
 export default Header
