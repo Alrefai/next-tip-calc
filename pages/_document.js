@@ -11,7 +11,7 @@ export default class MyDocument extends Document {
       <html lang='en'>
         <Head>{styleTags}</Head>
         <body>
-          <div className='root'>{main}</div>
+          {main}
           <NextScript />
         </body>
       </html>
