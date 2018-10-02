@@ -1,6 +1,9 @@
+import debounce from 'lodash.debounce'
 import styled from 'styled-components'
 import { Box, Card, Text } from 'rebass'
 import { exact, oneOfType, string, number, object } from 'prop-types'
+
+const handleChage = debounce(input => console.log(input), 500)
 
 const Label = styled(Text)`
   display: block;
@@ -15,7 +18,7 @@ export const Input = ({
   value,
   labelAttrs,
   inputAttrs,
-  onChange = e => console.log(e.target.value),
+  onChange = e => handleChage(e.target.value),
   rebassBoxProps: { width: boxWidth = 1, ...restRebassBoxProps } = {},
   rebassLabelProps: {
     fontSize: labelFontSize = [2, 3, 4],
