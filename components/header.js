@@ -2,7 +2,7 @@ import styled, { keyframes } from 'styled-components'
 import { Flex, Box, Heading, Card } from 'rebass'
 import { meta } from '../constants'
 
-const Badge = ({ displayName = `Badge`, ...props }) =>
+const Badge = props =>
   <Card {...props} as='h4' color='black' bg='cyan' p={1} borderRadius={4} />
 
 // Bar animation bootstraped from:
@@ -32,7 +32,7 @@ const Divider = styled(Box)`
   }
 `
 
-const Header = ({ displayName = `Header` }) =>
+const Header = () =>
   <Box my={3}>
     <Flex py={2} alignItems='flex-end' justifyContent='space-between'>
       <Heading as='h1' fontSize={[5, 6]}>{meta.title}</Heading>

@@ -2,7 +2,7 @@ import { Box } from 'rebass'
 import Header from '../components/header'
 import Calculator from '../components/calculator'
 
-const TipCalculator = ({ displayName = `TipCalculator`, dispatch, model }) =>
+const TipCalculator = ({ dispatch, model }) =>
   <Box mx={2}>
     <Header />
     <Calculator />
