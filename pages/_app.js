@@ -15,7 +15,10 @@ export default class MyApp extends App {
         <Head {...meta} />
         <Component model={this.state} dispatch={this.dispatch} />
         <style jsx global>{`
+          @import url('https://fonts.googleapis.com/css?family=Fira+Mono');
+
           body {
+            font-family: 'Fira Mono', monospace;
             background: black;
             color: #F4F4F4;
             max-width: 32rem;
