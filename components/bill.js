@@ -1,5 +1,5 @@
 import { Heading } from 'rebass'
-import { number, func } from 'prop-types'
+import { number } from 'prop-types'
 import { Input } from './input'
 import { Bar } from './bar'
 
@@ -11,9 +11,7 @@ const inputProps = {
     p: 2,
     flexDirection: `column-reverse`,
   },
-  rebassLabelProps: {
-    width: 1,
-  },
+  rebassLabelProps: { width: 1 },
   rebassFieldProps: {
     p: 0,
     fontSize: 4,
@@ -22,13 +20,10 @@ const inputProps = {
   }
 }
 
-export const Bill = ({ amount = 125, onChange }) =>
-  <Input value={amount} {...{ ...inputProps, onChange }}>
+export const Bill = ({ amount = 125, onChange, onSubmit }) =>
+  <Input value={amount} {...{ ...inputProps, onChange, onSubmit }}>
     <Bar as='hr'/>
     <Heading as='h3' pt={1} fontSize={3} textAlign='right'>Bill Amount</Heading>
   </Input>
 
-Bill.propTypes = {
-  amount: number,
-  onChange: func,
-}
+Bill.propTypes = { amount: number }
