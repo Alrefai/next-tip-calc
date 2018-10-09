@@ -1,7 +1,9 @@
 import debounce from 'lodash.debounce'
 import styled from 'styled-components'
 import { Box, Flex, Card, Text } from 'rebass'
-import { exact, oneOfType, string, number, node, object } from 'prop-types'
+import {
+  exact, func, node, number, object, oneOfType, string
+} from 'prop-types'
 
 const handleChage = debounce(input => console.log(input), 1000)
 
@@ -11,6 +13,10 @@ const Label = styled(Text)`
 
 const Field = styled(Card)`
   appearance: none;
+
+  &:disabled {
+    opacity: 0.25;
+  }
 `
 
 export const Input = ({
@@ -18,63 +24,58 @@ export const Input = ({
   value,
   labelAttrs,
   inputAttrs,
+  rebassFlexProps,
+  rebassLabelProps,
+  rebassFieldProps,
   onChange = e => handleChage(e.target.value),
-  rebassFlexProps: {
-    width: FlexWidth = 1,
-    flexWrap = `wrap`,
-    alignItems = `center`,
-    ...restRebassFlexProps } = {},
-  rebassLabelProps: {
-    fontSize: labelFontSize = [2, 3, 4],
-    ...restRebassLabelProps,
-  } = {},
-  rebassFieldProps: {
-    width: fieldWidth = 1,
-    placeholder = `Input`,
-    border = 0,
-    borderRadius = 4,
-    ...restRebassFieldProps,
-  } = {},
+  onSubmit = e => e.preventDefault(),
 }) => {
   const fieldProps = {
-    ...inputAttrs,
-    ...restRebassFieldProps,
     as: `input`,
-    width: fieldWidth,
+    type: `text`,
     value,
     onChange,
-    placeholder,
-    border,
-    borderRadius,
+    placeholder: `Input`,
+    width: 1,
+    color: `inherit`,
+    bg: `transparent`,
+    border: 0,
+    borderRadius: 4,
+    ...inputAttrs,
+    ...rebassFieldProps,
   }
 
   const flexProps = {
-    ...restRebassFlexProps,
-    width: FlexWidth,
-    flexWrap,
-    alignItems,
+    as: `form`,
+    onSubmit,
+    width: 1,
+    flexWrap: `wrap`,
+    alignItems: `center`,
+    ...rebassFlexProps,
   }
 
   const labelProps = {
-    ...labelAttrs,
-    ...restRebassLabelProps,
     as: `label`,
-    fontSize: labelFontSize,
+    fontSize: [2, 3, 4],
+    ...labelAttrs,
+    ...rebassLabelProps,
   }
 
   return !children
     ? <Field {...fieldProps} />
     : <Flex {...flexProps}>
         <Label {...labelProps}>{children}</Label>
-        <Field {...fieldProps}/>
+        <Field {...fieldProps} />
       </Flex>
 }
 
 Input.propTypes = {
   children: node,
-  value: oneOfType([string, number]),
+  onChange: func,
+  onSubmit: func,
   labelAttrs: object,
   inputAttrs: object,
+  value: oneOfType([string, number]),
   rebassFlexProps: exact({ ...Box.propTypes, ...Flex.propTypes }),
   rebassLabelProps: exact({ ...Box.propTypes, ...Text.propTypes }),
   rebassFieldProps: exact({ ...Box.propTypes, ...Card.propTypes }),
