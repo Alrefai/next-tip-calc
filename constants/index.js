@@ -10,7 +10,7 @@ export const initModel = {
   tipPercentage: 15,
   tip: 0,
   total: 0,
-  showTipInput: false,
+  showTipForm: false,
 }
 
 export const PERCENTAGES = [10, 15, 20, 25]

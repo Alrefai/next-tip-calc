@@ -28,11 +28,21 @@ const tipResultsProps = {
   alignItems: `baseline`,
 }
 
-export const Tip = ({ tipPercentage = 15, tip = 18.75 }) =>
+const tipCirclePorps = {
+  type: `button`,
+  as: `button`,
+  m: 1,
+  p: 2,
+  color: `inherit`,
+  bg: `black`,
+  border: 0,
+}
+
+export const Tip = ({ tipPercentage = 15, tip = 18.75, onClick }) =>
   <Card {...tipAmountProps}>
     <Flex alignItems='center'>
       <Box>
-        <Circle m={1} p={2} bg='black'>
+        <Circle {...{ ...tipCirclePorps, onClick }}>
           <Text fontSize={4} fontWeight='bold'>Tip</Text>
         </Circle>
       </Box>

@@ -20,6 +20,10 @@ const reducer = (model, action) => {
       const total = formatNumber(amountNumber + tip)
       return { ...model, amount, amountNumber, tip, total }
     }
+    case ACTIONS.SHOW_TIP_INPUT: {
+      const { showTipForm = false } = action
+      return { ...model, showTipForm }
+    }
     default:
       return model
   }
