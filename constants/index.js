@@ -5,7 +5,8 @@ export const meta = {
 }
 
 export const initModel = {
-  amount: 0,
+  amount: `0`,
+  amountNumber: 0,
   tipPercentage: 15,
   tip: 0,
   total: 0,
@@ -13,3 +14,5 @@ export const initModel = {
 }
 
 export const PERCENTAGES = [10, 15, 20, 25]
+
+export const MAX_BILL_AMOUNT = 10000
