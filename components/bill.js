@@ -1,7 +1,8 @@
 import { Heading } from 'rebass'
-import { number } from 'prop-types'
+import { string } from 'prop-types'
 import { Input } from './input'
 import { Bar } from './bar'
+import { MAX_BILL_AMOUNT } from '../constants'
 
 const inputProps = {
   labelAttrs: { htmlFor: `bill-amount` },
@@ -20,10 +21,16 @@ const inputProps = {
   }
 }
 
-export const Bill = ({ amount = 125, onChange, onSubmit }) =>
+const labelText = amount => parseFloat(amount) < MAX_BILL_AMOUNT
+  ? `Bill Amount`
+  : `Max Bill Amount`
+
+export const Bill = ({ amount = `125`, onChange, onSubmit }) =>
   <Input value={amount} {...{ ...inputProps, onChange, onSubmit }}>
     <Bar as='hr'/>
-    <Heading as='h3' pt={1} fontSize={3} textAlign='right'>Bill Amount</Heading>
+    <Heading as='h3' pt={1} fontSize={3} textAlign='right'>
+      {labelText(amount)}
+    </Heading>
   </Input>
 
-Bill.propTypes = { amount: number }
+Bill.propTypes = { amount: string }
