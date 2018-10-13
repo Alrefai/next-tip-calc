@@ -9,7 +9,6 @@ import {
 } from '../actions'
 
 const handleChange = (dispatch, action) => e => dispatch(action(e.target.value))
-const handleClick = (dispatch, action) => () => dispatch(action)
 const handleSubmit = (dispatch, action) => e => {
   e.preventDefault()
   dispatch(action)
@@ -21,12 +20,16 @@ const handleAmountInput = dispatch => ({
 })
 
 const handleTipForm = dispatch => ({
-  onClick: handleClick(dispatch, showTipFormAction(true)),
+  onClick: () => dispatch(showTipFormAction(true)),
 })
 
 const handleTipInput = dispatch => ({
   onChange: handleChange(dispatch, tipInputAction),
   onSubmit: handleSubmit(dispatch, showTipFormAction(false)),
+})
+
+const handleTipPresets = dispatch => ({
+  onClick: handleChange(dispatch, tipInputAction),
 })
 
 export const CalculatorInput = ({
@@ -46,7 +49,7 @@ export const CalculatorInput = ({
     </Flex>
   : <Flex flexDirection={[`column`, `row`]} alignItems='center'>
       <Box width={1}>
-        <TipPercentage {...{ tipPercentage }}/>
+        <TipPercentage {...{ ...handleTipPresets(dispatch), tipPercentage }}/>
       </Box>
       <Box width={1}>
         <TipInput {...{ ...handleTipInput(dispatch), tipPercentage }} />

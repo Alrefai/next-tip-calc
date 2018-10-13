@@ -12,6 +12,7 @@ const tipPercentageProps = {
 
 const tipCircleProps = (currentPercentage, percentage) => ({
   key: percentage + `-percent`,
+  value: percentage,
   type: `button`,
   as: `button`,
   m: 1,
