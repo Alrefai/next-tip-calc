@@ -6,23 +6,22 @@
     "start": "next start"
   },
   "dependencies": {
-    "next": "^7.0.0",
-    "ramda": "latest",
+    "next": "^7.0.2",
+    "ramda": "^0.25.0",
     "react": "^16.5.2",
-    "react-dom": "^16.5.2"
+    "react-dom": "^16.5.2",
+    "rebass": "^3.0.0-9",
+    "styled-components": "^4.0.0-beta.11.3"
   },
   "author": "Mohammed Alrefai",
   "license": "MIT",
-  "description": "Tip Calculator (demo) – React app built with Next.js.",
+  "description": "Tip Calculator – React app built with Next.js and Rebass.",
   "private": true,
   "devDependencies": {
-    "@fortawesome/fontawesome-svg-core": "latest",
-    "@fortawesome/free-regular-svg-icons": "latest",
-    "@fortawesome/free-solid-svg-icons": "latest",
-    "@fortawesome/react-fontawesome": "latest",
-    "@zeit/next-css": "latest",
-    "modern-normalize": "latest",
-    "tachyons": "latest"
+    "@zeit/next-css": "^1.0.1",
+    "babel-plugin-styled-components": "^1.8.0",
+    "lodash.debounce": "^4.0.8",
+    "modern-normalize": "^0.5.0"
   },
   "version": "1.0.0",
   "main": "index.js",
