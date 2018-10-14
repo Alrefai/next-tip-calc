@@ -2,6 +2,7 @@ import { Card, Flex, Text } from 'rebass'
 import { func, number } from 'prop-types'
 import { Circle } from './circle'
 import { PERCENTAGES } from '../constants'
+import { tipInputAction } from '../actions'
 
 const tipPercentageProps = {
   width: 1,
@@ -10,9 +11,8 @@ const tipPercentageProps = {
   backgroundImage: `linear-gradient(19deg, cyan 0%, magenta 100%)`,
 }
 
-const tipCircleProps = (currentPercentage, percentage) => ({
+const tipCircleProps = (currentPercentage, percentage, dispatch) => ({
   key: percentage + `-percent`,
-  value: percentage,
   type: `button`,
   as: `button`,
   m: 1,
@@ -20,22 +20,23 @@ const tipCircleProps = (currentPercentage, percentage) => ({
   color: `inherit`,
   bg: currentPercentage === percentage ? `magenta` : `black`,
   border: 0,
+  onClick: () => dispatch(tipInputAction(percentage))
 })
 
-const TipCircle = ({ tipPercentage, onClick }) => PERCENTAGES.map(percentage =>
-  <Circle {...{ ...tipCircleProps(tipPercentage, percentage), onClick }}>
+const TipCircle = ({ tipPercentage, dispatch }) => PERCENTAGES.map(percentage =>
+  <Circle {...{ ...tipCircleProps(tipPercentage, percentage, dispatch) }}>
     <Text fontSize={4} fontWeight='bold'>{percentage}%</Text>
   </Circle>
 )
 
-export const TipPercentage = ({ tipPercentage = 15, onClick }) =>
+export const TipPercentage = ({ tipPercentage = 15, dispatch }) =>
   <Card {...tipPercentageProps}>
     <Flex justifyContent='space-evenly' alignItems='center'>
-      <TipCircle {...{ tipPercentage, onClick }} />
+      <TipCircle {...{ tipPercentage, dispatch }} />
     </Flex>
   </Card>
 
 TipPercentage.propTypes = {
   tipPercentage: number,
-  onClick: func,
+  dispatch: func,
 }
