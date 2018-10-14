@@ -7,10 +7,7 @@ const Badge = props =>
 
 const Header = () =>
   <Box my={3}>
-    <Flex py={2} alignItems='flex-end' justifyContent='space-between'>
-      <Heading as='h1' fontSize={[5, 6]}>{meta.title}</Heading>
-      <Badge my={0}>Beta</Badge>
-    </Flex>
+    <Heading as='h1' py={2} fontSize={[5, 6]}>{meta.title}</Heading>
     <Bar as='hr' />
   </Box>
 
