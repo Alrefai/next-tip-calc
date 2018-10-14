@@ -6,7 +6,7 @@
     "start": "next start"
   },
   "dependencies": {
-    "next": "^7.0.1",
+    "next": "^7.0.2",
     "ramda": "^0.25.0",
     "react": "^16.5.2",
     "react-dom": "^16.5.2",
@@ -15,7 +15,7 @@
   },
   "author": "Mohammed Alrefai",
   "license": "MIT",
-  "description": "Tip Calculator (demo) – React app built with Next.js.",
+  "description": "Tip Calculator – React app built with Next.js and Rebass.",
   "private": true,
   "devDependencies": {
     "@zeit/next-css": "^1.0.1",
