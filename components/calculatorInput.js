@@ -1,3 +1,4 @@
+import { curry } from 'ramda'
 import { Box, Flex } from 'rebass'
 import { bool } from 'prop-types'
 import { Bill } from './bill'
@@ -13,6 +14,9 @@ const handleSubmit = (dispatch, action) => e => {
   e.preventDefault()
   dispatch(action)
 }
+const handleClick = curry((dispatch, action, value) => (
+  () => dispatch(action(value))
+))
 
 const handleAmountInput = dispatch => ({
   onChange: handleChange(dispatch, amountInputAction),
@@ -20,12 +24,16 @@ const handleAmountInput = dispatch => ({
 })
 
 const handleTipForm = dispatch => ({
-  onClick: () => dispatch(showTipFormAction(true)),
+  onClick: handleClick(dispatch, showTipFormAction, true),
 })
 
 const handleTipInput = dispatch => ({
   onChange: handleChange(dispatch, tipInputAction),
   onSubmit: handleSubmit(dispatch, showTipFormAction(false)),
+})
+
+const handlePercentages = dispatch => ({
+  onClick: handleClick(dispatch, tipInputAction),
 })
 
 export const CalculatorInput = ({
@@ -34,7 +42,7 @@ export const CalculatorInput = ({
   tipPercentage,
   tip,
   showTipForm = false,
-}) => !showTipForm
+}) => (!showTipForm
   ? <Flex flexDirection={[`column`, `row`]} alignItems='center'>
       <Box width={1}>
         <Bill {...{ ...handleAmountInput(dispatch), amount }} />
@@ -45,11 +53,12 @@ export const CalculatorInput = ({
     </Flex>
   : <Flex flexDirection={[`column`, `row`]} alignItems='center'>
       <Box width={1}>
-        <TipPercentage {...{ tipPercentage, dispatch }}/>
+        <TipPercentage {...{ ...handlePercentages(dispatch), tipPercentage }}/>
       </Box>
       <Box width={1}>
         <TipInput {...{ ...handleTipInput(dispatch), tipPercentage }} />
       </Box>
     </Flex>
+)
 
 CalculatorInput.propTypes = { showTipForm: bool }
