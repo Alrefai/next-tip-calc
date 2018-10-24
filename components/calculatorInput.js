@@ -1,4 +1,4 @@
-import { curry } from 'ramda'
+import { addIndex, curry, map, partial, pipe } from 'ramda'
 import { Box, Flex } from 'rebass'
 import { bool } from 'prop-types'
 import { Bill } from './bill'
@@ -18,23 +18,42 @@ const handleClick = curry((dispatch, action, value) => (
   () => dispatch(action(value))
 ))
 
-const handleAmountInput = dispatch => ({
+const bill = pipe((dispatch, amount) => ({
+  amount,
   onChange: handleChange(dispatch, amountInputAction),
   onSubmit: handleSubmit(dispatch, showTipFormAction(true)),
-})
+}), props => <Bill {...props} />)
 
-const handleTipForm = dispatch => ({
+const tipAmount = pipe((dispatch, tipPercentage, tip) => ({
+  tip,
+  tipPercentage,
   onClick: handleClick(dispatch, showTipFormAction, true),
-})
+}), props => <Tip {...props} />)
 
-const handleTipInput = dispatch => ({
+const percentage = pipe((dispatch, tipPercentage) => ({
+  tipPercentage,
+  onClick: handleClick(dispatch, tipInputAction),
+}), props => <TipPercentage {...props} />)
+
+const tipInput = pipe((dispatch, tipPercentage) => ({
+  tipPercentage,
   onChange: handleChange(dispatch, tipInputAction),
   onSubmit: handleSubmit(dispatch, showTipFormAction(false)),
-})
+}), props => <TipInput {...props} />)
 
-const handlePercentages = dispatch => ({
-  onClick: handleClick(dispatch, tipInputAction),
-})
+const flex = children => (
+  <Flex flexDirection={[`column`, `row`]} alignItems='center'>{children}</Flex>
+)
+
+const box = (item, key) => <Box key={`box-${key}`} width={1}>{item}</Box>
+
+const billForm = pipe((dispatch, amount, ...args) => [
+  bill(dispatch, amount), tipAmount(dispatch, ...args)
+], partial(addIndex(map), [box]))
+
+const tipForm = pipe((...args) => [
+  percentage(...args), tipInput(...args)
+], partial(addIndex(map), [box]))
 
 export const CalculatorInput = ({
   dispatch,
@@ -42,23 +61,10 @@ export const CalculatorInput = ({
   tipPercentage,
   tip,
   showTipForm = false,
-}) => (!showTipForm
-  ? <Flex flexDirection={[`column`, `row`]} alignItems='center'>
-      <Box width={1}>
-        <Bill {...{ ...handleAmountInput(dispatch), amount }} />
-      </Box>
-      <Box width={1}>
-        <Tip {...{ ...handleTipForm(dispatch), tipPercentage, tip }} />
-      </Box>
-    </Flex>
-  : <Flex flexDirection={[`column`, `row`]} alignItems='center'>
-      <Box width={1}>
-        <TipPercentage {...{ ...handlePercentages(dispatch), tipPercentage }}/>
-      </Box>
-      <Box width={1}>
-        <TipInput {...{ ...handleTipInput(dispatch), tipPercentage }} />
-      </Box>
-    </Flex>
+}) => (
+  !showTipForm
+  ? flex(billForm(dispatch, amount, tipPercentage, tip))
+  : flex(tipForm(dispatch, tipPercentage))
 )
 
 CalculatorInput.propTypes = { showTipForm: bool }
