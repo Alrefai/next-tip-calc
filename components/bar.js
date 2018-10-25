@@ -27,3 +27,5 @@ export const Bar = styled(Box)`
     animation-fill-mode: forwards;
   }
 `
+
+Bar.propTypes = { ...Box.propTypes }
