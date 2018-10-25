@@ -1,4 +1,4 @@
-import { Flex, Box, Heading, Card } from 'rebass'
+import { Box, Heading } from 'rebass'
 import { Bar } from './bar'
 import { meta } from '../constants'
 

@@ -1,4 +1,4 @@
-import { Box, Button, Flex, Heading } from 'rebass'
+import { Button, Flex, Heading } from 'rebass'
 import { number } from 'prop-types'
 import { Input } from './input'
 import { Bar } from './bar'
