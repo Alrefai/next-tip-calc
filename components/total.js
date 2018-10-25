@@ -18,17 +18,16 @@ const currencyCardPorps = {
   borderRadius: 4,
 }
 
-export const Total = ({ total = 143.75 }) =>
+export const Total = ({ total = 143.75 }) => (
   <Box width={1} mt={2}>
     <Card {...totalCardProps}>
       <Flex alignItems='center'>
-        <Text ml='auto' fontSize={4} fontWeight='bold'>Total</Text>
+        <Text ml='auto' fontSize={4}>Total</Text>
         <Card {...currencyCardPorps}>$</Card>
       </Flex>
     </Card>
     <Text py={4} fontSize={[7, 8]} textAlign='center'>{total}</Text>
   </Box>
+)
 
-Total.propTypes = {
-  total: number,
-}
+Total.propTypes = { total: number }

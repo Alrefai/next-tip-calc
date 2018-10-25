@@ -29,21 +29,22 @@ const buttonProps = {
   color: `black`,
   bg: `cyan`,
   fontSize: [3, 2],
-  fontWeight: `regular`,
+  fontWeight: `normal`,
 }
 
 const buttonText = (percentage) => percentage >= 25 ? `Generous`
   : percentage >= 20 ? `Nice` : `OK`
 
-export const TipInput = ({ tipPercentage = 15, onChange, onSubmit }) =>
+export const TipInput = ({ tipPercentage = 15, onChange, onSubmit }) => (
   <Input value={tipPercentage} {...{ ...inputProps, onChange, onSubmit }}>
     <Bar as='hr' />
     <Flex justifyContent='space-between'>
-      <Heading as='h3' pt={1} fontSize={3}>Tip %</Heading>
+      <Heading as='h3' pt={1} fontSize={3} fontWeight='normal'>Tip %</Heading>
       <Button {...buttonProps}>
         {buttonText(tipPercentage)}
       </Button>
     </Flex>
   </Input>
+)
 
 TipInput.propTypes = { tipPercentage: number }

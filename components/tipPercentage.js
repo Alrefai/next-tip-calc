@@ -22,18 +22,22 @@ const tipCircleProps = (currentPercentage, percentage, onClick) => ({
   onClick: onClick(percentage)
 })
 
-const TipCircle = ({ tipPercentage, onClick }) => PERCENTAGES.map(percentage =>
+const TipCircle = ({
+  tipPercentage,
+  onClick,
+}) => PERCENTAGES.map(percentage => (
   <Circle {...{ ...tipCircleProps(tipPercentage, percentage, onClick) }}>
-    <Text fontSize={4} fontWeight='bold'>{percentage}%</Text>
+    <Text fontSize={4}>{percentage}%</Text>
   </Circle>
-)
+))
 
-export const TipPercentage = ({ tipPercentage = 15, onClick }) =>
+export const TipPercentage = ({ tipPercentage = 15, onClick }) => (
   <Card {...tipPercentageProps}>
     <Flex justifyContent='space-evenly' alignItems='center'>
       <TipCircle {...{ tipPercentage, onClick }} />
     </Flex>
   </Card>
+)
 
 TipPercentage.propTypes = {
   tipPercentage: number,
