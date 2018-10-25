@@ -24,15 +24,14 @@ const inputProps = {
 }
 
 const buttonProps = {
+  variant: `primary`,
   mt: 1,
   py: 1,
-  color: `black`,
-  bg: `cyan`,
   fontSize: [3, 2],
   fontWeight: `normal`,
 }
 
-const buttonText = (percentage) => percentage >= 25 ? `Generous`
+const buttonText = percentage => percentage >= 25 ? `Generous`
   : percentage >= 20 ? `Nice` : `OK`
 
 export const TipInput = ({ tipPercentage = 15, onChange, onSubmit }) => (

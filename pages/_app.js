@@ -1,7 +1,8 @@
 import App, { Container } from 'next/app'
+import { ThemeProvider } from 'styled-components'
 import Head from '../components/head'
 import reducer from '../reducers'
-import { initModel, meta } from '../constants'
+import { initModel, meta, theme } from '../constants'
 import '../static/webFonts.css'
 import 'modern-normalize/modern-normalize.css' //keep it the last import
 
@@ -10,11 +11,13 @@ export default class MyApp extends App {
   dispatch = action => this.setState(prevState => reducer(prevState, action))
 
   render() {
-    const { Component } = this.props
+    const [{ Component }, { color, background }] = [this.props, theme.colors]
     return (
       <Container>
         <Head {...meta} />
-        <Component model={this.state} dispatch={this.dispatch} />
+        <ThemeProvider {...{ theme }}>
+          <Component model={this.state} dispatch={this.dispatch} />
+        </ThemeProvider>
         <style jsx global>{`
           html {
             font-size: 10px;
@@ -23,8 +26,8 @@ export default class MyApp extends App {
           body {
             font-family: 'Fira Mono', monospace;
             font-size: 1.6rem;
-            background: black;
-            color: #F4F4F4;
+            background: ${background};
+            color: ${color};
             max-width: 51.2rem;
             margin-right: auto;
             margin-left: auto;

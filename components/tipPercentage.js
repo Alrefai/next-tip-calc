@@ -4,10 +4,10 @@ import { Circle } from './circle'
 import { PERCENTAGES } from '../constants'
 
 const tipPercentageProps = {
+  variant: `primary`,
   width: 1,
   p: 1,
   borderRadius: 15,
-  backgroundImage: `linear-gradient(19deg, cyan 0%, magenta 100%)`,
 }
 
 const tipCircleProps = (currentPercentage, percentage, onClick) => ({
@@ -17,9 +17,9 @@ const tipCircleProps = (currentPercentage, percentage, onClick) => ({
   m: 1,
   p: 2,
   color: `inherit`,
-  bg: currentPercentage === percentage ? `magenta` : `black`,
+  bg: currentPercentage === percentage ? `secondary` : `black`,
   border: 0,
-  onClick: onClick(percentage)
+  onClick: onClick(percentage),
 })
 
 const TipCircle = ({

@@ -4,10 +4,10 @@ import { Circle } from './circle'
 import { Bar } from './bar'
 
 const tipAmountProps = {
+  variant: `primary`,
   width: 1,
   p: 1,
   borderRadius: 15,
-  backgroundImage: `linear-gradient(19deg, cyan 0%, magenta 100%)`,
 }
 
 const tipPercentageProps = {

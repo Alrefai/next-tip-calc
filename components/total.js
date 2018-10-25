@@ -2,10 +2,10 @@ import { Box, Card, Flex, Text } from 'rebass'
 import { number } from 'prop-types'
 
 const totalCardProps = {
+  variant: `primary`,
   width: [2/5, 1/3],
   ml: [-2, 0],
   color: `black`,
-  backgroundImage: `linear-gradient(19deg, cyan 0%, magenta 100%)`,
   borderRadius:`0 4px 4px 0`,
 }
 
