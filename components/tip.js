@@ -4,10 +4,10 @@ import { Circle } from './circle'
 import { Bar } from './bar'
 
 const tipAmountProps = {
+  variant: `primary`,
   width: 1,
   p: 1,
   borderRadius: 15,
-  backgroundImage: `linear-gradient(19deg, cyan 0%, magenta 100%)`,
 }
 
 const tipPercentageProps = {
@@ -38,12 +38,12 @@ const tipCirclePorps = {
   border: 0,
 }
 
-export const Tip = ({ tipPercentage = 15, tip = 18.75, onClick }) =>
+export const Tip = ({ tipPercentage = 15, tip = 18.75, onClick }) => (
   <Card {...tipAmountProps}>
     <Flex alignItems='center'>
       <Box>
         <Circle {...{ ...tipCirclePorps, onClick }}>
-          <Text fontSize={4} fontWeight='bold'>Tip</Text>
+          <Text fontSize={4}>Tip</Text>
         </Circle>
       </Box>
       <Card {...tipPercentageProps}>{tipPercentage}%</Card>
@@ -53,6 +53,7 @@ export const Tip = ({ tipPercentage = 15, tip = 18.75, onClick }) =>
       </Flex>
     </Flex>
   </Card>
+)
 
 Tip.propTypes = {
   tip: number,
