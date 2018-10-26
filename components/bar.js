@@ -1,5 +1,6 @@
 import styled, { keyframes } from 'styled-components'
 import { Box } from 'rebass'
+import { shape, string } from 'prop-types'
 
 // Bar animation bootstraped from:
 // https://github.com/rebassjs/grid/blob/master/docs/components.js
@@ -25,4 +26,7 @@ export const Bar = styled(Box)`
   animation-fill-mode: forwards;
 `
 
-Bar.propTypes = { ...Box.propTypes }
+Bar.propTypes = {
+  ...Box.propTypes,
+  theme: shape({ gradient: string }),
+}
