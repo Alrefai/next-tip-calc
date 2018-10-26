@@ -5,10 +5,18 @@ import { Bill } from './bill'
 import { Tip } from './tip'
 import { TipPercentage } from './tipPercentage'
 import { TipInput } from './tipInput'
-import { handleChange, handleSubmit, handleClick } from '../util'
 import {
   amountInputAction, showTipFormAction, tipInputAction
 } from '../actions'
+
+const handleChange = (dispatch, action) => e => dispatch(action(e.target.value))
+const handleSubmit = (dispatch, action) => e => {
+  e.preventDefault()
+  dispatch(action)
+}
+const handleClick = curry((dispatch, action, value) => (
+  () => dispatch(action(value))
+))
 
 const bill = pipe((dispatch, amount) => ({
   amount,
