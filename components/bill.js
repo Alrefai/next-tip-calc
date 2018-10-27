@@ -16,8 +16,6 @@ const inputProps = {
   rebassFieldProps: {
     p: 0,
     fontSize: 4,
-    color: `inherit`,
-    bg: `inherit`,
   }
 }
 
@@ -25,8 +23,8 @@ const labelText = amount => parseFloat(amount) < MAX_BILL_AMOUNT
   ? `Bill Amount`
   : `Max Bill Amount`
 
-export const Bill = ({ amount = `125`, onChange, onSubmit }) => (
-  <Input value={amount} {...{ ...inputProps, onChange, onSubmit }}>
+export const Bill = ({ amount = `125`, ...props }) => (
+  <Input value={amount} {...{ ...inputProps, ...props }}>
     <Bar as='hr'/>
     <Heading as='h3' pt={1} fontSize={3} fontWeight='normal' textAlign='right'>
       {labelText(amount)}

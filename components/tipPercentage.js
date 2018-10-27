@@ -16,7 +16,7 @@ const tipCircleProps = (currentPercentage, percentage, onClick) => ({
   as: `button`,
   m: 1,
   p: 2,
-  color: `inherit`,
+  color: `color`,
   bg: currentPercentage === percentage ? `secondary` : `black`,
   border: 0,
   onClick: onClick(percentage),
@@ -26,7 +26,7 @@ const TipCircle = ({
   tipPercentage,
   onClick,
 }) => PERCENTAGES.map(percentage => (
-  <Circle {...{ ...tipCircleProps(tipPercentage, percentage, onClick) }}>
+  <Circle {...tipCircleProps(tipPercentage, percentage, onClick)}>
     <Text fontSize={4}>{percentage}%</Text>
   </Circle>
 ))
