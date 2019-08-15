@@ -1,4 +1,4 @@
-import { addIndex, curry, map, partial, pipe } from 'ramda'
+import { addIndex, converge, curry, map, pair, pipe } from 'ramda'
 import { Box, Flex } from 'rebass'
 import { bool } from 'prop-types'
 import { Bill } from './bill'
@@ -9,6 +9,7 @@ import {
   amountInputAction, showTipFormAction, tipInputAction
 } from '../actions'
 
+const mapIndexed = addIndex(map)
 const handleChange = (dispatch, action) => e => dispatch(action(e.target.value))
 const handleSubmit = (dispatch, action) => e => {
   e.preventDefault()
@@ -18,24 +19,24 @@ const handleClick = curry((dispatch, action, value) => (
   () => dispatch(action(value))
 ))
 
-const bill = pipe((dispatch, amount) => ({
+const bill = pipe(({ dispatch, amount }) => ({
   amount,
   onChange: handleChange(dispatch, amountInputAction),
   onSubmit: handleSubmit(dispatch, showTipFormAction(true)),
 }), props => <Bill {...props} />)
 
-const tipAmount = pipe((dispatch, tipPercentage, tip) => ({
+const tipAmount = pipe(({ dispatch, tipPercentage, tip }) => ({
   tip,
   tipPercentage,
   onClick: handleClick(dispatch, showTipFormAction, true),
 }), props => <Tip {...props} />)
 
-const percentage = pipe((dispatch, tipPercentage) => ({
+const percentage = pipe(({ dispatch, tipPercentage }) => ({
   tipPercentage,
   onClick: handleClick(dispatch, tipInputAction),
 }), props => <TipPercentage {...props} />)
 
-const tipInput = pipe((dispatch, tipPercentage) => ({
+const tipInput = pipe(({ dispatch, tipPercentage }) => ({
   tipPercentage,
   onChange: handleChange(dispatch, tipInputAction),
   onSubmit: handleSubmit(dispatch, showTipFormAction(false)),
@@ -44,27 +45,16 @@ const tipInput = pipe((dispatch, tipPercentage) => ({
 const flex = children => (
   <Flex flexDirection={[`column`, `row`]} alignItems='center'>{children}</Flex>
 )
-
 const box = (item, key) => <Box key={`box-${key}`} width={1}>{item}</Box>
+const composeForm = childrenList => pipe(
+  converge(pair, childrenList),
+  mapIndexed(box)
+)
+const billForm = composeForm([bill, tipAmount])
+const tipForm = composeForm([percentage, tipInput])
 
-const billForm = pipe((dispatch, amount, ...args) => [
-  bill(dispatch, amount), tipAmount(dispatch, ...args)
-], partial(addIndex(map), [box]))
-
-const tipForm = pipe((...args) => [
-  percentage(...args), tipInput(...args)
-], partial(addIndex(map), [box]))
-
-export const CalculatorInput = ({
-  dispatch,
-  amount,
-  tipPercentage,
-  tip,
-  showTipForm = false,
-}) => (
-  !showTipForm
-  ? flex(billForm(dispatch, amount, tipPercentage, tip))
-  : flex(tipForm(dispatch, tipPercentage))
+export const CalculatorInput = ({ showTipForm = false, ...props }) => (
+  !showTipForm ? flex(billForm(props)) : flex(tipForm(props))
 )
 
 CalculatorInput.propTypes = { showTipForm: bool }

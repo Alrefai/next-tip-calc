@@ -15,8 +15,8 @@ const tipPercentageProps = {
   mt: 1,
   mr: -2,
   px: 1,
-  bg: `#F4F4F4`,
-  color: `black`,
+  bg: `color`,
+  color: `background`,
   borderRadius: 4,
   alignSelf: `flex-start`,
 }
@@ -24,7 +24,7 @@ const tipPercentageProps = {
 const tipResultsProps = {
   mx: `auto`,
   pr: 2,
-  color: `black`,
+  color: `background`,
   alignItems: `baseline`,
 }
 
@@ -33,16 +33,16 @@ const tipCirclePorps = {
   as: `button`,
   m: 1,
   p: 2,
-  color: `inherit`,
-  bg: `black`,
+  color: `color`,
+  bg: `background`,
   border: 0,
 }
 
-export const Tip = ({ tipPercentage = 15, tip = 18.75, onClick }) => (
+export const Tip = ({ tipPercentage = 15, tip = 18.75, ...props }) => (
   <Card {...tipAmountProps}>
     <Flex alignItems='center'>
       <Box>
-        <Circle {...{ ...tipCirclePorps, onClick }}>
+        <Circle {...{ ...tipCirclePorps, ...props }}>
           <Text fontSize={4}>Tip</Text>
         </Circle>
       </Box>
