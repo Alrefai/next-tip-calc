@@ -1,4 +1,4 @@
-import { addIndex, converge, curry, map, pair, partial, pipe } from 'ramda'
+import { addIndex, converge, curry, map, pair, pipe } from 'ramda'
 import { Box, Flex } from 'rebass'
 import { bool } from 'prop-types'
 import { Bill } from './bill'
@@ -9,6 +9,7 @@ import {
   amountInputAction, showTipFormAction, tipInputAction
 } from '../actions'
 
+const mapIndexed = addIndex(map)
 const handleChange = (dispatch, action) => e => dispatch(action(e.target.value))
 const handleSubmit = (dispatch, action) => e => {
   e.preventDefault()
@@ -44,18 +45,13 @@ const tipInput = pipe(({ dispatch, tipPercentage }) => ({
 const flex = children => (
   <Flex flexDirection={[`column`, `row`]} alignItems='center'>{children}</Flex>
 )
-
 const box = (item, key) => <Box key={`box-${key}`} width={1}>{item}</Box>
-
-const billForm = pipe(
-  converge(pair, [bill, tipAmount]),
-  partial(addIndex(map), [box])
+const composeForm = childrenList => pipe(
+  converge(pair, childrenList),
+  mapIndexed(box)
 )
-
-const tipForm = pipe(
-  converge(pair, [percentage, tipInput]),
-  partial(addIndex(map), [box])
-)
+const billForm = composeForm([bill, tipAmount])
+const tipForm = composeForm([percentage, tipInput])
 
 export const CalculatorInput = ({ showTipForm = false, ...props }) => (
   !showTipForm ? flex(billForm(props)) : flex(tipForm(props))
