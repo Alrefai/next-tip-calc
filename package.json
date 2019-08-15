@@ -8,8 +8,8 @@
   "dependencies": {
     "next": "^7.0.2",
     "ramda": "^0.25.0",
-    "react": "^16.6.0",
-    "react-dom": "^16.6.0",
+    "react": "^16.9.0",
+    "react-dom": "^16.9.0",
     "rebass": "^3.0.0-9",
     "styled-components": "^4.0.2"
   },
