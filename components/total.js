@@ -5,7 +5,7 @@ const totalCardProps = {
   variant: `primary`,
   width: [2/5, 1/3],
   ml: [-2, 0],
-  color: `black`,
+  color: `background`,
   borderRadius:`0 4px 4px 0`,
 }
 
@@ -13,8 +13,8 @@ const currencyCardPorps = {
   m: 1,
   py: 1,
   px: 2,
-  color: `#F4F4F4`,
-  bg: `black`,
+  color: `color`,
+  bg: `background`,
   borderRadius: 4,
 }
 

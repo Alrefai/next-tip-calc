@@ -1,5 +1,5 @@
 # Use a Node.js image and assign it as our build
-FROM mhart/alpine-node:10 as build
+FROM mhart/alpine-node:11 as build
 
 # Set the working directory, copy dependency management files to the working directory,
 # and install the dependencies
@@ -14,7 +14,7 @@ RUN yarn build && yarn --production
 
 # Create a new image using a minimal Node.js image
 # with no extra tools packaged in, such as Yarn or npm for the smallest final size
-FROM mhart/alpine-node:base-10
+FROM mhart/alpine-node:base-11
 
 # Set the working directory for the new image and
 # set the `NODE_ENV` environment variable value to `production`
@@ -27,4 +27,4 @@ ENV PATH="./node_modules/.bin:$PATH"
 COPY --from=build /usr/src .
 
 # Start the server for Next.js using Node.js
-CMD ["next", "start"]
+CMD ["next", "start", "-p", "8080"]
