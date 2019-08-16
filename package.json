@@ -12,7 +12,7 @@
     "react": "^16.9.0",
     "react-dom": "^16.9.0",
     "rebass": "^4.0.2",
-    "theme-ui": "^0.2.33"
+    "theme-ui": "^0.2.35"
   },
   "author": "Mohammed Alrefai",
   "license": "MIT",
