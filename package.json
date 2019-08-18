@@ -11,7 +11,7 @@
     "ramda": "^0.26.1",
     "react": "^16.9.0",
     "react-dom": "^16.9.0",
-    "rebass": "^4.0.2",
+    "rebass": "^4.0.3",
     "theme-ui": "^0.2.35"
   },
   "author": "Mohammed Alrefai",
