@@ -1,10 +1,23 @@
-// Theme for text, background, buttons and cards' gradient backgroundImage
-const textColor = `white`
-const backgroundColor = `black`
-const primaryButtonTextColor = `black`
-const primaryColor = `cyan`
-const secondaryColor = `magenta`
-const degree = `19`
+import { mergeDeepRight } from 'ramda'
+import preset from '@rebass/preset'
+
+/* Rebass styled-system reference
+
+Preset repo:
+https://github.com/rebassjs/rebass/blob/master/packages/preset/src/index.js
+
+Default Breakpoints
+const breakpoints = [ '40em', '52em', '64em' ]
+@media screen and (min-width: 40em)
+@media screen and (min-width: 52em)
+@media screen and (min-width: 64em)
+
+Default fontSizes
+const fontSizes = [ 12, 14, 16, 20, 24, 32, 48, 64, 96 ]
+
+Default space for margin and padding
+const space = [ 0, 4, 8, 16, 32, 64, 128, 256, 512 ]
+*/
 
 // Colors were partially obtained from: https://github.com/mrmrs/colors
 const COLORS = {
@@ -21,11 +34,13 @@ const COLORS = {
   fuchsia: `#F012BE`,
   purple: `#B10DC9`,
   maroon: `#85144B`,
+  black: `#111111`,
   silver: `#DDDDDD`,
   gray: `#AAAAAA`,
+  white: `#FFFFFF`,
   // my custome colors
-  white: `#F4F4F4`,
-  black: `#000000`,
+  nearWhite: `#F4F4F4`,
+  trueBlack: `#000000`,
   darkGray: `#333`,
   magenta: `#F0F`,
   cyan: `#0FF`,
@@ -43,46 +58,80 @@ const COLORS = {
   dYellow: `#f1fa8c`,
 }
 
-// Rebass styled-system reference
-//
-// Default Breakpoints
-// const breakpoints = [ '40em', '52em', '64em' ]
-// @media screen and (min-width: 40em)
-// @media screen and (min-width: 52em)
-// @media screen and (min-width: 64em)
-//
-// Default fontSizes
-// const fontSizes = [ 12, 14, 16, 20, 24, 32, 48, 64, 72 ]
-//
-// Default space for margin and padding
-// const space = [ 0, 4, 8, 16, 32, 64, 128, 256, 512 ]
-//
-// Variants
-const {
-  [textColor]: color = `white`,
-  [backgroundColor]: background = `black`,
-  [primaryButtonTextColor]: buttonText = `black`,
-  [primaryColor]: primary = `cyan`,
-  [secondaryColor]: secondary = `magenta`,
-} = COLORS
-const gradient = `linear-gradient(${degree || 90}deg, ${primary}, ${secondary})`
-const cards = { primary: { backgroundImage: gradient }}
-const buttons = {
-  primary: {
-    color: buttonText,
-    backgroundColor: primary,
-  },
-  outline: {
-    color: primary,
-    backgroundColor: `transparent`,
-    boxShadow: `inset 0 0 0 2px`,
-  },
-}
-//-*-//
+// Theme colors selection
+const { nearWhite, trueBlack, cyan, magenta, dBackground } = COLORS
 
-export const theme = {
-  colors: { ...COLORS, color, background, primary, secondary },
-  gradient,
-  buttons,
-  cards
+const colors = {
+  text: nearWhite,
+  background: trueBlack,
+  primary: cyan,
+  secondary: magenta,
+  muted: dBackground,
+  modes: {},
 }
+
+// gradient color degree
+const degree = `19`
+
+const gradient = ({ colors: { primary, secondary } }) =>
+  `linear-gradient(${degree || 90}deg, ${primary}, ${secondary})`
+
+const circle = {
+  p: 0,
+  size: 52,
+  borderRadius: `circle`,
+}
+
+export const theme = mergeDeepRight(preset, {
+  useCustomProperties: true,
+  fonts: {
+    body: `Fira Mono, monospace`,
+    heading: `Fira Mono, monospace`,
+    monospace: `Fira Mono, monospace`,
+  },
+  colors,
+  buttons: {
+    primary: {
+      circle: {
+        ...preset.buttons.primary,
+        ...circle,
+      },
+    },
+    secondary: {
+      circle: {
+        ...preset.buttons.secondary,
+        ...circle,
+      },
+    },
+    outline: {
+      circle: {
+        ...preset.buttons.outline,
+        ...circle,
+      },
+    },
+  },
+  radii: { card: 15 },
+  variants: {
+    card: {
+      borderRadius: `default`,
+      gradient: {
+        ...preset.variants.card,
+        borderRadius: `card`,
+        backgroundImage: gradient,
+      },
+    },
+    bar: {
+      margin: 0,
+      border: 0,
+      height: 2,
+      backgroundImage: gradient,
+    },
+  },
+  styles: {
+    root: {
+      fontFamily: `monospace`,
+      color: `text`,
+      bg: `background`,
+    },
+  },
+})

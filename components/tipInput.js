@@ -1,47 +1,48 @@
-import { Button, Flex, Heading } from 'rebass'
-import { number } from 'prop-types'
-import { Input } from './input'
+import { Button, Flex } from 'rebass'
+import { number, func } from 'prop-types'
 import { Bar } from './bar'
+import { Label, Input } from '@rebass/forms'
+
+const flexProps = {
+  as: `form`,
+  width: 1,
+  px: 2,
+  py: `3px`,
+  flexDirection: `column`,
+}
 
 const inputProps = {
-  labelAttrs: { htmlFor: `tip-percentage` },
-  inputAttrs: {
-    id: `tip-percentage`,
-    maxLength: `2`,
-    autoFocus: true,
-  },
-  rebassFlexProps: {
-    mb: [1, 0],
-    py: 1,
-    px: 2,
-    flexDirection: `column-reverse`,
-  },
-  rebassLabelProps: { width: 1 },
-  rebassFieldProps: {
-    p: 0,
-    fontSize: 4,
-  }
+  id: `tip-percentage`,
+  maxLength: `2`,
+  autoFocus: true,
+  p: 0,
+  fontSize: 3,
+  sx: { border: 0 },
+}
+
+const labelProps = {
+  htmlFor: `tip-percentage`,
+  fontSize: 3,
 }
 
 const buttonProps = {
-  variant: `primary`,
-  mt: 1,
-  py: 1,
-  fontSize: [3, 2],
+  my: `3px`,
+  ml: `auto`,
+  py: 0,
   fontWeight: `normal`,
 }
 
-const buttonText = percentage => percentage >= 25 ? `Generous`
-  : percentage >= 20 ? `Nice` : `OK`
+const buttonText = percentage =>
+  percentage >= 25 ? `Generous` : percentage >= 20 ? `Nice` : `OK`
 
-export const TipInput = ({ tipPercentage = 15, ...props }) => (
-  <Input value={tipPercentage} {...{ ...inputProps, ...props }}>
-    <Bar as='hr' />
-    <Flex justifyContent='space-between'>
-      <Heading as='h3' pt={1} fontSize={3} fontWeight='normal'>Tip %</Heading>
-      <Button {...buttonProps}>{buttonText(tipPercentage)}</Button>
-    </Flex>
-  </Input>
+export const TipInput = ({ tipPercentage: value = 15, onChange, onSubmit }) => (
+  <Flex {...{ ...flexProps, onSubmit }}>
+    <Input {...{ ...inputProps, value, onChange }} />
+    <Bar />
+    <Label {...labelProps}>
+      Tip %<Button {...buttonProps}>{buttonText(value)}</Button>
+    </Label>
+  </Flex>
 )
 
-TipInput.propTypes = { tipPercentage: number }
+TipInput.propTypes = { tipPercentage: number, onChange: func, onSubmit: func }

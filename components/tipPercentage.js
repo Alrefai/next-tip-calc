@@ -1,42 +1,40 @@
 import { curry, map, pipe } from 'ramda'
-import { Card, Flex, Text } from 'rebass'
+import { Flex, Button } from 'rebass'
 import { func, number } from 'prop-types'
-import { Circle } from './circle'
 import { PERCENTAGES } from '../constants'
+import { wrapWith } from './wrappers'
 
-const handleClick = value => () => console.log(value)
-const tipPercentageProps = {
-  variant: `primary`,
+const tipCircleProps = (currentPercentage, handleClick, percentage) => ({
+  key: percentage + `-percent`,
+  variant: `outline.circle`,
+  type: `button`,
+  m: 1,
+  p: 1,
+  color: currentPercentage === percentage ? `secondary` : `text`,
+  bg: `background`,
+  fontSize: 4,
+  fontWeight: `normal`,
+  onClick: handleClick(percentage),
+})
+
+const flexProps = {
+  justifyContent: `space-evenly`,
+  alignItems: `center`,
+  variant: `card.gradient`,
   width: 1,
   p: 1,
-  borderRadius: 15,
 }
-const tipCircleProps = (currentPercentage, onClick, percentage) => ({
-  key: percentage + `-percent`,
-  type: `button`,
-  as: `button`,
-  m: 1,
-  p: 2,
-  color: `color`,
-  bg: currentPercentage === percentage ? `secondary` : `background`,
-  border: 0,
-  onClick: onClick(percentage),
-})
+
 const tipCircle = curry((tipPercentage, onClick, percentage) => (
-  <Circle {...tipCircleProps(tipPercentage, onClick, percentage)}>
-    <Text fontSize={4}>{percentage}%</Text>
-  </Circle>
+  <Button {...tipCircleProps(tipPercentage, onClick, percentage)}>
+    {percentage}%
+  </Button>
 ))
 
-export const TipPercentage = ({
-  tipPercentage = 15, onClick = handleClick
-}) => pipe(
-  map(tipCircle(tipPercentage, onClick)),
-  __ => <Flex justifyContent='space-evenly' alignItems='center'>{__}</Flex>,
-  __ => <Card {...tipPercentageProps}>{__}</Card>
-)(PERCENTAGES)
+export const TipPercentage = ({ tipPercentage = 15, onClick }) =>
+  pipe(
+    map(tipCircle(tipPercentage, onClick)),
+    wrapWith(Flex, flexProps),
+  )(PERCENTAGES)
 
-TipPercentage.propTypes = {
-  tipPercentage: number,
-  onClick: func,
-}
+TipPercentage.propTypes = { tipPercentage: number, onClick: func }

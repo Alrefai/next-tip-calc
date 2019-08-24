@@ -1,20 +1,25 @@
-import { Box, Card } from 'rebass'
+import { Box } from 'rebass'
 import { func, object } from 'prop-types'
 import { Total } from './total'
 import { CalculatorInput } from './calculatorInput'
 
+const cardProps = {
+  variant: `card`,
+  width: 1,
+  p: 0,
+  bg: `muted`,
+  sx: { borderRadius: `card` },
+}
+
 const Calculator = ({ dispatch, model: { total, ...props } = {} }) => (
-  <Box width={1}>
+  <Box maxWidth={512} mx='auto' px={2} pb={3}>
     <Total {...{ total }} />
-    <Card width={1} bg='dBackground' borderRadius={15}>
+    <Box {...cardProps}>
       <CalculatorInput {...{ dispatch, ...props }} />
-    </Card>
+    </Box>
   </Box>
 )
 
-Calculator.propTypes = {
-  dispatch: func,
-  model: object,
-}
+Calculator.propTypes = { dispatch: func, model: object }
 
 export default Calculator
