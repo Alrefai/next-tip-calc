@@ -1,4 +1,4 @@
-import { Box, Flex, Text } from 'rebass'
+import { Box, Flex, Text, Heading } from 'rebass'
 import { number } from 'prop-types'
 
 const totalCardProps = {
@@ -12,6 +12,7 @@ const totalCardProps = {
 }
 
 const currencyCardProps = {
+  as: `p`,
   variant: `card`,
   m: 1,
   py: 0,
@@ -22,17 +23,17 @@ const currencyCardProps = {
 }
 
 export const Total = ({ total = 143.75 }) => (
-  <Box width={1} mt={2}>
+  <>
     <Flex {...totalCardProps}>
-      <Text ml='auto' px={1} fontSize={[3, 4]}>
+      <Heading ml='auto' px={1}>
         Total
-      </Text>
+      </Heading>
       <Box {...currencyCardProps}>$</Box>
     </Flex>
-    <Text py={3} fontSize={[7, 8]} textAlign='center'>
+    <Text as='p' py={3} fontSize={[7, 8]} textAlign='center'>
       {total}
     </Text>
-  </Box>
+  </>
 )
 
 Total.propTypes = { total: number }

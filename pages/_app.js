@@ -18,8 +18,8 @@ export default class MyApp extends App {
         <Head {...meta} />
         <ThemeProvider {...{ theme }}>
           <ColorMode />
-          <Header />
           <Styled.root>
+            <Header />
             <Component model={this.state} dispatch={this.dispatch} />
           </Styled.root>
         </ThemeProvider>

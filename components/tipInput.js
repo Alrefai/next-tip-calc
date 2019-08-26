@@ -13,6 +13,7 @@ const flexProps = {
 
 const inputProps = {
   id: `tip-percentage`,
+  name: `tip-percentage`,
   maxLength: `2`,
   autoFocus: true,
   p: 0,

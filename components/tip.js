@@ -9,6 +9,7 @@ const tipAmountProps = {
 }
 
 const tipPercentageProps = {
+  as: `p`,
   variant: `card`,
   ml: -3,
   px: 1,
@@ -20,6 +21,7 @@ const tipPercentageProps = {
 }
 
 const tipResultsProps = {
+  as: `p`,
   mx: `auto`,
   color: `background`,
   fontSize: 5,

@@ -14,6 +14,7 @@ const flexProps = {
 
 const inputProps = {
   id: `bill-amount`,
+  name: `bill-amount`,
   p: 0,
   fontSize: 3,
   sx: { border: 0 },

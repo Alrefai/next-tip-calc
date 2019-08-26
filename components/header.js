@@ -12,7 +12,7 @@ const headingProps = {
 }
 
 const Header = () => (
-  <Box maxWidth={512} mx='auto' px={2} mb={3}>
+  <Box as='header' maxWidth={512} mx='auto' px={2} mb={3}>
     <Heading {...headingProps}>{title}</Heading>
     <Bar height='3px' />
   </Box>

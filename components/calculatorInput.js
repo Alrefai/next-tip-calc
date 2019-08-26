@@ -52,7 +52,14 @@ const tipInput = pipe(({ dispatch, tipPercentage }) => ({
 const billForm = [bill, tipAmount]
 const tipForm = [percentage, tipInput]
 
-const flexProps = { flexDirection: [`column`, `row`] }
+const flexProps = {
+  variant: `card`,
+  width: 1,
+  p: 0,
+  bg: `muted`,
+  flexDirection: [`column`, `row`],
+  sx: { borderRadius: `card` },
+}
 
 export const CalculatorInput = ({ showTipForm = false, ...props }) =>
   wrapAllWith(Flex, flexProps, !showTipForm ? billForm : tipForm, props)
