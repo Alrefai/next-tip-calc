@@ -1,61 +1,46 @@
-import { Box, Card, Flex, Text } from 'rebass'
-import { number } from 'prop-types'
-import { Circle } from './circle'
-import { Bar } from './bar'
+import { Box, Flex, Button } from 'rebass'
+import { number, func } from 'prop-types'
 
 const tipAmountProps = {
-  variant: `primary`,
+  variant: `card.gradient`,
   width: 1,
   p: 1,
-  borderRadius: 15,
+  alignItems: `center`,
 }
 
 const tipPercentageProps = {
+  as: `p`,
+  variant: `card`,
   ml: -3,
-  mt: 1,
-  mr: -2,
   px: 1,
-  bg: `color`,
+  py: 0,
   color: `background`,
-  borderRadius: 4,
+  bg: `primary`,
+  fontSize: 1,
   alignSelf: `flex-start`,
 }
 
 const tipResultsProps = {
+  as: `p`,
   mx: `auto`,
-  pr: 2,
   color: `background`,
-  alignItems: `baseline`,
+  fontSize: 5,
 }
 
-const tipCirclePorps = {
+const tipButtonPorps = {
   type: `button`,
-  as: `button`,
+  variant: `outline.circle`,
   m: 1,
-  p: 2,
-  color: `color`,
   bg: `background`,
-  border: 0,
+  fontSize: 3,
 }
 
-export const Tip = ({ tipPercentage = 15, tip = 18.75, ...props }) => (
-  <Card {...tipAmountProps}>
-    <Flex alignItems='center'>
-      <Box>
-        <Circle {...{ ...tipCirclePorps, ...props }}>
-          <Text fontSize={4}>Tip</Text>
-        </Circle>
-      </Box>
-      <Card {...tipPercentageProps}>{tipPercentage}%</Card>
-      <Flex {...tipResultsProps}>
-        <Text fontSize={3}>$</Text>
-        <Text fontSize={5}>{tip}</Text>
-      </Flex>
-    </Flex>
-  </Card>
+export const Tip = ({ tipPercentage = 15, tip = 18.75, onClick }) => (
+  <Flex {...tipAmountProps}>
+    <Button {...{ ...tipButtonPorps, onClick }}>Tip</Button>
+    <Box {...tipPercentageProps}>{tipPercentage}%</Box>
+    <Box {...tipResultsProps}>${tip}</Box>
+  </Flex>
 )
 
-Tip.propTypes = {
-  tip: number,
-  tipPercentage: number,
-}
+Tip.propTypes = { tip: number, tipPercentage: number, onClick: func }

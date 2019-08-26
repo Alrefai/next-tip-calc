@@ -5,15 +5,16 @@ import { meta } from '../constants'
 const { title } = meta
 const headingProps = {
   as: `h1`,
-  py: 2,
+  pt: 3,
+  pb: 2,
   fontSize: [5, 6],
   fontWeight: `normal`,
 }
 
 const Header = () => (
-  <Box my={3}>
+  <Box as='header' maxWidth={512} mx='auto' px={2} mb={3}>
     <Heading {...headingProps}>{title}</Heading>
-    <Bar as='hr' />
+    <Bar height='3px' />
   </Box>
 )
 

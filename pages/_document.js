@@ -1,20 +1,22 @@
-import Document, { Head, Main, NextScript } from 'next/document'
-import { ServerStyleSheet } from 'styled-components'
+import Document, { Html, Head, Main, NextScript } from 'next/document'
+import { InitializeColorMode } from 'theme-ui'
 
 export default class MyDocument extends Document {
-  render() {
-    const sheet = new ServerStyleSheet()
-    const main = sheet.collectStyles(<Main />)
-    const styleTags = sheet.getStyleElement()
+  static async getInitialProps(ctx) {
+    const initialProps = await Document.getInitialProps(ctx)
+    return { ...initialProps }
+  }
 
+  render() {
     return (
-      <html lang='en'>
-        <Head>{styleTags}</Head>
+      <Html lang='en'>
+        <Head />
         <body>
-          {main}
+          <InitializeColorMode />
+          <Main />
           <NextScript />
         </body>
-      </html>
+      </Html>
     )
   }
 }
