@@ -1,4 +1,4 @@
-import App, { Container } from 'next/app'
+import App from 'next/app'
 import { ThemeProvider, Styled, ColorMode } from 'theme-ui'
 import Head from '../components/head'
 import Header from '../components/header'
@@ -14,7 +14,7 @@ export default class MyApp extends App {
   render() {
     const { Component } = this.props
     return (
-      <Container>
+      <>
         <Head {...meta} />
         <ThemeProvider {...{ theme }}>
           <ColorMode />
@@ -23,7 +23,7 @@ export default class MyApp extends App {
             <Component model={this.state} dispatch={this.dispatch} />
           </Styled.root>
         </ThemeProvider>
-      </Container>
+      </>
     )
   }
 }
