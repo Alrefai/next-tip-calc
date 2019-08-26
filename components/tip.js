@@ -1,5 +1,7 @@
 import { Box, Flex, Button } from 'rebass'
-import { number, func } from 'prop-types'
+import { number } from 'prop-types'
+import { useClick } from '../hooks'
+import { showTipFormAction } from '../actions'
 
 const tipAmountProps = {
   variant: `card.gradient`,
@@ -35,12 +37,15 @@ const tipButtonPorps = {
   fontSize: 3,
 }
 
-export const Tip = ({ tipPercentage = 15, tip = 18.75, onClick }) => (
-  <Flex {...tipAmountProps}>
-    <Button {...{ ...tipButtonPorps, onClick }}>Tip</Button>
-    <Box {...tipPercentageProps}>{tipPercentage}%</Box>
-    <Box {...tipResultsProps}>${tip}</Box>
-  </Flex>
-)
+export const Tip = ({ tipPercentage = 15, tip = 18.75 }) => {
+  const onClick = useClick(showTipFormAction, true)
+  return (
+    <Flex {...tipAmountProps}>
+      <Button {...{ ...tipButtonPorps, onClick }}>Tip</Button>
+      <Box {...tipPercentageProps}>{tipPercentage}%</Box>
+      <Box {...tipResultsProps}>${tip}</Box>
+    </Flex>
+  )
+}
 
-Tip.propTypes = { tip: number, tipPercentage: number, onClick: func }
+Tip.propTypes = { tip: number, tipPercentage: number }

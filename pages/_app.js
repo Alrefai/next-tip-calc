@@ -2,17 +2,19 @@ import App from 'next/app'
 import { ThemeProvider, Styled, ColorMode } from 'theme-ui'
 import Head from '../components/head'
 import Header from '../components/header'
-import reducer from '../reducers'
-import { initModel, meta, theme } from '../constants'
+import { meta, theme } from '../constants'
 import '../static/webFonts.css'
 import 'modern-normalize/modern-normalize.css' //keep it the last import
 
 export default class MyApp extends App {
-  state = reducer(initModel, {})
-  dispatch = action => this.setState(prevState => reducer(prevState, action))
+  componentDidCatch(error, errorInfo) {
+    console.log('CUSTOM ERROR HANDLING', error)
+    // This is needed to render errors correctly in development / production
+    super.componentDidCatch(error, errorInfo)
+  }
 
   render() {
-    const { Component } = this.props
+    const { Component, pageProps } = this.props
     return (
       <>
         <Head {...meta} />
@@ -20,7 +22,7 @@ export default class MyApp extends App {
           <ColorMode />
           <Styled.root>
             <Header />
-            <Component model={this.state} dispatch={this.dispatch} />
+            <Component {...pageProps} />
           </Styled.root>
         </ThemeProvider>
       </>

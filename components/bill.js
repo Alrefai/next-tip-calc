@@ -1,8 +1,10 @@
 import { Flex, Box } from 'rebass'
-import { string, func } from 'prop-types'
+import { Label, Input } from '@rebass/forms'
+import { string } from 'prop-types'
 import { Bar } from './bar'
 import { MAX_BILL_AMOUNT } from '../constants'
-import { Label, Input } from '@rebass/forms'
+import { useForm } from '../hooks'
+import { amountInputAction, showTipFormAction } from '../actions'
 
 const flexProps = {
   as: `form`,
@@ -28,15 +30,22 @@ const labelProps = {
 const labelText = amount =>
   parseFloat(amount) < MAX_BILL_AMOUNT ? `Bill Amount` : `Max Bill Amount`
 
-export const Bill = ({ amount: value = `125`, onChange, onSubmit }) => (
-  <Flex {...{ ...flexProps, onSubmit }}>
-    <Input {...{ ...inputProps, value, onChange }} />
-    <Bar />
-    <Label {...labelProps}>
-      <Box mr='auto' />
-      {labelText(value)}
-    </Label>
-  </Flex>
-)
+export const Bill = ({ amount: value = `125` }) => {
+  const { onChange, onSubmit } = useForm({
+    initValue: value,
+    handleChange: amountInputAction,
+    handleSubmit: showTipFormAction(true),
+  })
+  return (
+    <Flex {...{ ...flexProps, onSubmit }}>
+      <Input {...{ ...inputProps, value, onChange }} />
+      <Bar />
+      <Label {...labelProps}>
+        <Box mr='auto' />
+        {labelText(value)}
+      </Label>
+    </Flex>
+  )
+}
 
-Bill.propTypes = { amount: string, onChange: func, onSubmit: func }
+Bill.propTypes = { amount: string }
