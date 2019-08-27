@@ -3,9 +3,9 @@ import { DispatchContext, ModelContext } from '../context'
 
 export const useModel = () => useContext(ModelContext)
 
-export const useClick = (action, value) => {
+export const useClick = action => {
   const dispatch = useContext(DispatchContext)
-  return () => dispatch(action(value))
+  return () => dispatch(action)
 }
 
 export const useForm = ({

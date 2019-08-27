@@ -1,3 +1,4 @@
+import { useMemo } from 'react'
 import { Box, Flex, Button } from 'rebass'
 import { useClick, useModel } from '../hooks'
 import { showTipFormAction } from '../actions'
@@ -38,12 +39,15 @@ const tipButtonPorps = {
 
 export const Tip = () => {
   const { tipPercentage, tip } = useModel()
-  const onClick = useClick(showTipFormAction, true)
-  return (
-    <Flex {...tipAmountProps}>
-      <Button {...{ ...tipButtonPorps, onClick }}>Tip</Button>
-      <Box {...tipPercentageProps}>{tipPercentage}%</Box>
-      <Box {...tipResultsProps}>${tip}</Box>
-    </Flex>
+  const onClick = useClick(showTipFormAction(true))
+  return useMemo(
+    () => (
+      <Flex {...tipAmountProps}>
+        <Button {...{ ...tipButtonPorps, onClick }}>Tip</Button>
+        <Box {...tipPercentageProps}>{tipPercentage}%</Box>
+        <Box {...tipResultsProps}>${tip}</Box>
+      </Flex>
+    ),
+    [onClick, tip, tipPercentage],
   )
 }

@@ -1,3 +1,4 @@
+import { useMemo } from 'react'
 import { Flex, Box } from 'rebass'
 import { Label, Input } from '@rebass/forms'
 import { Bar } from './bar'
@@ -32,18 +33,20 @@ const labelText = amount =>
 export const Bill = () => {
   const { amount: value } = useModel()
   const { onChange, onSubmit } = useForm({
-    initValue: value,
     handleChange: amountInputAction,
     handleSubmit: showTipFormAction(true),
   })
-  return (
-    <Flex {...{ ...flexProps, onSubmit }}>
-      <Input {...{ ...inputProps, value, onChange }} />
-      <Bar />
-      <Label {...labelProps}>
-        <Box mr='auto' />
-        {labelText(value)}
-      </Label>
-    </Flex>
+  return useMemo(
+    () => (
+      <Flex {...{ ...flexProps, onSubmit }}>
+        <Input {...{ ...inputProps, value, onChange }} />
+        <Bar />
+        <Label {...labelProps}>
+          <Box mr='auto' />
+          {labelText(value)}
+        </Label>
+      </Flex>
+    ),
+    [onChange, onSubmit, value],
   )
 }
