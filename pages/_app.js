@@ -14,7 +14,7 @@ export default class MyApp extends App {
   }
 
   render() {
-    const { Component, pageProps } = this.props
+    const { Component } = this.props
     return (
       <>
         <Head {...meta} />
@@ -22,7 +22,7 @@ export default class MyApp extends App {
           <ColorMode />
           <Styled.root>
             <Header />
-            <Component {...pageProps} />
+            <Component />
           </Styled.root>
         </ThemeProvider>
       </>

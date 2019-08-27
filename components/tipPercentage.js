@@ -1,9 +1,8 @@
 import { curry, map, pipe } from 'ramda'
 import { Flex, Button } from 'rebass'
-import { number } from 'prop-types'
 import { PERCENTAGES } from '../constants'
 import { wrapWith } from './wrappers'
-import { useClick } from '../hooks'
+import { useClick, useModel } from '../hooks'
 import { tipInputAction } from '../actions'
 
 const tipCircleProps = (currentPercentage, handleClick, percentage) => ({
@@ -33,11 +32,10 @@ const tipCircle = curry((tipPercentage, onClick, percentage) => (
   </Button>
 ))
 
-export const TipPercentage = ({ tipPercentage = 15 }) => {
+export const TipPercentage = () => {
+  const { tipPercentage } = useModel()
   return pipe(
     map(tipCircle(tipPercentage, useClick)),
     wrapWith(Flex, flexProps),
   )(PERCENTAGES)
 }
-
-TipPercentage.propTypes = { tipPercentage: number }

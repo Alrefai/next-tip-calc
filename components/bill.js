@@ -1,9 +1,8 @@
 import { Flex, Box } from 'rebass'
 import { Label, Input } from '@rebass/forms'
-import { string } from 'prop-types'
 import { Bar } from './bar'
 import { MAX_BILL_AMOUNT } from '../constants'
-import { useForm } from '../hooks'
+import { useForm, useModel } from '../hooks'
 import { amountInputAction, showTipFormAction } from '../actions'
 
 const flexProps = {
@@ -30,7 +29,8 @@ const labelProps = {
 const labelText = amount =>
   parseFloat(amount) < MAX_BILL_AMOUNT ? `Bill Amount` : `Max Bill Amount`
 
-export const Bill = ({ amount: value = `125` }) => {
+export const Bill = () => {
+  const { amount: value } = useModel()
   const { onChange, onSubmit } = useForm({
     initValue: value,
     handleChange: amountInputAction,
@@ -47,5 +47,3 @@ export const Bill = ({ amount: value = `125` }) => {
     </Flex>
   )
 }
-
-Bill.propTypes = { amount: string }

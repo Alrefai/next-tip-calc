@@ -1,5 +1,7 @@
 import { useContext, useState } from 'react'
-import { DispatchContext } from '../context'
+import { DispatchContext, ModelContext } from '../context'
+
+export const useModel = () => useContext(ModelContext)
 
 export const useClick = (action, value) => {
   const dispatch = useContext(DispatchContext)

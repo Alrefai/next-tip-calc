@@ -1,6 +1,5 @@
 import { Box, Flex, Button } from 'rebass'
-import { number } from 'prop-types'
-import { useClick } from '../hooks'
+import { useClick, useModel } from '../hooks'
 import { showTipFormAction } from '../actions'
 
 const tipAmountProps = {
@@ -37,7 +36,8 @@ const tipButtonPorps = {
   fontSize: 3,
 }
 
-export const Tip = ({ tipPercentage = 15, tip = 18.75 }) => {
+export const Tip = () => {
+  const { tipPercentage, tip } = useModel()
   const onClick = useClick(showTipFormAction, true)
   return (
     <Flex {...tipAmountProps}>
@@ -47,5 +47,3 @@ export const Tip = ({ tipPercentage = 15, tip = 18.75 }) => {
     </Flex>
   )
 }
-
-Tip.propTypes = { tip: number, tipPercentage: number }

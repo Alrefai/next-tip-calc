@@ -1,8 +1,7 @@
 import { Button, Flex } from 'rebass'
 import { Label, Input } from '@rebass/forms'
-import { number } from 'prop-types'
 import { Bar } from './bar'
-import { useForm } from '../hooks'
+import { useForm, useModel } from '../hooks'
 import { showTipFormAction, tipInputAction } from '../actions'
 
 const flexProps = {
@@ -38,7 +37,8 @@ const buttonProps = {
 const buttonText = percentage =>
   percentage >= 25 ? `Generous` : percentage >= 20 ? `Nice` : `OK`
 
-export const TipInput = ({ tipPercentage: value = 15 }) => {
+export const TipInput = () => {
+  const { tipPercentage: value } = useModel()
   const { onChange, onSubmit } = useForm({
     initValue: value,
     handleChange: tipInputAction,
@@ -54,5 +54,3 @@ export const TipInput = ({ tipPercentage: value = 15 }) => {
     </Flex>
   )
 }
-
-TipInput.propTypes = { tipPercentage: number }
