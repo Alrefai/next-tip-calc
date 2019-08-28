@@ -59,7 +59,17 @@ const COLORS = {
 }
 
 // Theme colors selection
-const { nearWhite, trueBlack, cyan, magenta, dBackground } = COLORS
+const {
+  nearWhite,
+  trueBlack,
+  cyan,
+  magenta,
+  dBackground,
+  dForeground,
+  dSelection,
+  dCyan,
+  dPink,
+} = COLORS
 
 const colors = {
   text: nearWhite,
@@ -67,7 +77,15 @@ const colors = {
   primary: cyan,
   secondary: magenta,
   muted: dBackground,
-  modes: {},
+  modes: {
+    dracula: {
+      text: dForeground,
+      background: dBackground,
+      primary: dPink,
+      secondary: dCyan,
+      muted: dSelection,
+    },
+  },
 }
 
 // gradient color degree
@@ -83,6 +101,7 @@ const circle = {
 }
 
 export const theme = mergeDeepRight(preset, {
+  initialColorMode: `black`,
   useCustomProperties: true,
   fonts: {
     body: `Fira Mono, monospace`,
@@ -107,6 +126,15 @@ export const theme = mergeDeepRight(preset, {
       circle: {
         ...preset.buttons.outline,
         ...circle,
+      },
+    },
+    transparent: {
+      color: `inherit`,
+      bg: `transparent`,
+      ':hover,:focus': {
+        color: `primary`,
+        outline: `none`,
+        boxShadow: `0 0 0 2px`,
       },
     },
   },
