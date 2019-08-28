@@ -1,5 +1,6 @@
+import { useMemo } from 'react'
 import { Box, Flex, Text, Heading } from 'rebass'
-import { number } from 'prop-types'
+import { useModel } from '../hooks'
 
 const totalCardProps = {
   variant: `card.gradient`,
@@ -22,18 +23,22 @@ const currencyCardProps = {
   fontSize: [2, 3],
 }
 
-export const Total = ({ total = 143.75 }) => (
-  <>
-    <Flex {...totalCardProps}>
-      <Heading ml='auto' px={1}>
-        Total
-      </Heading>
-      <Box {...currencyCardProps}>$</Box>
-    </Flex>
-    <Text as='p' py={3} fontSize={[7, 8]} textAlign='center'>
-      {total}
-    </Text>
-  </>
-)
-
-Total.propTypes = { total: number }
+export const Total = () => {
+  const { total } = useModel()
+  return useMemo(
+    () => (
+      <>
+        <Flex {...totalCardProps}>
+          <Heading ml='auto' px={1}>
+            Total
+          </Heading>
+          <Box {...currencyCardProps}>$</Box>
+        </Flex>
+        <Text as='p' py={3} fontSize={[7, 8]} textAlign='center'>
+          {total}
+        </Text>
+      </>
+    ),
+    [total],
+  )
+}

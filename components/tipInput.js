@@ -1,7 +1,9 @@
+import { useMemo } from 'react'
 import { Button, Flex } from 'rebass'
-import { number, func } from 'prop-types'
-import { Bar } from './bar'
 import { Label, Input } from '@rebass/forms'
+import { Bar } from './bar'
+import { useForm, useModel } from '../hooks'
+import { showTipFormAction, tipInputAction } from '../actions'
 
 const flexProps = {
   as: `form`,
@@ -36,14 +38,22 @@ const buttonProps = {
 const buttonText = percentage =>
   percentage >= 25 ? `Generous` : percentage >= 20 ? `Nice` : `OK`
 
-export const TipInput = ({ tipPercentage: value = 15, onChange, onSubmit }) => (
-  <Flex {...{ ...flexProps, onSubmit }}>
-    <Input {...{ ...inputProps, value, onChange }} />
-    <Bar />
-    <Label {...labelProps}>
-      Tip %<Button {...buttonProps}>{buttonText(value)}</Button>
-    </Label>
-  </Flex>
-)
-
-TipInput.propTypes = { tipPercentage: number, onChange: func, onSubmit: func }
+export const TipInput = () => {
+  const { tipPercentage: value } = useModel()
+  const { onChange, onSubmit } = useForm({
+    handleChange: tipInputAction,
+    handleSubmit: showTipFormAction(false),
+  })
+  return useMemo(
+    () => (
+      <Flex {...{ ...flexProps, onSubmit }}>
+        <Input {...{ ...inputProps, value, onChange }} />
+        <Bar />
+        <Label {...labelProps}>
+          Tip %<Button {...buttonProps}>{buttonText(value)}</Button>
+        </Label>
+      </Flex>
+    ),
+    [onChange, onSubmit, value],
+  )
+}

@@ -1,5 +1,7 @@
+import { useMemo } from 'react'
 import { Box, Flex, Button } from 'rebass'
-import { number, func } from 'prop-types'
+import { useClick, useModel } from '../hooks'
+import { showTipFormAction } from '../actions'
 
 const tipAmountProps = {
   variant: `card.gradient`,
@@ -35,12 +37,17 @@ const tipButtonPorps = {
   fontSize: 3,
 }
 
-export const Tip = ({ tipPercentage = 15, tip = 18.75, onClick }) => (
-  <Flex {...tipAmountProps}>
-    <Button {...{ ...tipButtonPorps, onClick }}>Tip</Button>
-    <Box {...tipPercentageProps}>{tipPercentage}%</Box>
-    <Box {...tipResultsProps}>${tip}</Box>
-  </Flex>
-)
-
-Tip.propTypes = { tip: number, tipPercentage: number, onClick: func }
+export const Tip = () => {
+  const { tipPercentage, tip } = useModel()
+  const onClick = useClick(showTipFormAction(true))
+  return useMemo(
+    () => (
+      <Flex {...tipAmountProps}>
+        <Button {...{ ...tipButtonPorps, onClick }}>Tip</Button>
+        <Box {...tipPercentageProps}>{tipPercentage}%</Box>
+        <Box {...tipResultsProps}>${tip}</Box>
+      </Flex>
+    ),
+    [onClick, tip, tipPercentage],
+  )
+}
