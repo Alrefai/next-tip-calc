@@ -100,6 +100,14 @@ const circle = {
   borderRadius: `circle`,
 }
 
+const hover = {
+  ':hover,:focus': {
+    color: `primary`,
+    outline: `none`,
+    boxShadow: `0 0 0 2px`,
+  },
+}
+
 export const theme = mergeDeepRight(preset, {
   initialColorMode: `black`,
   useCustomProperties: true,
@@ -123,19 +131,17 @@ export const theme = mergeDeepRight(preset, {
       },
     },
     outline: {
+      ...hover,
       circle: {
         ...preset.buttons.outline,
         ...circle,
+        ...hover,
       },
     },
     transparent: {
       color: `inherit`,
       bg: `transparent`,
-      ':hover,:focus': {
-        color: `primary`,
-        outline: `none`,
-        boxShadow: `0 0 0 2px`,
-      },
+      ...hover,
     },
   },
   radii: { card: 15 },

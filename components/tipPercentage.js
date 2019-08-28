@@ -7,6 +7,7 @@ import { useClick, useModel } from '../hooks'
 import { tipInputAction } from '../actions'
 
 const tipCircleProps = (currentPercentage, onClick, percentage) => ({
+  title: `Apply ${percentage} percent`,
   variant: `outline.circle`,
   type: `button`,
   m: 1,

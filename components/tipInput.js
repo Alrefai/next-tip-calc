@@ -1,5 +1,5 @@
 import { useMemo } from 'react'
-import { Button, Flex } from 'rebass'
+import { Button, Flex, Box } from 'rebass'
 import { Label, Input } from '@rebass/forms'
 import { Bar } from './bar'
 import { useForm, useModel } from '../hooks'
@@ -10,7 +10,7 @@ const flexProps = {
   width: 1,
   px: 2,
   py: `3px`,
-  flexDirection: `column`,
+  alignItems: `center`,
 }
 
 const inputProps = {
@@ -18,7 +18,10 @@ const inputProps = {
   name: `tip-percentage`,
   maxLength: `2`,
   autoFocus: true,
+  type: `tel`,
+  inputMode: 'numeric',
   p: 0,
+  width: 1 / 2,
   fontSize: 3,
   sx: { border: 0 },
 }
@@ -29,10 +32,15 @@ const labelProps = {
 }
 
 const buttonProps = {
-  my: `3px`,
-  ml: `auto`,
-  py: 0,
-  fontWeight: `normal`,
+  title: `Submit tip percentage`,
+  variant: `outline`,
+  width: 1,
+  height: 52,
+  sx: {
+    borderWidth: '0.7px',
+    borderStyle: 'solid',
+    borderRadius: `card`,
+  },
 }
 
 const buttonText = percentage =>
@@ -47,11 +55,12 @@ export const TipInput = () => {
   return useMemo(
     () => (
       <Flex {...{ ...flexProps, onSubmit }}>
-        <Input {...{ ...inputProps, value, onChange }} />
-        <Bar />
-        <Label {...labelProps}>
-          Tip %<Button {...buttonProps}>{buttonText(value)}</Button>
-        </Label>
+        <Box width={1}>
+          <Input {...{ ...inputProps, value, onChange }} />
+          <Bar />
+          <Label {...labelProps}>Tip %</Label>
+        </Box>
+        <Button {...buttonProps}>{buttonText(value)}</Button>
       </Flex>
     ),
     [onChange, onSubmit, value],
