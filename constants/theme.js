@@ -109,7 +109,7 @@ const hover = {
 }
 
 export const theme = mergeDeepRight(preset, {
-  initialColorMode: `black`,
+  initialColorMode: `neon`,
   useCustomProperties: true,
   fonts: {
     body: `Fira Mono, monospace`,

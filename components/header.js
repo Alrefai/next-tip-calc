@@ -5,7 +5,7 @@ import { meta } from '../constants'
 
 const { title } = meta
 
-const modes = [`black`, `dracula`]
+const modes = [`neon`, `dracula`]
 
 const buttonProps = {
   title: `Change color mode`,
