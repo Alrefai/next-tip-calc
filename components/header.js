@@ -7,13 +7,13 @@ const { title } = meta
 
 const modes = [`neon`, `dracula`, `eclectus`]
 
-const buttonProps = {
-  title: `Change color mode`,
+const buttonProps = mode => ({
+  title: `Change color mode to ${mode}`,
   variant: `transparent`,
   p: 1,
   size: 32,
   sx: { borderRadius: `circle` },
-}
+})
 
 const svgProps = {
   viewBox: `0 0 32 32`,
@@ -51,17 +51,15 @@ const Dot = () => (
 // https://github.com/rebassjs/rebass/blob/master/packages/docs/src/components/header.js
 const Header = () => {
   const [mode, setMode] = useColorMode()
-  const onClick = () => {
-    const i = (modes.indexOf(mode) + 1) % modes.length
-    setMode(modes[i])
-  }
+  const nextModeIndex = (modes.indexOf(mode) + 1) % modes.length
+  const onClick = () => setMode(modes[nextModeIndex])
   return (
     <Box as='header' maxWidth={512} mx='auto' px={2} mb={1}>
       <Flex mt={2} py={2} justifyContent='space-between' alignItems='center'>
         <Heading as='h1' fontSize={5}>
           {title}
         </Heading>
-        <Button {...{ ...buttonProps, onClick }}>
+        <Button {...{ ...buttonProps(modes[nextModeIndex]), onClick }}>
           <Dot />
         </Button>
       </Flex>
