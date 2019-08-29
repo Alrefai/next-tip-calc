@@ -3,8 +3,5 @@
   "alias": "tipcalc",
   "regions": ["all"],
   "public": true,
-  "type": "docker",
-  "features": {
-    "cloud": "v2"
-  }
+  "version": 2
 }
