@@ -69,6 +69,8 @@ const {
   dSelection,
   dCyan,
   dPink,
+  blue,
+  red,
 } = COLORS
 
 const colors = {
@@ -84,6 +86,13 @@ const colors = {
       primary: dPink,
       secondary: dCyan,
       muted: dSelection,
+    },
+    eclectus: {
+      text: dSelection,
+      background: nearWhite,
+      primary: blue,
+      secondary: red,
+      muted: preset.colors.muted,
     },
   },
 }
