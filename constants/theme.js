@@ -59,7 +59,19 @@ const COLORS = {
 }
 
 // Theme colors selection
-const { nearWhite, trueBlack, cyan, magenta, dBackground } = COLORS
+const {
+  nearWhite,
+  trueBlack,
+  cyan,
+  magenta,
+  dBackground,
+  dForeground,
+  dSelection,
+  dCyan,
+  dPink,
+  blue,
+  red,
+} = COLORS
 
 const colors = {
   text: nearWhite,
@@ -67,7 +79,22 @@ const colors = {
   primary: cyan,
   secondary: magenta,
   muted: dBackground,
-  modes: {},
+  modes: {
+    dracula: {
+      text: dForeground,
+      background: dBackground,
+      primary: dPink,
+      secondary: dCyan,
+      muted: dSelection,
+    },
+    eclectus: {
+      text: dSelection,
+      background: nearWhite,
+      primary: blue,
+      secondary: red,
+      muted: preset.colors.muted,
+    },
+  },
 }
 
 // gradient color degree
@@ -82,7 +109,16 @@ const circle = {
   borderRadius: `circle`,
 }
 
+const hover = {
+  ':hover,:focus': {
+    color: `primary`,
+    outline: `none`,
+    boxShadow: `0 0 0 2px`,
+  },
+}
+
 export const theme = mergeDeepRight(preset, {
+  initialColorMode: `neon`,
   useCustomProperties: true,
   fonts: {
     body: `Fira Mono, monospace`,
@@ -104,10 +140,17 @@ export const theme = mergeDeepRight(preset, {
       },
     },
     outline: {
+      ...hover,
       circle: {
         ...preset.buttons.outline,
         ...circle,
+        ...hover,
       },
+    },
+    transparent: {
+      color: `inherit`,
+      bg: `transparent`,
+      ...hover,
     },
   },
   radii: { card: 15 },

@@ -30,6 +30,7 @@ const tipResultsProps = {
 }
 
 const tipButtonPorps = {
+  title: `Change tip percantage`,
   type: `button`,
   variant: `outline.circle`,
   m: 1,

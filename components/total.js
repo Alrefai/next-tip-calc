@@ -34,7 +34,7 @@ export const Total = () => {
           </Heading>
           <Box {...currencyCardProps}>$</Box>
         </Flex>
-        <Text as='p' py={3} fontSize={[7, 8]} textAlign='center'>
+        <Text as='p' py={4} fontSize={[7, 8]} textAlign='center'>
           {total}
         </Text>
       </>
