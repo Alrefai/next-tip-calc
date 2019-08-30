@@ -1,5 +1,6 @@
 import { mergeDeepRight } from 'ramda'
 import preset from '@rebass/preset'
+import { keyframes } from '@emotion/core'
 
 /* Rebass styled-system reference
 
@@ -117,6 +118,31 @@ const hover = {
   },
 }
 
+const fadeIn = keyframes`
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+`
+const fadeOut = keyframes`
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
+`
+const grow = keyframes`
+  from {
+    transform: scaleX(0);
+  }
+  to {
+    transform: scaleX(1);
+  }
+`
+
 export const theme = mergeDeepRight(preset, {
   initialColorMode: `neon`,
   useCustomProperties: true,
@@ -154,6 +180,7 @@ export const theme = mergeDeepRight(preset, {
     },
   },
   radii: { card: 15 },
+  animationName: { grow, fadeIn, fadeOut },
   variants: {
     card: {
       borderRadius: `default`,
