@@ -46,6 +46,9 @@ const buttonProps = {
 const buttonText = percentage =>
   percentage >= 25 ? `Generous` : percentage >= 20 ? `Nice` : `OK`
 
+const gradient = ({ colors: { primary, secondary } }) =>
+  `linear-gradient(19deg, ${secondary}, ${primary})`
+
 export const TipInput = () => {
   const { tipPercentage: value } = useModel()
   const { onChange, onSubmit } = useForm({
@@ -57,7 +60,7 @@ export const TipInput = () => {
       <Flex {...{ ...flexProps, onSubmit }}>
         <Box width={1}>
           <Input {...{ ...inputProps, value, onChange }} />
-          <Bar />
+          <Bar sx={{ backgroundImage: gradient }} />
           <Label {...labelProps}>Tip %</Label>
         </Box>
         <Button {...buttonProps}>{buttonText(value)}</Button>
