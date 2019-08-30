@@ -2,9 +2,10 @@ export { theme } from './theme'
 
 export const meta = {
   title: `Tip Calculator`,
-  description:
-    `Tip Calculator – a single page React app built with Next.js, ` +
-    `Rebass, and Theme-UI; deployed to now.sh with Docker.`,
+  description: `
+    Tip Calculator – a single page React app built with Next.js, Rebass
+    Theme-UI, and Ramda
+  `,
 }
 
 export const initModel = {
