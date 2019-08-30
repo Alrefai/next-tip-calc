@@ -1,24 +1,21 @@
-import { keyframes } from '@emotion/core'
 import { Box } from 'rebass'
 
-const grow = keyframes`
-  from {
-    transform: scaleX(0);
-  }
-  to {
-    transform: scaleX(1);
-  }
-`
+const barProps = sx => ({
+  as: `hr`,
+  variant: `bar`,
+  sx: {
+    transformOrigin: `0 0`,
+    animationName: `grow`,
+    animationDuration: `1s`,
+    animationTimingFunction: `ease-out`,
+    animationFillMode: `forwards`,
+    ...sx,
+  },
+})
 
-const sx = {
-  transformOrigin: `0 0`,
-  animationName: grow,
-  animationDuration: `1s`,
-  animationTimingFunction: `ease-out`,
-  animationFillMode: `forwards`,
-}
-
-export const Bar = props => <Box as='hr' variant='bar' sx={sx} {...props} />
+export const Bar = ({ sx, ...props }) => (
+  <Box {...{ ...barProps(sx), ...props }} />
+)
 
 Bar.propTypes = {
   ...Box.propTypes,
