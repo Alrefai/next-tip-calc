@@ -1,42 +1,49 @@
-import { curry, map, pipe } from 'ramda'
-import { Card, Flex, Text } from 'rebass'
-import { func, number } from 'prop-types'
-import { Circle } from './circle'
+import { useMemo } from 'react'
+import { map, pipe } from 'ramda'
+import { Flex, Button } from 'rebass'
 import { PERCENTAGES } from '../constants'
+import { wrapWith } from './wrappers'
+import { useClick, useModel } from '../hooks'
+import { tipInputAction } from '../actions'
 
-const handleClick = value => () => console.log(value)
-const tipPercentageProps = {
-  variant: `primary`,
+const tipCircleProps = (currentPercentage, onClick, percentage) => ({
+  title: `Apply ${percentage} percent`,
+  variant: `outline.circle`,
+  type: `button`,
+  m: 1,
+  p: 1,
+  color: currentPercentage === percentage ? `secondary` : `text`,
+  bg: `background`,
+  fontSize: 4,
+  fontWeight: `normal`,
+  onClick,
+})
+
+const flexProps = {
+  justifyContent: `space-evenly`,
+  alignItems: `center`,
+  variant: `card.gradient`,
   width: 1,
   p: 1,
-  borderRadius: 15,
 }
-const tipCircleProps = (currentPercentage, onClick, percentage) => ({
-  key: percentage + `-percent`,
-  type: `button`,
-  as: `button`,
-  m: 1,
-  p: 2,
-  color: `color`,
-  bg: currentPercentage === percentage ? `secondary` : `background`,
-  border: 0,
-  onClick: onClick(percentage),
-})
-const tipCircle = curry((tipPercentage, onClick, percentage) => (
-  <Circle {...tipCircleProps(tipPercentage, onClick, percentage)}>
-    <Text fontSize={4}>{percentage}%</Text>
-  </Circle>
-))
 
-export const TipPercentage = ({
-  tipPercentage = 15, onClick = handleClick
-}) => pipe(
-  map(tipCircle(tipPercentage, onClick)),
-  __ => <Flex justifyContent='space-evenly' alignItems='center'>{__}</Flex>,
-  __ => <Card {...tipPercentageProps}>{__}</Card>
-)(PERCENTAGES)
-
-TipPercentage.propTypes = {
-  tipPercentage: number,
-  onClick: func,
+const TipCircle = ({ percentage }) => {
+  const { tipPercentage } = useModel()
+  const onClick = useClick(tipInputAction(percentage))
+  return useMemo(
+    () => (
+      <Button {...tipCircleProps(tipPercentage, onClick, percentage)}>
+        {percentage}%
+      </Button>
+    ),
+    [onClick, percentage, tipPercentage],
+  )
 }
+
+export const TipPercentage = () =>
+  pipe(
+    map(percentage => (
+      <TipCircle {...{ percentage, key: percentage + `-percent` }} />
+    )),
+    wrapWith(Flex, flexProps),
+  )(PERCENTAGES)

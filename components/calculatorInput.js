@@ -1,60 +1,31 @@
-import { addIndex, converge, curry, map, pair, pipe } from 'ramda'
-import { Box, Flex } from 'rebass'
-import { bool } from 'prop-types'
+import { useMemo } from 'react'
+import { Flex } from 'rebass'
 import { Bill } from './bill'
 import { Tip } from './tip'
 import { TipPercentage } from './tipPercentage'
 import { TipInput } from './tipInput'
-import {
-  amountInputAction, showTipFormAction, tipInputAction
-} from '../actions'
+import { wrapWith } from './wrappers'
+import { useModel } from '../hooks'
 
-const mapIndexed = addIndex(map)
-const handleChange = (dispatch, action) => e => dispatch(action(e.target.value))
-const handleSubmit = (dispatch, action) => e => {
-  e.preventDefault()
-  dispatch(action)
+const billForm = [<Bill key='bill-amount' />, <Tip key='tip-amount' />]
+const tipForm = [
+  <TipPercentage key='tip-percentage' />,
+  <TipInput key='tip-input' />,
+]
+
+const flexProps = {
+  variant: `card`,
+  width: 1,
+  p: 0,
+  bg: `muted`,
+  flexDirection: [`column`, `row`],
+  sx: { borderRadius: `card` },
 }
-const handleClick = curry((dispatch, action, value) => (
-  () => dispatch(action(value))
-))
 
-const bill = pipe(({ dispatch, amount }) => ({
-  amount,
-  onChange: handleChange(dispatch, amountInputAction),
-  onSubmit: handleSubmit(dispatch, showTipFormAction(true)),
-}), props => <Bill {...props} />)
-
-const tipAmount = pipe(({ dispatch, tipPercentage, tip }) => ({
-  tip,
-  tipPercentage,
-  onClick: handleClick(dispatch, showTipFormAction, true),
-}), props => <Tip {...props} />)
-
-const percentage = pipe(({ dispatch, tipPercentage }) => ({
-  tipPercentage,
-  onClick: handleClick(dispatch, tipInputAction),
-}), props => <TipPercentage {...props} />)
-
-const tipInput = pipe(({ dispatch, tipPercentage }) => ({
-  tipPercentage,
-  onChange: handleChange(dispatch, tipInputAction),
-  onSubmit: handleSubmit(dispatch, showTipFormAction(false)),
-}), props => <TipInput {...props} />)
-
-const flex = children => (
-  <Flex flexDirection={[`column`, `row`]} alignItems='center'>{children}</Flex>
-)
-const box = (item, key) => <Box key={`box-${key}`} width={1}>{item}</Box>
-const composeForm = childrenList => pipe(
-  converge(pair, childrenList),
-  mapIndexed(box)
-)
-const billForm = composeForm([bill, tipAmount])
-const tipForm = composeForm([percentage, tipInput])
-
-export const CalculatorInput = ({ showTipForm = false, ...props }) => (
-  !showTipForm ? flex(billForm(props)) : flex(tipForm(props))
-)
-
-CalculatorInput.propTypes = { showTipForm: bool }
+export const CalculatorInput = () => {
+  const { showTipForm } = useModel()
+  return useMemo(
+    () => wrapWith(Flex, flexProps, !showTipForm ? billForm : tipForm),
+    [showTipForm],
+  )
+}

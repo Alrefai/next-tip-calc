@@ -1,32 +1,22 @@
-import styled, { keyframes } from 'styled-components'
 import { Box } from 'rebass'
-import { shape, string } from 'prop-types'
 
-// Bar animation bootstraped from:
-// https://github.com/rebassjs/grid/blob/master/docs/components.js
-const defaultGradient = `linear-gradient(90deg, cyan, magenta)`
-const grow = keyframes`
-  from {
-    transform: scaleX(0);
-  }
-  to {
-    transform: scaleX(1);
-  }
-`
+const barProps = sx => ({
+  as: `hr`,
+  variant: `bar`,
+  sx: {
+    transformOrigin: `0 0`,
+    animationName: `grow`,
+    animationDuration: `1s`,
+    animationTimingFunction: `ease-out`,
+    animationFillMode: `forwards`,
+    ...sx,
+  },
+})
 
-export const Bar = styled(Box)`
-  margin: 0;
-  border: 0;
-  height: 3px;
-  background-image: ${({ theme: { gradient = defaultGradient } }) => gradient};
-  transform-origin: 0 0;
-  animation-name: ${grow};
-  animation-duration: 1s;
-  animation-timing-function: ease-out;
-  animation-fill-mode: forwards;
-`
+export const Bar = ({ sx, ...props }) => (
+  <Box {...{ ...barProps(sx), ...props }} />
+)
 
 Bar.propTypes = {
   ...Box.propTypes,
-  theme: shape({ gradient: string }),
 }

@@ -1,47 +1,71 @@
-import { Button, Flex, Heading } from 'rebass'
-import { number } from 'prop-types'
-import { Input } from './input'
+import { useMemo } from 'react'
+import { Button, Flex, Box } from 'rebass'
+import { Label, Input } from '@rebass/forms'
 import { Bar } from './bar'
+import { useForm, useModel } from '../hooks'
+import { showTipFormAction, tipInputAction } from '../actions'
+
+const flexProps = {
+  as: `form`,
+  width: 1,
+  px: 2,
+  py: `3px`,
+  alignItems: `center`,
+}
 
 const inputProps = {
-  labelAttrs: { htmlFor: `tip-percentage` },
-  inputAttrs: {
-    id: `tip-percentage`,
-    maxLength: `2`,
-    autoFocus: true,
-  },
-  rebassFlexProps: {
-    mb: [1, 0],
-    py: 1,
-    px: 2,
-    flexDirection: `column-reverse`,
-  },
-  rebassLabelProps: { width: 1 },
-  rebassFieldProps: {
-    p: 0,
-    fontSize: 4,
-  }
+  id: `tip-percentage`,
+  name: `tip-percentage`,
+  maxLength: `2`,
+  autoFocus: true,
+  type: `tel`,
+  inputMode: 'numeric',
+  p: 0,
+  width: 1 / 2,
+  fontSize: 3,
+  sx: { border: 0 },
+}
+
+const labelProps = {
+  htmlFor: `tip-percentage`,
+  fontSize: 3,
 }
 
 const buttonProps = {
-  variant: `primary`,
-  mt: 1,
-  py: 1,
-  fontSize: [3, 2],
-  fontWeight: `normal`,
+  title: `Submit tip percentage`,
+  variant: `outline`,
+  width: 1,
+  height: 52,
+  sx: {
+    borderWidth: '0.7px',
+    borderStyle: 'solid',
+    borderRadius: `card`,
+  },
 }
 
-const buttonText = percentage => percentage >= 25 ? `Generous`
-  : percentage >= 20 ? `Nice` : `OK`
+const buttonText = percentage =>
+  percentage >= 25 ? `Generous` : percentage >= 20 ? `Nice` : `OK`
 
-export const TipInput = ({ tipPercentage = 15, ...props }) => (
-  <Input value={tipPercentage} {...{ ...inputProps, ...props }}>
-    <Bar as='hr' />
-    <Flex justifyContent='space-between'>
-      <Heading as='h3' pt={1} fontSize={3} fontWeight='normal'>Tip %</Heading>
-      <Button {...buttonProps}>{buttonText(tipPercentage)}</Button>
-    </Flex>
-  </Input>
-)
+const gradient = ({ colors: { primary, secondary } }) =>
+  `linear-gradient(19deg, ${secondary}, ${primary})`
 
-TipInput.propTypes = { tipPercentage: number }
+export const TipInput = () => {
+  const { tipPercentage: value } = useModel()
+  const { onChange, onSubmit } = useForm({
+    handleChange: tipInputAction,
+    handleSubmit: showTipFormAction(false),
+  })
+  return useMemo(
+    () => (
+      <Flex {...{ ...flexProps, onSubmit }}>
+        <Box width={1}>
+          <Input {...{ ...inputProps, value, onChange }} />
+          <Bar sx={{ backgroundImage: gradient }} />
+          <Label {...labelProps}>Tip %</Label>
+        </Box>
+        <Button {...buttonProps}>{buttonText(value)}</Button>
+      </Flex>
+    ),
+    [onChange, onSubmit, value],
+  )
+}
