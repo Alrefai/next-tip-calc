@@ -1,4 +1,3 @@
-import { useMemo } from 'react'
 import { Flex } from 'rebass'
 import { Bill } from './bill'
 import { Tip } from './tip'
@@ -24,8 +23,5 @@ const flexProps = {
 
 export const CalculatorInput = () => {
   const { showTipForm } = useModel()
-  return useMemo(
-    () => wrapWith(Flex, flexProps, !showTipForm ? billForm : tipForm),
-    [showTipForm],
-  )
+  return wrapWith(Flex, flexProps, !showTipForm ? billForm : tipForm)
 }

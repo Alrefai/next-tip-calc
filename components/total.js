@@ -1,4 +1,3 @@
-import { useMemo } from 'react'
 import { Box, Flex, Text, Heading } from 'rebass'
 import { useModel } from '../hooks'
 
@@ -25,20 +24,17 @@ const currencyCardProps = {
 
 export const Total = () => {
   const { total } = useModel()
-  return useMemo(
-    () => (
-      <>
-        <Flex {...totalCardProps}>
-          <Heading ml='auto' px={1}>
-            Total
-          </Heading>
-          <Box {...currencyCardProps}>$</Box>
-        </Flex>
-        <Text as='p' py={4} fontSize={[7, 8]} textAlign='center'>
-          {total}
-        </Text>
-      </>
-    ),
-    [total],
+  return (
+    <>
+      <Flex {...totalCardProps}>
+        <Heading ml='auto' px={1}>
+          Total
+        </Heading>
+        <Box {...currencyCardProps}>$</Box>
+      </Flex>
+      <Text as='p' py={4} fontSize={[7, 8]} textAlign='center'>
+        {total}
+      </Text>
+    </>
   )
 }
