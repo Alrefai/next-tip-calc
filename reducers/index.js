@@ -2,22 +2,43 @@ import { both, defaultTo, divide, multiply, lt, pipe, test, __ } from 'ramda'
 import { ACTIONS } from '../actions'
 import { MAX_BILL_AMOUNT } from '../constants'
 
-const toInt = pipe(parseInt, defaultTo(0))
-const toFloat = pipe(parseFloat, defaultTo(0))
-const formatNumber = pipe(n => n.toFixed(2), toFloat)
+const toInt = pipe(
+  parseInt,
+  defaultTo(0),
+)
+const toFloat = pipe(
+  parseFloat,
+  defaultTo(0),
+)
+const formatNumber = pipe(
+  n => n.toFixed(2),
+  toFloat,
+)
 const lessThanMax = lt(__, MAX_BILL_AMOUNT)
 const isValidNumber = test(/^(0\.\d{0,2}|[1-9]\d*(\.\d{0,2})?)$/)
 const isValidAmount = both(isValidNumber, lessThanMax)
-const calculateTip = pipe(multiply, divide(__, 100), formatNumber)
+const calculateTip = pipe(
+  multiply,
+  divide(__, 100),
+  formatNumber,
+)
 
 const reducer = (model, action) => {
   switch (action.type) {
     case ACTIONS.AMOUNT_INPUT: {
       const { tipPercentage } = model
-      const amountNumber = pipe(toFloat, lessThanMax)(action.amount)
-        ? pipe(toFloat, formatNumber)(action.amount) : MAX_BILL_AMOUNT
+      const amountNumber = pipe(
+        toFloat,
+        lessThanMax,
+      )(action.amount)
+        ? pipe(
+            toFloat,
+            formatNumber,
+          )(action.amount)
+        : MAX_BILL_AMOUNT
       const amount = isValidAmount(action.amount)
-        ? action.amount : `${amountNumber}`
+        ? action.amount
+        : `${amountNumber}`
       const tip = calculateTip(amountNumber, tipPercentage)
       const total = formatNumber(amountNumber + tip)
       return { ...model, amount, amountNumber, tip, total }
@@ -34,7 +55,7 @@ const reducer = (model, action) => {
       return { ...model, tipPercentage, tip, total }
     }
     default:
-      return model
+      throw new Error(`Unhandled action type: ${action.type}`)
   }
 }
 
