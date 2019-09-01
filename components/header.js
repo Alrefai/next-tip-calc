@@ -77,7 +77,7 @@ const headingProps = visible => ({
   },
 })
 
-// Theme switcher icon bootstraped from:
+// Theme switcher icon was bootstraped from:
 // https://github.com/rebassjs/rebass/blob/master/packages/docs/src/components/header.js
 const Header = () => {
   const [visible, setVisible] = useState(false)
