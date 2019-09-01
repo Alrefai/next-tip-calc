@@ -19,7 +19,7 @@ const inputProps = {
   name: `bill-amount`,
   p: 0,
   fontSize: 3,
-  sx: { border: 0 },
+  sx: { border: 0, ':focus': { outline: `none` } },
 }
 
 const labelProps = {

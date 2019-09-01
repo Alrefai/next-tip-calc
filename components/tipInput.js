@@ -19,11 +19,11 @@ const inputProps = {
   maxLength: `2`,
   autoFocus: true,
   type: `tel`,
-  inputMode: 'numeric',
+  inputMode: `numeric`,
   p: 0,
   width: 1 / 2,
   fontSize: 3,
-  sx: { border: 0 },
+  sx: { border: 0, ':focus': { outline: `none` } },
 }
 
 const labelProps = {
