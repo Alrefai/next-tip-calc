@@ -1,4 +1,4 @@
-import { mergeDeepRight } from 'ramda'
+import { mergeDeepRight, map } from 'ramda'
 import preset from '@rebass/preset'
 import { keyframes } from '@emotion/core'
 
@@ -59,44 +59,31 @@ const COLORS = {
   dYellow: `#f1fa8c`,
 }
 
-// Theme colors selection
-const {
-  nearWhite,
-  trueBlack,
-  cyan,
-  magenta,
-  dBackground,
-  dForeground,
-  dSelection,
-  dCyan,
-  dPink,
-  blue,
-  red,
-} = COLORS
+const withColors = map(color => COLORS[color] || color)
 
-const colors = {
-  text: nearWhite,
-  background: trueBlack,
-  primary: cyan,
-  secondary: magenta,
-  muted: dBackground,
-  modes: {
-    dracula: {
-      text: dForeground,
-      background: dBackground,
-      primary: dPink,
-      secondary: dCyan,
-      muted: dSelection,
-    },
-    eclectus: {
-      text: dSelection,
-      background: nearWhite,
-      primary: blue,
-      secondary: red,
-      muted: preset.colors.muted,
-    },
-  },
-}
+const neon = withColors({
+  text: `nearWhite`,
+  background: `trueBlack`,
+  primary: `cyan`,
+  secondary: `magenta`,
+  muted: `dBackground`,
+})
+
+const dracula = withColors({
+  text: `dForeground`,
+  background: `dBackground`,
+  primary: `dPink`,
+  secondary: `dCyan`,
+  muted: `dSelection`,
+})
+
+const eclectus = withColors({
+  text: `dSelection`,
+  background: `nearWhite`,
+  primary: `blue`,
+  secondary: `red`,
+  muted: preset.colors.muted,
+})
 
 // gradient color degree
 const degree = `19`
@@ -151,7 +138,13 @@ export const theme = mergeDeepRight(preset, {
     heading: `Fira Mono, monospace`,
     monospace: `Fira Mono, monospace`,
   },
-  colors,
+  colors: {
+    ...neon,
+    modes: {
+      dracula,
+      eclectus,
+    },
+  },
   buttons: {
     primary: {
       circle: {
