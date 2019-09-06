@@ -1,29 +1,38 @@
-import { useContext, useState } from 'react'
+import { useContext } from 'react'
 import { DispatchContext, ModelContext } from '../context'
 
-export const useModel = () => useContext(ModelContext)
+export const useModel = () => {
+  const context = useContext(ModelContext)
+  if (context === undefined) {
+    throw new Error('useModel must be used within a StoreProvider')
+  }
+  return context
+}
+
+export const useDispatch = () => {
+  const context = useContext(DispatchContext)
+  if (context === undefined) {
+    throw new Error('useDispatch must be used within a StoreProvider')
+  }
+  return context
+}
 
 export const useClick = action => {
-  const dispatch = useContext(DispatchContext)
+  const dispatch = useDispatch()
   return () => dispatch(action)
 }
 
-export const useForm = ({
-  initValue = ``,
-  handleChange,
-  handleSubmit,
-} = {}) => {
-  const [value, setValue] = useState(initValue) // useful for initial testing
-  const dispatch = useContext(DispatchContext)
-  return {
-    value,
-    onChange: e => {
-      setValue(e.target.value)
-      handleChange && dispatch(handleChange(e.target.value))
-    },
-    onSubmit: e => {
-      e.preventDefault()
-      handleSubmit && dispatch(handleSubmit)
-    },
+export const useForm = ({ handleChange, handleSubmit } = {}) => {
+  if (!handleChange || !handleSubmit) {
+    throw new Error(
+      'handleChange and handleSubmit must be passed to useForm as an object',
+    )
   }
+  const dispatch = useDispatch()
+  const onChange = e => dispatch(handleChange(e.target.value))
+  const onSubmit = e => {
+    e.preventDefault()
+    dispatch(handleSubmit)
+  }
+  return { onChange, onSubmit }
 }

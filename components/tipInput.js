@@ -1,4 +1,3 @@
-import { useMemo } from 'react'
 import { Button, Flex, Box } from 'rebass'
 import { Label, Input } from '@rebass/forms'
 import { Bar } from './bar'
@@ -55,17 +54,14 @@ export const TipInput = () => {
     handleChange: tipInputAction,
     handleSubmit: showTipFormAction(false),
   })
-  return useMemo(
-    () => (
-      <Flex {...{ ...flexProps, onSubmit }}>
-        <Box width={1}>
-          <Input {...{ ...inputProps, value, onChange }} />
-          <Bar sx={{ backgroundImage: gradient }} />
-          <Label {...labelProps}>Tip %</Label>
-        </Box>
-        <Button {...buttonProps}>{buttonText(value)}</Button>
-      </Flex>
-    ),
-    [onChange, onSubmit, value],
+  return (
+    <Flex {...{ ...flexProps, onSubmit }}>
+      <Box width={1}>
+        <Input {...{ ...inputProps, value, onChange }} />
+        <Bar sx={{ backgroundImage: gradient }} />
+        <Label {...labelProps}>Tip %</Label>
+      </Box>
+      <Button {...buttonProps}>{buttonText(value)}</Button>
+    </Flex>
   )
 }

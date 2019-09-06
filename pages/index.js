@@ -1,18 +1,10 @@
-import { useReducer } from 'react'
-import { DispatchContext, ModelContext } from '../context'
-import { initModel } from '../constants'
-import reducer from '../reducers'
+import { StoreProvider } from '../context'
 import Calculator from '../components/calculator'
 
-const TipCalculator = () => {
-  const [model, dispatch] = useReducer(reducer, initModel)
-  return (
-    <DispatchContext.Provider value={dispatch}>
-      <ModelContext.Provider value={model}>
-        <Calculator />
-      </ModelContext.Provider>
-    </DispatchContext.Provider>
-  )
-}
+const TipCalculator = () => (
+  <StoreProvider>
+    <Calculator />
+  </StoreProvider>
+)
 
 export default TipCalculator
