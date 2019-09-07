@@ -4,7 +4,7 @@ import { DispatchContext, ModelContext } from '../context'
 export const useModel = () => {
   const context = useContext(ModelContext)
   if (context === undefined) {
-    throw new Error('useModel must be used within a StoreProvider')
+    throw new Error(`useModel must be used within a StoreProvider`)
   }
   return context
 }
@@ -12,7 +12,7 @@ export const useModel = () => {
 export const useDispatch = () => {
   const context = useContext(DispatchContext)
   if (context === undefined) {
-    throw new Error('useDispatch must be used within a StoreProvider')
+    throw new Error(`useDispatch must be used within a StoreProvider`)
   }
   return context
 }
@@ -22,17 +22,31 @@ export const useClick = action => {
   return () => dispatch(action)
 }
 
-export const useForm = ({ handleChange, handleSubmit } = {}) => {
-  if (!handleChange || !handleSubmit) {
-    throw new Error(
-      'handleChange and handleSubmit must be passed to useForm as an object',
-    )
+export const useForm = submitAction => {
+  if (!submitAction) {
+    throw new Error(`submit action must be passed to useForm as an argument`)
   }
+
   const dispatch = useDispatch()
-  const onChange = e => dispatch(handleChange(e.target.value))
+
   const onSubmit = e => {
     e.preventDefault()
-    dispatch(handleSubmit)
+    dispatch(submitAction)
   }
-  return { onChange, onSubmit }
+
+  const getInputProps = ({ id = `input-field`, action, ...props }) => {
+    if (!action) {
+      throw new Error(
+        `action prop (onChange handler) must be pass to getInputProps`,
+      )
+    }
+    return {
+      onChange: e => dispatch(action(e.target.value)),
+      name: id,
+      id,
+      ...props,
+    }
+  }
+
+  return { onSubmit, getInputProps }
 }
