@@ -6,7 +6,7 @@
     "start": "next start"
   },
   "dependencies": {
-    "@mdx-js/react": "^1.4.0",
+    "@mdx-js/react": "^1.4.4",
     "@rebass/forms": "^4.0.5",
     "@rebass/preset": "^4.0.5",
     "next": "^9.0.5",
@@ -14,7 +14,7 @@
     "react": "^16.9.0",
     "react-dom": "^16.9.0",
     "rebass": "^4.0.5",
-    "theme-ui": "^0.2.36"
+    "theme-ui": "^0.2.41"
   },
   "author": "Mohammed Alrefai",
   "license": "MIT",
@@ -22,8 +22,8 @@
   "private": true,
   "devDependencies": {
     "@zeit/next-css": "^1.0.1",
-    "eslint": "^6.2.2",
-    "eslint-config-prettier": "^6.0.0",
+    "eslint": "^6.3.0",
+    "eslint-config-prettier": "^6.2.0",
     "eslint-plugin-prettier": "^3.1.0",
     "eslint-plugin-react": "^7.14.3",
     "eslint-plugin-react-hooks": "^2.0.1",
