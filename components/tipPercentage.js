@@ -6,19 +6,6 @@ import { wrapWith } from './wrappers'
 import { useClick, useModel } from '../hooks'
 import { tipInputAction } from '../actions'
 
-const tipCircleProps = (currentPercentage, onClick, percentage) => ({
-  title: `Apply ${percentage} percent`,
-  variant: `outline.circle`,
-  type: `button`,
-  m: 1,
-  p: 1,
-  color: currentPercentage === percentage ? `secondary` : `text`,
-  bg: `background`,
-  fontSize: 4,
-  fontWeight: `normal`,
-  onClick,
-})
-
 const flexProps = {
   justifyContent: `space-evenly`,
   alignItems: `center`,
@@ -30,11 +17,19 @@ const flexProps = {
 const TipCircle = ({ percentage }) => {
   const { tipPercentage } = useModel()
   const onClick = useClick(tipInputAction(percentage))
-  return (
-    <Button {...tipCircleProps(tipPercentage, onClick, percentage)}>
-      {percentage}%
-    </Button>
-  )
+  const tipCircleProps = {
+    title: `Apply ${percentage} percent`,
+    variant: `outline.circle`,
+    type: `button`,
+    m: 1,
+    p: 1,
+    color: tipPercentage === percentage ? `secondary` : `text`,
+    bg: `background`,
+    fontSize: 4,
+    fontWeight: `normal`,
+    onClick,
+  }
+  return <Button {...tipCircleProps}>{percentage}%</Button>
 }
 
 export const TipPercentage = () =>
