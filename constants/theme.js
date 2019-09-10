@@ -96,6 +96,9 @@ const circle = {
   p: 0,
   size: 52,
   borderRadius: `circle`,
+  display: `flex`,
+  justifyContent: `center`,
+  alignItems: `center`,
 }
 
 const hover = {
