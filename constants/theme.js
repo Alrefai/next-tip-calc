@@ -1,4 +1,4 @@
-import { mergeDeepRight, map } from 'ramda'
+import { mergeDeepRight, map, pathOr } from 'ramda'
 import preset from '@rebass/preset'
 import { keyframes } from '@emotion/core'
 
@@ -40,46 +40,51 @@ const COLORS = {
   silver: `#DDDDDD`,
   gray: `#AAAAAA`,
   white: `#FFFFFF`,
+
   // my custome colors
   nearWhite: `#F4F4F4`,
   trueBlack: `#000000`,
   darkGray: `#333333`,
   magenta: `#FF00FF`,
   cyan: `#00FFFF`,
+
   // dracula colors: https://github.com/dracula/dracula-theme#color-palette
-  dBackground: `#282a36`,
-  dSelection: `#44475a`,
-  dForeground: `#f8f8f2`,
-  dComment: `#6272a4`,
-  dCyan: `#8be9fd`,
-  dGreen: `#50fa7b`,
-  dOrange: `#ffb86c`,
-  dPink: `#ff79c6`,
-  dPurple: `#bd93f9`,
-  dRed: `#ff5555`,
-  dYellow: `#f1fa8c`,
+  dracula: {
+    background: `#282a36`,
+    selection: `#44475a`,
+    foreground: `#f8f8f2`,
+    comment: `#6272a4`,
+    cyan: `#8be9fd`,
+    green: `#50fa7b`,
+    orange: `#ffb86c`,
+    pink: `#ff79c6`,
+    purple: `#bd93f9`,
+    red: `#ff5555`,
+    yellow: `#f1fa8c`,
+  },
 }
 
-const withColors = map(color => COLORS[color] || color)
+const getColorCode = color => pathOr(color, color.split(`.`), COLORS)
+const withColors = map(getColorCode)
 
 const neon = withColors({
   text: `nearWhite`,
   background: `trueBlack`,
   primary: `cyan`,
   secondary: `magenta`,
-  muted: `dBackground`,
+  muted: `dracula.background`,
 })
 
 const dracula = withColors({
-  text: `dForeground`,
-  background: `dBackground`,
-  primary: `dPink`,
-  secondary: `dCyan`,
-  muted: `dSelection`,
+  text: `dracula.foreground`,
+  background: `dracula.background`,
+  primary: `dracula.pink`,
+  secondary: `dracula.cyan`,
+  muted: `dracula.selection`,
 })
 
 const eclectus = withColors({
-  text: `dSelection`,
+  text: `dracula.selection`,
   background: `nearWhite`,
   primary: `blue`,
   secondary: `red`,
@@ -117,6 +122,7 @@ const fadeIn = keyframes`
     opacity: 1;
   }
 `
+
 const fadeOut = keyframes`
   from {
     opacity: 1;
@@ -125,6 +131,7 @@ const fadeOut = keyframes`
     opacity: 0;
   }
 `
+
 const grow = keyframes`
   from {
     transform: scaleX(0);
@@ -171,12 +178,16 @@ const shadowByMode = ({ mode, color, shadow = {} }) => ({
 export const theme = mergeDeepRight(preset, {
   initialColorMode: `neon`,
   useCustomProperties: true,
+  radii: { card: 15 },
+  animationName: { grow, fadeIn, fadeOut },
   shadowByMode,
+
   fonts: {
     body: `Fira Mono, monospace`,
     heading: `Fira Mono, monospace`,
     monospace: `Fira Mono, monospace`,
   },
+
   colors: {
     ...neon,
     modes: {
@@ -184,6 +195,7 @@ export const theme = mergeDeepRight(preset, {
       eclectus,
     },
   },
+
   buttons: {
     primary: {
       circle: {
@@ -191,12 +203,14 @@ export const theme = mergeDeepRight(preset, {
         ...circle,
       },
     },
+
     secondary: {
       circle: {
         ...preset.buttons.secondary,
         ...circle,
       },
     },
+
     outline: {
       ...hover,
       circle: {
@@ -205,6 +219,7 @@ export const theme = mergeDeepRight(preset, {
         ...hover,
       },
     },
+
     transparent: {
       color: `inherit`,
       bg: `transparent`,
@@ -215,8 +230,7 @@ export const theme = mergeDeepRight(preset, {
       },
     },
   },
-  radii: { card: 15 },
-  animationName: { grow, fadeIn, fadeOut },
+
   variants: {
     card: {
       borderRadius: `default`,
@@ -226,6 +240,7 @@ export const theme = mergeDeepRight(preset, {
         backgroundImage: gradient,
       },
     },
+
     bar: {
       margin: 0,
       border: 0,
@@ -233,6 +248,7 @@ export const theme = mergeDeepRight(preset, {
       backgroundImage: gradient,
     },
   },
+
   styles: {
     root: {
       fontFamily: `monospace`,
