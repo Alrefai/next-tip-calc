@@ -1,4 +1,3 @@
-import { useMemo } from 'react'
 import { Flex, Box } from 'rebass'
 import { Label, Input } from '@rebass/forms'
 import { Bar } from './bar'
@@ -16,7 +15,7 @@ const flexProps = {
 
 const inputProps = {
   id: `bill-amount`,
-  name: `bill-amount`,
+  action: amountInputAction,
   p: 0,
   fontSize: 3,
   sx: { border: 0, ':focus': { outline: `none` } },
@@ -27,26 +26,19 @@ const labelProps = {
   fontSize: 3,
 }
 
-const labelText = amount =>
-  parseFloat(amount) < MAX_BILL_AMOUNT ? `Bill Amount` : `Max Bill Amount`
-
 export const Bill = () => {
   const { amount: value } = useModel()
-  const { onChange, onSubmit } = useForm({
-    handleChange: amountInputAction,
-    handleSubmit: showTipFormAction(true),
-  })
-  return useMemo(
-    () => (
-      <Flex {...{ ...flexProps, onSubmit }}>
-        <Input {...{ ...inputProps, value, onChange }} />
-        <Bar />
-        <Label {...labelProps}>
-          <Box mr='auto' />
-          {labelText(value)}
-        </Label>
-      </Flex>
-    ),
-    [onChange, onSubmit, value],
+  const { onSubmit, getInputProps } = useForm(showTipFormAction(true))
+  const labelText =
+    parseFloat(value) < MAX_BILL_AMOUNT ? `Bill Amount` : `Max Bill Amount`
+  return (
+    <Flex {...{ ...flexProps, onSubmit }}>
+      <Input {...{ ...getInputProps(inputProps), value }} />
+      <Bar />
+      <Label {...labelProps}>
+        <Box mr='auto' />
+        {labelText}
+      </Label>
+    </Flex>
   )
 }

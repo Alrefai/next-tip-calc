@@ -1,23 +1,10 @@
-import { useMemo } from 'react'
 import { map, pipe } from 'ramda'
 import { Flex, Button } from 'rebass'
+import { number } from 'prop-types'
 import { PERCENTAGES } from '../constants'
 import { wrapWith } from './wrappers'
 import { useClick, useModel } from '../hooks'
 import { tipInputAction } from '../actions'
-
-const tipCircleProps = (currentPercentage, onClick, percentage) => ({
-  title: `Apply ${percentage} percent`,
-  variant: `outline.circle`,
-  type: `button`,
-  m: 1,
-  p: 1,
-  color: currentPercentage === percentage ? `secondary` : `text`,
-  bg: `background`,
-  fontSize: 4,
-  fontWeight: `normal`,
-  onClick,
-})
 
 const flexProps = {
   justifyContent: `space-evenly`,
@@ -30,14 +17,19 @@ const flexProps = {
 const TipCircle = ({ percentage }) => {
   const { tipPercentage } = useModel()
   const onClick = useClick(tipInputAction(percentage))
-  return useMemo(
-    () => (
-      <Button {...tipCircleProps(tipPercentage, onClick, percentage)}>
-        {percentage}%
-      </Button>
-    ),
-    [onClick, percentage, tipPercentage],
-  )
+  const tipCircleProps = {
+    title: `Apply ${percentage} percent`,
+    variant: `outline.circle`,
+    type: `button`,
+    m: 1,
+    p: 1,
+    color: tipPercentage === percentage ? `secondary` : `text`,
+    bg: `background`,
+    fontSize: 4,
+    fontWeight: `normal`,
+    onClick,
+  }
+  return <Button {...tipCircleProps}>{percentage}%</Button>
 }
 
 export const TipPercentage = () =>
@@ -47,3 +39,5 @@ export const TipPercentage = () =>
     )),
     wrapWith(Flex, flexProps),
   )(PERCENTAGES)
+
+TipCircle.propTypes = { percentage: number }
