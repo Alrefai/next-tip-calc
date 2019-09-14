@@ -141,18 +141,17 @@ const grow = keyframes`
   }
 `
 
-const shadowByMode = ({ mode, color, shadow = {} }) => ({
-  colors: { [color]: themeColor },
-}) => {
-  if (!themeColor) {
-    throw new Error(
-      `Pass a valid color from theme as a prop (e.g. color: 'primary')`,
-    )
-  }
-
+const withShadow = ({
+  preSet = `0 0 4px`,
+  color = `#000000`,
+  alpha = `0.125`,
+} = {}) => ({ colors: { [color]: themeColor } }) => {
   // get hex color code from selected variable theme color
   // e.g. `var(--theme-ui-colors-background,#000000)`
-  const hexColor = themeColor.match(/(#\w+?)(?=\))/g)[0].replace(`#`, `0x`)
+  const hexColor = (themeColor
+    ? themeColor.match(/(#\w+?)(?=\))/g)[0]
+    : getColorCode(color)
+  ).replace(`#`, `0x`)
 
   // Convert hex color code to RGB
   // https://stackoverflow.com/a/55858933/9185553
@@ -162,17 +161,7 @@ const shadowByMode = ({ mode, color, shadow = {} }) => ({
     blue: hexColor & 0xff,
   }
 
-  /* Call useColorMode hook in a component to obtain the active mode value.
-   * Customize shadow values of component based on theme mode. For example:
-   * const shadow = {
-   *   modeName1: { blurRadius: `10px`, opacity: 0.25 },
-   *   modeName2: { blurRadius: `15px`, opacity: 0.15 },
-   * }
-   */
-  const { h = 0, v = 0, blurRadius = `4px`, opacity = 0.125 } =
-    shadow[mode] || {}
-
-  return `${h} ${v} ${blurRadius} rgba(${red}, ${green}, ${blue}, ${opacity})`
+  return `${preSet} rgba(${red}, ${green}, ${blue}, ${alpha})`
 }
 
 export const theme = mergeDeepRight(preset, {
@@ -180,7 +169,7 @@ export const theme = mergeDeepRight(preset, {
   useCustomProperties: true,
   radii: { card: 15 },
   animationName: { grow, fadeIn, fadeOut },
-  shadowByMode,
+  withShadow,
 
   fonts: {
     body: `Fira Mono, monospace`,
