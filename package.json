@@ -21,6 +21,8 @@
   "description": "Tip Calculator – React app built with Next.js and Rebass.",
   "private": true,
   "devDependencies": {
+    "@typescript-eslint/eslint-plugin": "^2.2.0",
+    "@typescript-eslint/parser": "^2.2.0",
     "@zeit/next-css": "^1.0.1",
     "eslint": "^6.3.0",
     "eslint-config-prettier": "^6.2.0",
