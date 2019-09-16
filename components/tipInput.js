@@ -35,8 +35,8 @@ const buttonProps = {
   width: 1,
   height: 52,
   sx: {
-    borderWidth: '0.7px',
-    borderStyle: 'solid',
+    borderWidth: `0.7px`,
+    borderStyle: `solid`,
     borderRadius: `card`,
   },
 }
