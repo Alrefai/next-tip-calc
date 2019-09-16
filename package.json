@@ -12,7 +12,7 @@
     "precommit": "yarn validate"
   },
   "dependencies": {
-    "@mdx-js/react": "^1.4.4",
+    "@mdx-js/react": "^1.4.5",
     "@rebass/forms": "^4.0.5",
     "@rebass/preset": "^4.0.5",
     "next": "^9.0.5",
@@ -20,7 +20,7 @@
     "react": "^16.9.0",
     "react-dom": "^16.9.0",
     "rebass": "^4.0.5",
-    "theme-ui": "^0.2.41"
+    "theme-ui": "^0.2.42"
   },
   "author": "Mohammed Alrefai",
   "license": "MIT",
@@ -33,13 +33,12 @@
     "@typescript-eslint/eslint-plugin": "^2.2.0",
     "@typescript-eslint/parser": "^2.2.0",
     "@zeit/next-css": "^1.0.1",
-    "eslint": "^6.3.0",
-    "eslint-config-prettier": "^6.2.0",
+    "eslint": "^6.4.0",
+    "eslint-config-prettier": "^6.3.0",
     "eslint-plugin-prettier": "^3.1.0",
     "eslint-plugin-react": "^7.14.3",
     "eslint-plugin-react-hooks": "^2.0.1",
     "husky": "^3.0.5",
-    "lodash.debounce": "^4.0.8",
     "modern-normalize": "^0.5.0",
     "prettier": "1.18.2",
     "typescript": "^3.6.3"
