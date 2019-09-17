@@ -6,7 +6,7 @@ export const meta = {
     Tip Calculator – a single page React app built with Next.js, Rebass
     Theme-UI, and Ramda
   `,
-}
+} as const
 
 export const initModel = {
   amount: `0`,
@@ -15,7 +15,7 @@ export const initModel = {
   tip: 0,
   total: 0,
   showTipForm: false,
-}
+} as const
 
 export const PERCENTAGES = [10, 15, 20, 25]
 
