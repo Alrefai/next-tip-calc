@@ -62,10 +62,35 @@ const COLORS = {
     red: `#ff5555`,
     yellow: `#f1fa8c`,
   },
+} as const
+
+type initMode = `neon`
+type modes = `dracula` | `eclectus`
+
+interface Mode {
+  text: string // Body foreground color
+  background: string //Body background color
+  primary: string // Primary brand color for links, buttons, etc.
+  secondary: string // A secondary brand color for alternative styling
+  accent?: string // A contrast color for emphasizing UI
+  muted: string // A faint color for backgrounds, borders, and accents
 }
 
-const getColorCode = color => pathOr(color, color.split(`.`), COLORS)
-const withColors = map(getColorCode)
+interface Colors extends Mode {
+  [key: string]: string | object
+  modes: Record<modes, Mode> // modes: { [key in modes]: Mode }
+}
+
+interface Theme {
+  initialColorMode: initMode
+  useCustomProperties: true
+  colors: Colors
+}
+
+const getColorCode = (color: string): string =>
+  pathOr(color, color.split(`.`), COLORS)
+
+const withColors = map<Mode, Mode>(getColorCode)
 
 const neon = withColors({
   text: `nearWhite`,
@@ -94,7 +119,7 @@ const eclectus = withColors({
 // gradient color degree
 const degree = `19`
 
-const gradient = ({ colors: { primary, secondary } }) =>
+const gradient = ({ colors: { primary, secondary } }: Theme): string =>
   `linear-gradient(${degree || 90}deg, ${primary}, ${secondary})`
 
 const circle = {
@@ -104,7 +129,7 @@ const circle = {
   display: `flex`,
   justifyContent: `center`,
   alignItems: `center`,
-}
+} as const
 
 const hover = {
   ':hover,:focus': {
@@ -112,7 +137,7 @@ const hover = {
     outline: `none`,
     boxShadow: [``, `0 0 0 2px`],
   },
-}
+} as const
 
 const fadeIn = keyframes`
   from {
@@ -141,25 +166,36 @@ const grow = keyframes`
   }
 `
 
-const withShadow = ({
-  preSet = `0 0 4px`,
-  color = `#000000`,
-  alpha = `0.125`,
-} = {}) => ({ colors: { [color]: themeColor } }) => {
+interface RGB {
+  red: number
+  green: number
+  blue: number
+}
+
+const hexToRGB = (color: string): RGB => {
   // get hex color code from selected variable theme color
   // e.g. `var(--theme-ui-colors-background,#000000)`
-  const hexColor = (themeColor
-    ? themeColor.match(/(#\w+?)(?=\))/g)[0]
-    : getColorCode(color)
-  ).replace(`#`, `0x`)
+  const themeColor = color.match(/(#\w+?)(?=\))/g)
+  const hexColor = parseInt(
+    (themeColor ? themeColor[0] : getColorCode(color)).replace(`#`, `0x`),
+  )
 
   // Convert hex color code to RGB
   // https://stackoverflow.com/a/55858933/9185553
-  const { red, green, blue } = {
+  return {
     red: (hexColor >> 16) & 0xff,
     green: (hexColor >> 8) & 0xff,
     blue: hexColor & 0xff,
   }
+}
+
+const withShadow = ({
+  preSet = `0 0 4px`,
+  color = `#000000`,
+  alpha = `0.125`,
+} = {}) => ({ colors: { [color]: themeColor } }: Theme): string => {
+  const hexColor = themeColor ? (themeColor as string) : color
+  const { red, green, blue } = hexToRGB(hexColor)
 
   return `${preSet} rgba(${red}, ${green}, ${blue}, ${alpha})`
 }
@@ -245,4 +281,4 @@ export const theme = mergeDeepRight(preset, {
       bg: `background`,
     },
   },
-})
+} as Readonly<Theme>)
