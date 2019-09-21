@@ -2,9 +2,9 @@ import { map, pipe } from 'ramda'
 import { Flex, Button } from 'rebass'
 import { number } from 'prop-types'
 import { PERCENTAGES } from '../constants'
-import { wrapWith } from './wrappers'
 import { useClick, useModel } from '../hooks'
 import { tipInputAction } from '../actions'
+import { wrapWith } from './wrappers'
 
 const flexProps = {
   justifyContent: `space-evenly`,

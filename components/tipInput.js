@@ -1,8 +1,8 @@
 import { Button, Flex, Box } from 'rebass'
 import { Label, Input } from '@rebass/forms'
-import { Bar } from './bar'
 import { useForm, useModel } from '../hooks'
 import { showTipFormAction, tipInputAction } from '../actions'
+import { Bar } from './bar'
 
 const flexProps = {
   as: `form`,

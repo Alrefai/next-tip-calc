@@ -9,7 +9,7 @@ export const useModel = () => {
   return context
 }
 
-export const useDispatch = () => {
+const useDispatch = () => {
   const context = useContext(DispatchContext)
   if (context === undefined) {
     throw new Error(`useDispatch must be used within a StoreProvider`)

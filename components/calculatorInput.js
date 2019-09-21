@@ -1,11 +1,11 @@
 import { Flex } from 'rebass'
 import { useColorMode } from 'theme-ui'
+import { useModel } from '../hooks'
 import { Bill } from './bill'
 import { Tip } from './tip'
 import { TipPercentage } from './tipPercentage'
 import { TipInput } from './tipInput'
 import { wrapWith } from './wrappers'
-import { useModel } from '../hooks'
 
 const billForm = [<Bill key='bill-amount' />, <Tip key='tip-amount' />]
 const tipForm = [

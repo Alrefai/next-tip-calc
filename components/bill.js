@@ -1,9 +1,9 @@
 import { Flex, Box } from 'rebass'
 import { Label, Input } from '@rebass/forms'
-import { Bar } from './bar'
 import { MAX_BILL_AMOUNT } from '../constants'
 import { useForm, useModel } from '../hooks'
 import { amountInputAction, showTipFormAction } from '../actions'
+import { Bar } from './bar'
 
 const flexProps = {
   as: `form`,
