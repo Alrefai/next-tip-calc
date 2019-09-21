@@ -4,7 +4,7 @@ import Head from '../components/head'
 import Header from '../components/header'
 import { meta, theme } from '../constants'
 import '../static/webFonts.css'
-import 'modern-normalize/modern-normalize.css' //keep it the last import
+import 'modern-normalize/modern-normalize.css' /* keep it last */
 
 export default class MyApp extends App {
   componentDidCatch(error, errorInfo) {
