@@ -1,4 +1,4 @@
-export { theme } from './theme'
+export { theme, modes } from './theme'
 
 export const meta = {
   title: `Tip Calculator`,
@@ -17,6 +17,6 @@ export const initModel = {
   showTipForm: false,
 } as const
 
-export const PERCENTAGES = [10, 15, 20, 25]
+export const PERCENTAGES = [10, 15, 20, 25] as const
 
 export const MAX_BILL_AMOUNT = 10000

@@ -1,12 +1,10 @@
 import { useState } from 'react'
 import { Box, Heading, Button, Flex } from 'rebass'
 import { useColorMode } from 'theme-ui'
-import { meta } from '../constants'
+import { meta, modes } from '../constants'
 import { Bar } from './bar'
 
 const { title } = meta
-
-const modes = [`neon`, `dracula`, `eclectus`]
 
 const svgProps = {
   viewBox: `0 0 32 32`,

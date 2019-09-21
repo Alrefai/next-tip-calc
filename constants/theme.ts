@@ -64,8 +64,10 @@ const COLORS = {
   },
 } as const
 
-type initMode = `neon`
-type modes = `dracula` | `eclectus`
+export const modes = [`neon`, `dracula`, `eclectus`] as const
+const [initMode, ...otherModes] = modes
+type initMode = typeof initMode
+type modes = typeof otherModes[number]
 
 interface Mode {
   text: string // Body foreground color
