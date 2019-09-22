@@ -1,5 +1,4 @@
-import { mergeDeepRight, map, pathOr } from 'ramda'
-import preset from '@rebass/preset'
+import { map, pathOr } from 'ramda'
 import { keyframes } from '@emotion/core'
 
 /* Rebass styled-system reference
@@ -65,34 +64,42 @@ const COLORS = {
 } as const
 
 export const modes = [`neon`, `dracula`, `eclectus`] as const
+
 const [initMode, ...otherModes] = modes
-type initMode = typeof initMode
-type modes = typeof otherModes[number]
+const fontSizes = [12, 14, 16, 20, 24, 32, 48, 64, 96] as const
+const space = [0, 4, 8, 16, 32, 64, 128, 256, 512] as const
+
+type InitMode = typeof initMode
+type Modes = typeof otherModes[number]
+type FontSizes = typeof fontSizes
+type Space = typeof space
 
 interface Mode {
   text: string // Body foreground color
   background: string //Body background color
   primary: string // Primary brand color for links, buttons, etc.
   secondary: string // A secondary brand color for alternative styling
-  accent?: string // A contrast color for emphasizing UI
   muted: string // A faint color for backgrounds, borders, and accents
 }
 
-interface Colors extends Mode {
-  [key: string]: string | object
-  modes: Record<modes, Mode> // modes: { [key in modes]: Mode }
+interface Colors extends Readonly<Mode> {
+  readonly [key: string]: string | object
+  readonly modes: Record<Modes, Mode> // modes: { [key in Modes]: Mode }
 }
 
 interface Theme {
-  initialColorMode: initMode
-  useCustomProperties: true
+  readonly [key: string]: string | boolean | object
+  initialColorMode: InitMode
+  useCustomProperties: true // ! must be true
   colors: Colors
+  fontSizes: FontSizes
+  space: Space
 }
 
 const getColorCode = (color: string): string =>
   pathOr(color, color.split(`.`), COLORS)
 
-const withColors = map<Mode, Mode>(getColorCode)
+const withColors: (mode: Mode) => Readonly<Mode> = map<Mode, Mode>(getColorCode)
 
 const neon = withColors({
   text: `nearWhite`,
@@ -115,14 +122,18 @@ const eclectus = withColors({
   background: `nearWhite`,
   primary: `blue`,
   secondary: `red`,
-  muted: preset.colors.muted,
+  muted: `#f6f6f9`,
 })
 
-// gradient color degree
-const degree = `19`
-
 const gradient = ({ colors: { primary, secondary } }: Theme): string =>
-  `linear-gradient(${degree || 90}deg, ${primary}, ${secondary})`
+  `linear-gradient(19deg, ${primary}, ${secondary})`
+
+const card = {
+  p: 2,
+  bg: `background`,
+  boxShadow: `card`,
+  borderRadius: `default`,
+} as const
 
 const circle = {
   p: 0,
@@ -133,7 +144,21 @@ const circle = {
   alignItems: `center`,
 } as const
 
-const hover = {
+const primaryButton = {
+  fontSize: 2,
+  fontWeight: `bold`,
+  color: `background`,
+  bg: `primary`,
+  borderRadius: `default`,
+} as const
+
+const secondaryButton = { ...primaryButton, bg: `secondary` } as const
+
+const outlineButton = {
+  ...primaryButton,
+  color: `primary`,
+  bg: `transparent`,
+  boxShadow: `inset 0 0 2px`,
   ':hover,:focus': {
     color: [``, `primary`],
     outline: `none`,
@@ -174,10 +199,11 @@ interface RGB {
   blue: number
 }
 
-const hexToRGB = (color: string): RGB => {
+const hexToRGB = (color: string): Readonly<RGB> => {
   // get hex color code from selected variable theme color
   // e.g. `var(--theme-ui-colors-background,#000000)`
   const themeColor = color.match(/(#\w+?)(?=\))/g)
+
   const hexColor = parseInt(
     (themeColor ? themeColor[0] : getColorCode(color)).replace(`#`, `0x`),
   )
@@ -202,12 +228,15 @@ const withShadow = ({
   return `${preSet} rgba(${red}, ${green}, ${blue}, ${alpha})`
 }
 
-export const theme = mergeDeepRight(preset, {
-  initialColorMode: `neon`,
+export const theme: Theme = {
+  initialColorMode: initMode,
   useCustomProperties: true,
-  radii: { card: 15 },
-  animationName: { grow, fadeIn, fadeOut },
+  fontSizes,
+  space,
   withShadow,
+  animationName: { grow, fadeIn, fadeOut },
+
+  colors: { ...neon, modes: { dracula, eclectus } },
 
   fonts: {
     body: `Fira Mono, monospace`,
@@ -215,37 +244,61 @@ export const theme = mergeDeepRight(preset, {
     monospace: `Fira Mono, monospace`,
   },
 
-  colors: {
-    ...neon,
-    modes: {
-      dracula,
-      eclectus,
+  fontWeights: { body: 400, heading: 700, bold: 700 },
+
+  lineHeights: { body: 1.5, heading: 1.25 },
+
+  sizes: { avatar: 48 },
+
+  radii: { default: 4, circle: 99999, card: 15 },
+
+  text: {
+    heading: {
+      fontFamily: `heading`,
+      lineHeight: `heading`,
+      fontWeight: `heading`,
     },
+    display: {
+      fontFamily: `heading`,
+      fontWeight: `heading`,
+      lineHeight: `heading`,
+      fontSize: [5, 6, 7],
+    },
+    caps: { textTransform: `uppercase`, letterSpacing: `0.1em` },
+  },
+
+  variants: {
+    avatar: { width: `avatar`, height: `avatar`, borderRadius: `circle` },
+
+    card: {
+      ...card,
+      gradient: { ...card, borderRadius: `card`, backgroundImage: gradient },
+    },
+
+    link: { color: `primary` },
+
+    nav: {
+      fontSize: 1,
+      fontWeight: `bold`,
+      display: `inline-block`,
+      p: 2,
+      color: `inherit`,
+      textDecoration: `none`,
+      ':hover,:focus,.active': { color: `primary` },
+    },
+
+    bar: { margin: 0, border: 0, height: 2, backgroundImage: gradient },
   },
 
   buttons: {
-    primary: {
-      circle: {
-        ...preset.buttons.primary,
-        ...circle,
-      },
-    },
+    primary: { ...primaryButton, circle: { ...primaryButton, ...circle } },
 
     secondary: {
-      circle: {
-        ...preset.buttons.secondary,
-        ...circle,
-      },
+      ...secondaryButton,
+      circle: { ...secondaryButton, ...circle },
     },
 
-    outline: {
-      ...hover,
-      circle: {
-        ...preset.buttons.outline,
-        ...circle,
-        ...hover,
-      },
-    },
+    outline: { ...outlineButton, circle: { ...outlineButton, ...circle } },
 
     transparent: {
       color: `inherit`,
@@ -258,29 +311,13 @@ export const theme = mergeDeepRight(preset, {
     },
   },
 
-  variants: {
-    card: {
-      borderRadius: `default`,
-      gradient: {
-        ...preset.variants.card,
-        borderRadius: `card`,
-        backgroundImage: gradient,
-      },
-    },
-
-    bar: {
-      margin: 0,
-      border: 0,
-      height: 2,
-      backgroundImage: gradient,
-    },
-  },
-
   styles: {
     root: {
-      fontFamily: `monospace`,
+      fontFamily: `body`,
+      fontWeight: `body`,
+      lineHeight: `body`,
       color: `text`,
       bg: `background`,
     },
   },
-} as Readonly<Theme>)
+}
