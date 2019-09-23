@@ -32,12 +32,14 @@ const TipCircle = ({ percentage }) => {
   return <Button {...tipCircleProps}>{percentage}%</Button>
 }
 
-export const TipPercentage = () =>
+const TipPercentage = () =>
   pipe(
     map(percentage => (
-      <TipCircle {...{ percentage, key: percentage + `-percent` }} />
+      <TipCircle {...{ percentage, key: `${percentage}-percent` }} />
     )),
     wrapWith(Flex, flexProps),
   )(PERCENTAGES)
 
 TipCircle.propTypes = { percentage: number }
+
+export default TipPercentage

@@ -13,10 +13,10 @@ const barProps = sx => ({
   },
 })
 
-export const Bar = ({ sx, ...props }) => (
-  <Box {...{ ...barProps(sx), ...props }} />
-)
+const Bar = ({ sx, ...props }) => <Box {...{ ...barProps(sx), ...props }} />
 
 Bar.propTypes = {
   ...Box.propTypes,
 }
+
+export default Bar

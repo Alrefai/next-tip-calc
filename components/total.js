@@ -22,7 +22,7 @@ const currencyCardProps = {
   fontSize: [2, 3],
 }
 
-export const Total = () => {
+const Total = () => {
   const { total } = useModel()
   return (
     <>
@@ -38,3 +38,5 @@ export const Total = () => {
     </>
   )
 }
+
+export default Total

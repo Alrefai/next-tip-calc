@@ -8,6 +8,7 @@ import 'modern-normalize/modern-normalize.css' /* keep it last */
 
 export default class MyApp extends App {
   componentDidCatch(error, errorInfo) {
+    // eslint-disable-next-line no-console
     console.log(`CUSTOM ERROR HANDLING`, error)
     // This is needed to render errors correctly in development / production
     super.componentDidCatch(error, errorInfo)

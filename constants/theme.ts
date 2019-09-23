@@ -76,7 +76,7 @@ type Space = typeof space
 
 interface Mode {
   text: string // Body foreground color
-  background: string //Body background color
+  background: string // Body background color
   primary: string // Primary brand color for links, buttons, etc.
   secondary: string // A secondary brand color for alternative styling
   muted: string // A faint color for backgrounds, borders, and accents

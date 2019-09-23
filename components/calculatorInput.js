@@ -1,10 +1,10 @@
 import { Flex } from 'rebass'
 import { useColorMode } from 'theme-ui'
 import { useModel } from '../hooks'
-import { Bill } from './bill'
-import { Tip } from './tip'
-import { TipPercentage } from './tipPercentage'
-import { TipInput } from './tipInput'
+import Bill from './bill'
+import Tip from './tip'
+import TipPercentage from './tipPercentage'
+import TipInput from './tipInput'
 import { wrapWith } from './wrappers'
 
 const billForm = [<Bill key='bill-amount' />, <Tip key='tip-amount' />]
@@ -13,7 +13,7 @@ const tipForm = [
   <TipInput key='tip-input' />,
 ]
 
-export const CalculatorInput = () => {
+const CalculatorInput = () => {
   const { showTipForm } = useModel()
   const [mode] = useColorMode()
   const boxShadow = ({ withShadow }) =>
@@ -29,3 +29,5 @@ export const CalculatorInput = () => {
   }
   return wrapWith(Flex, flexProps, !showTipForm ? billForm : tipForm)
 }
+
+export default CalculatorInput

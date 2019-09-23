@@ -2,7 +2,7 @@ import { Button, Flex, Box } from 'rebass'
 import { Label, Input } from '@rebass/forms'
 import { useForm, useModel } from '../hooks'
 import { showTipFormAction, tipInputAction } from '../actions'
-import { Bar } from './bar'
+import Bar from './bar'
 
 const flexProps = {
   as: `form`,
@@ -44,9 +44,10 @@ const buttonProps = {
 const gradient = ({ colors: { primary, secondary } }) =>
   `linear-gradient(19deg, ${secondary}, ${primary})`
 
-export const TipInput = () => {
+const TipInput = () => {
   const { tipPercentage: value } = useModel()
   const { onSubmit, getInputProps } = useForm(showTipFormAction(false))
+  // eslint-disable-next-line no-nested-ternary
   const buttonText = value >= 25 ? `Generous` : value >= 20 ? `Nice` : `OK`
   return (
     <Flex {...{ ...flexProps, onSubmit }}>
@@ -59,3 +60,5 @@ export const TipInput = () => {
     </Flex>
   )
 }
+
+export default TipInput

@@ -2,7 +2,7 @@ import { useState } from 'react'
 import { Box, Heading, Button, Flex } from 'rebass'
 import { useColorMode } from 'theme-ui'
 import { meta, modes } from '../constants'
-import { Bar } from './bar'
+import Bar from './bar'
 
 const { title } = meta
 

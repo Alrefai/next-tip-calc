@@ -3,7 +3,7 @@ import { Label, Input } from '@rebass/forms'
 import { MAX_BILL_AMOUNT } from '../constants'
 import { useForm, useModel } from '../hooks'
 import { amountInputAction, showTipFormAction } from '../actions'
-import { Bar } from './bar'
+import Bar from './bar'
 
 const flexProps = {
   as: `form`,
@@ -26,7 +26,7 @@ const labelProps = {
   fontSize: 3,
 }
 
-export const Bill = () => {
+const Bill = () => {
   const { amount: value } = useModel()
   const { onSubmit, getInputProps } = useForm(showTipFormAction(true))
   const labelText =
@@ -42,3 +42,5 @@ export const Bill = () => {
     </Flex>
   )
 }
+
+export default Bill

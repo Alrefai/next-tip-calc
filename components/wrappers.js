@@ -14,7 +14,7 @@ const mapIndexed = addIndex(map)
 
 const getKeyId = (props, i) => {
   const id = props.id && i !== null ? props.id[i] : props.id
-  const key = i !== null && ((props.key && props.key[i]) || id || `id-` + i)
+  const key = i !== null && ((props.key && props.key[i]) || id || `id-${i}`)
   return id && key ? { id, key } : (id && { id }) || (key && { key }) || {}
 }
 

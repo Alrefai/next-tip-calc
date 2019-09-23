@@ -37,7 +37,7 @@ const tipButtonPorps = {
   fontSize: 3,
 }
 
-export const Tip = () => {
+const Tip = () => {
   const { tipPercentage, tip } = useModel()
   const onClick = useClick(showTipFormAction(true))
   return (
@@ -48,3 +48,5 @@ export const Tip = () => {
     </Flex>
   )
 }
+
+export default Tip
