@@ -3,7 +3,9 @@
   "extends": [
     "eslint:recommended",
     "plugin:react/recommended",
+    "plugin:@typescript-eslint/eslint-recommended",
     "plugin:@typescript-eslint/recommended",
+    "plugin:@typescript-eslint/recommended-requiring-type-checking",
     "plugin:import/recommended",
     "plugin:import/typescript",
     // Keep prettier config last, to give it a chance to override other configs
@@ -14,6 +16,7 @@
   "globals": { "Atomics": "readonly", "SharedArrayBuffer": "readonly" },
   "parser": "@typescript-eslint/parser",
   "parserOptions": {
+    "project": "./tsconfig.json",
     "ecmaFeatures": { "jsx": true },
     "ecmaVersion": 2019,
     "sourceType": "module"
