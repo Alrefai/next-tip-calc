@@ -1,8 +1,7 @@
 {
   "env": { "browser": true, "es6": true, "node": true },
   "extends": [
-    "eslint:recommended",
-    "plugin:react/recommended",
+    "airbnb",
     "plugin:@typescript-eslint/eslint-recommended",
     "plugin:@typescript-eslint/recommended",
     "plugin:@typescript-eslint/recommended-requiring-type-checking",
@@ -22,22 +21,20 @@
     "sourceType": "module"
   },
   "settings": { "react": { "version": "detect" } },
-  "plugins": ["react-hooks"],
+  // "plugins": [],
   "rules": {
     "quotes": [2, "backtick"],
-    "linebreak-style": [2, "unix"],
-    "react-hooks/rules-of-hooks": 2,
-    "react-hooks/exhaustive-deps": 1,
+    "radix": 0,
+    "no-bitwise": 0,
+    "react/jsx-filename-extension": 0,
+    "react/jsx-props-no-spreading": 0,
+    "react/require-default-props": 0,
     "react/react-in-jsx-scope": 0,
     "react/display-name": 0,
-    "import/first": 2,
-    "import/no-absolute-path": 2,
     "import/no-internal-modules": [
       2,
       { "allow": ["next/*", "**/components/*", "**/*.css"] }
     ],
-    "import/no-webpack-loader-syntax": 2,
-    "import/no-self-import": 2,
     "import/no-useless-path-segments": [2, { "noUselessIndex": true }],
     "import/no-unused-modules": [
       1,
@@ -49,10 +46,8 @@
     ],
     "import/extensions": [2, "never"],
     "import/order": 2,
-    "import/newline-after-import": 2,
     "import/no-named-default": 2,
     "import/no-anonymous-default-export": 2,
-    "import/no-mutable-exports": 2,
     "@typescript-eslint/explicit-function-return-type": 0
   },
   "overrides": [
