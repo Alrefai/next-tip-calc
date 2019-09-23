@@ -6,9 +6,9 @@ export const ACTIONS = {
 
 type Message = keyof typeof ACTIONS
 
-interface Action {
+type Action = {
   <T>(x: T): {
-    type: Message
+    readonly type: Message
     readonly [key: string]: T | Message
   }
 }

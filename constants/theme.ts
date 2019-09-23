@@ -69,37 +69,36 @@ const [initMode, ...otherModes] = modes
 const fontSizes = [12, 14, 16, 20, 24, 32, 48, 64, 96] as const
 const space = [0, 4, 8, 16, 32, 64, 128, 256, 512] as const
 
-type InitMode = typeof initMode
+type InitMode = { readonly initialColorMode: typeof initMode }
 type Modes = typeof otherModes[number]
 type FontSizes = typeof fontSizes
 type Space = typeof space
 
-interface Mode {
-  text: string // Body foreground color
-  background: string // Body background color
-  primary: string // Primary brand color for links, buttons, etc.
-  secondary: string // A secondary brand color for alternative styling
-  muted: string // A faint color for backgrounds, borders, and accents
+type Mode = {
+  readonly text: string // Body foreground color
+  readonly background: string // Body background color
+  readonly primary: string // Primary brand color for links, buttons, etc.
+  readonly secondary: string // A secondary brand color for alternative styling
+  readonly muted: string // A faint color for backgrounds, borders, and accents
 }
 
-interface Colors extends Readonly<Mode> {
+type Colors = Mode & {
   readonly [key: string]: string | object
   readonly modes: Record<Modes, Mode> // modes: { [key in Modes]: Mode }
 }
 
-interface Theme {
+type Theme = InitMode & {
   readonly [key: string]: string | boolean | object
-  initialColorMode: InitMode
-  useCustomProperties: true // ! must be true
-  colors: Colors
-  fontSizes: FontSizes
-  space: Space
+  readonly useCustomProperties: true // ! must be true
+  readonly colors: Colors
+  readonly fontSizes: FontSizes
+  readonly space: Space
 }
 
 const getColorCode = (color: string): string =>
   pathOr(color, color.split(`.`), COLORS)
 
-const withColors: (mode: Mode) => Readonly<Mode> = map<Mode, Mode>(getColorCode)
+const withColors: (mode: Mode) => Mode = map<Mode, Mode>(getColorCode)
 
 const neon = withColors({
   text: `nearWhite`,
@@ -193,13 +192,13 @@ const grow = keyframes`
   }
 `
 
-interface RGB {
-  red: number
-  green: number
-  blue: number
+type RGB = {
+  readonly red: number
+  readonly green: number
+  readonly blue: number
 }
 
-const hexToRGB = (color: string): Readonly<RGB> => {
+const hexToRGB = (color: string): RGB => {
   // get hex color code from selected variable theme color
   // e.g. `var(--theme-ui-colors-background,#000000)`
   const themeColor = color.match(/(#\w+?)(?=\))/g)
