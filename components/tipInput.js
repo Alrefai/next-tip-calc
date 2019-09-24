@@ -47,7 +47,7 @@ const gradient = ({ colors: { primary, secondary } }) =>
 const TipInput = () => {
   const { tipPercentage: value } = useModel()
   const { onSubmit, getInputProps } = useForm(showTipFormAction(false))
-  // eslint-disable-next-line no-nested-ternary
+  // eslint-disable-next-line unicorn/no-nested-ternary
   const buttonText = value >= 25 ? `Generous` : value >= 20 ? `Nice` : `OK`
   return (
     <Flex {...{ ...flexProps, onSubmit }}>
