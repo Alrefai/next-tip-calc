@@ -51,6 +51,26 @@
     "import/no-named-default": 2,
     "import/no-anonymous-default-export": 2,
     "functional/functional-parameters": 0,
+    "functional/no-conditional-statement": [
+      2,
+      { "allowReturningBranches": true }
+    ],
+    "functional/no-expression-statement": [
+      2,
+      {
+        "ignorePattern": [
+          "(e|event).preventDefault",
+          "^dispatch",
+          "console.log",
+          "componentDidCatch",
+          "^[A-z]+?.propTypes"
+        ]
+      }
+    ],
+    "functional/immutable-data": [
+      2,
+      { "ignorePattern": ["^[A-z]+?.propTypes"] }
+    ],
     "unicorn/prevent-abbreviations": 0,
     "unicorn/number-literal-case": 0,
     "unicorn/filename-case": 0,
