@@ -1,29 +1,22 @@
-export const ACTIONS = {
-  AMOUNT_INPUT: `AMOUNT_INPUT`,
-  SHOW_TIP_INPUT: `SHOW_TIP_INPUT`,
-  TIP_INPUT: `TIP_INPUT`,
-} as const
+export const amountInputAction = (amount: string) =>
+  ({
+    type: `AMOUNT_INPUT`,
+    amount,
+  } as const)
 
-type Message = keyof typeof ACTIONS
+export const showTipFormAction = (showTipForm: boolean) =>
+  ({
+    type: `SHOW_TIP_FORM`,
+    showTipForm,
+  } as const)
 
-type Action = {
-  <T>(x: T): {
-    readonly type: Message
-    readonly [key: string]: T | Message
-  }
-}
+export const tipInputAction = (tipPercentage: string) =>
+  ({
+    type: `TIP_INPUT`,
+    tipPercentage,
+  } as const)
 
-export const amountInputAction: Action = amount => ({
-  type: ACTIONS.AMOUNT_INPUT,
-  amount,
-})
-
-export const showTipFormAction: Action = showTipForm => ({
-  type: ACTIONS.SHOW_TIP_INPUT,
-  showTipForm,
-})
-
-export const tipInputAction: Action = tipPercentage => ({
-  type: ACTIONS.TIP_INPUT,
-  tipPercentage,
-})
+export type Action =
+  | ReturnType<typeof amountInputAction>
+  | ReturnType<typeof showTipFormAction>
+  | ReturnType<typeof tipInputAction>
