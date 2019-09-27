@@ -1,20 +1,20 @@
-import { createContext, useReducer } from 'react'
+import { useReducer } from 'react'
 import { node } from 'prop-types'
 import { initModel } from '../constants'
+import { ModelContext, DispatchContext } from '../hooks'
 import reducer from '../reducers'
 
-export const DispatchContext = createContext()
-export const ModelContext = createContext()
+type Children = { readonly children: ChildNode }
 
-export const StoreProvider = ({ children }) => {
+const StoreProvider = ({ children }: Children): JSX.Element => {
   const [model, dispatch] = useReducer(reducer, initModel)
   return (
-    <ModelContext.Provider value={model}>
-      <DispatchContext.Provider value={dispatch}>
-        {children}
-      </DispatchContext.Provider>
-    </ModelContext.Provider>
+    <ModelContext value={model}>
+      <DispatchContext value={dispatch}>{children}</DispatchContext>
+    </ModelContext>
   )
 }
 
 StoreProvider.propTypes = { children: node }
+
+export default StoreProvider

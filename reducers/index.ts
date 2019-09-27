@@ -32,7 +32,7 @@ const assertError = (type: never, message: string): never => {
   throw new Error(`${message}: ${type}`)
 }
 
-const reducer = (model: Model, action: Action): Model | Error => {
+const reducer = (model: Model, action: Action): Model => {
   switch (action.type) {
     case `AMOUNT_INPUT`: {
       const { tipPercentage } = model
