@@ -1,4 +1,4 @@
-export { theme, modes } from './theme'
+export * from './theme'
 
 export const meta = {
   title: `Tip Calculator`,

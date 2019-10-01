@@ -87,12 +87,17 @@ type Colors = Mode & {
   readonly modes: Record<Modes, Mode> // modes: { [key in Modes]: Mode }
 }
 
-type Theme = InitMode & {
+export type Theme = InitMode & {
   readonly [key: string]: string | boolean | object
   readonly useCustomProperties: true // ! must be true
   readonly colors: Colors
   readonly fontSizes: FontSizes
   readonly space: Space
+  readonly withShadow: (shadowSet: {
+    readonly preSet?: string
+    readonly color?: string
+    readonly alpha?: number
+  }) => (theme: Theme) => string
 }
 
 const getColorCode = (color: string): string =>
@@ -216,11 +221,12 @@ const hexToRGB = (color: string): RGB => {
   }
 }
 
-const withShadow = ({
+// eslint-disable-next-line quotes
+const withShadow: Theme['withShadow'] = ({
   preSet = `0 0 4px`,
   color = `#000000`,
-  alpha = `0.125`,
-} = {}) => ({ colors: { [color]: themeColor } }: Theme): string => {
+  alpha = 0.125,
+} = {}) => ({ colors: { [color]: themeColor } }) => {
   const hexColor = themeColor ? (themeColor as string) : color
   const { red, green, blue } = hexToRGB(hexColor)
 
