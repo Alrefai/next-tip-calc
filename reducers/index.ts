@@ -1,6 +1,7 @@
 import { both, defaultTo, divide, multiply, lt, pipe, test, __ } from 'ramda'
 import { Action } from '../actions'
 import { MAX_BILL_AMOUNT, Model } from '../constants'
+import { assertError } from '../utils'
 
 const toInt: typeof parseInt = pipe(
   parseInt,
@@ -26,11 +27,6 @@ const calculateTip: (a: number, b: number) => number = pipe(
   divide(__, 100),
   formatNumber,
 )
-
-const assertError = (type: never, message: string): never => {
-  // eslint-disable-next-line functional/no-throw-statement
-  throw new Error(`${message}: ${type}`)
-}
 
 const reducer = (model: Model, action: Action): Model => {
   switch (action.type) {
@@ -72,7 +68,7 @@ const reducer = (model: Model, action: Action): Model => {
 
     default: {
       const { type } = action
-      return assertError(type, `Unhandled action type`)
+      return assertError(`Unhandled action type: ${type}`)
     }
   }
 }

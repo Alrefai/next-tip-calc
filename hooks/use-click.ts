@@ -1,10 +1,9 @@
-/* eslint-disable functional/no-return-void */
-import { Dispatch } from 'react'
 import { Action } from '../actions'
 import { useDispatch } from './use-ctx'
 
+// eslint-disable-next-line functional/no-return-void
 const useClick = (action: Action): (() => void) => {
-  const dispatch = useDispatch() as Dispatch<Action>
+  const dispatch = useDispatch()
   return () => dispatch(action)
 }
 

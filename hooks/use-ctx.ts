@@ -7,19 +7,20 @@ import {
 } from 'react'
 import { Model } from '../constants'
 import { Action } from '../actions'
+import { assertError } from '../utils'
 
 const createCtx = <T>(
   hookName: `useModel` | `useDispatch`,
 ): readonly [
-  () => T | Error,
+  () => T,
   ProviderExoticComponent<ProviderProps<T | undefined>>,
 ] => {
   const ctx = createContext<T | undefined>(undefined)
 
-  const useCtx = (): T | Error => {
+  const useCtx = (): T => {
     const context = useContext(ctx)
     return context === undefined
-      ? new Error(`${hookName} must be used inside a Provider with a value`)
+      ? assertError(`${hookName} must be used inside a Provider with a value`)
       : context
   }
 
