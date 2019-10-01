@@ -51,6 +51,8 @@
     "import/no-named-default": 2,
     "import/no-anonymous-default-export": 2,
     "import/no-extraneous-dependencies": 0,
+    "import/prefer-default-export": 0,
+    // "import/no-default-export": 2,
     "functional/functional-parameters": 0,
     "functional/no-conditional-statement": [
       2,
@@ -82,7 +84,7 @@
   "overrides": [
     {
       // enable the rule specifically for TypeScript files
-      "files": ["*.ts", "*.tsx"],
+      "files": ["*.ts{,x}"],
       "rules": {
         "@typescript-eslint/explicit-function-return-type": 2
       }
