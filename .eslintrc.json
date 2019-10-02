@@ -31,6 +31,7 @@
     "react/jsx-filename-extension": 0,
     "react/jsx-props-no-spreading": 0,
     "react/require-default-props": 0,
+    "react/prop-types": 0,
     "react/react-in-jsx-scope": 0,
     "react/display-name": 0,
     "import/no-internal-modules": [
@@ -66,15 +67,11 @@
           "^dispatch",
           "console.log",
           "componentDidCatch",
-          "^[A-z]+?.propTypes",
           "module.exports"
         ]
       }
     ],
-    "functional/immutable-data": [
-      2,
-      { "ignorePattern": ["^[A-z]+?.propTypes", "module.exports"] }
-    ],
+    "functional/immutable-data": [2, { "ignorePattern": ["module.exports"] }],
     "unicorn/prevent-abbreviations": 0,
     "unicorn/number-literal-case": 0,
     "unicorn/filename-case": 0,
