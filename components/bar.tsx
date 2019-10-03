@@ -1,22 +1,19 @@
-import { Box } from 'rebass'
+import { Box, BoxProps } from 'rebass'
 
-const barProps = sx => ({
-  as: `hr`,
-  variant: `bar`,
-  sx: {
-    transformOrigin: `0 0`,
-    animationName: `grow`,
-    animationDuration: `1s`,
-    animationTimingFunction: `ease-out`,
-    animationFillMode: `forwards`,
-    ...sx,
-  },
-})
+export const Bar: React.FC<BoxProps> = ({ sx, ...props }) => {
+  const barProps = {
+    variant: `bar`,
+    sx: {
+      transformOrigin: `0 0`,
+      animationName: `grow`,
+      animationDuration: `1s`,
+      animationTimingFunction: `ease-out`,
+      animationFillMode: `forwards`,
+      ...sx,
+    },
+  }
 
-const Bar = ({ sx, ...props }) => <Box {...{ ...barProps(sx), ...props }} />
-
-Bar.propTypes = {
-  ...Box.propTypes,
+  // eslint-disable-next-line @typescript-eslint/ban-ts-ignore
+  // @ts-ignore Could not fix Box type checking error
+  return <Box as='hr' {...{ ...barProps, ...props }} />
 }
-
-export default Bar

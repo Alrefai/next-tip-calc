@@ -7,10 +7,9 @@ const tipAmountProps = {
   width: 1,
   p: 1,
   alignItems: `center`,
-}
+} as const
 
 const tipPercentageProps = {
-  as: `p`,
   variant: `card`,
   ml: -3,
   px: 1,
@@ -19,14 +18,13 @@ const tipPercentageProps = {
   bg: `primary`,
   fontSize: 1,
   alignSelf: `flex-start`,
-}
+} as const
 
 const tipResultsProps = {
-  as: `p`,
   mx: `auto`,
   color: `background`,
   fontSize: 5,
-}
+} as const
 
 const tipButtonPorps = {
   title: `Change tip percantage`,
@@ -35,18 +33,20 @@ const tipButtonPorps = {
   m: 1,
   bg: `background`,
   fontSize: 3,
-}
+} as const
 
-const Tip = () => {
+export const Tip: React.FC = () => {
   const { tipPercentage, tip } = useModel()
   const onClick = useClick(showTipFormAction(true))
   return (
     <Flex {...tipAmountProps}>
       <Button {...{ ...tipButtonPorps, onClick }}>Tip</Button>
-      <Box {...tipPercentageProps}>{tipPercentage}%</Box>
-      <Box {...tipResultsProps}>${tip}</Box>
+      <Box as='p' {...tipPercentageProps}>
+        {tipPercentage}%
+      </Box>
+      <Box as='p' {...tipResultsProps}>
+        ${tip}
+      </Box>
     </Flex>
   )
 }
-
-export default Tip

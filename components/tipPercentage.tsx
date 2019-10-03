@@ -1,6 +1,5 @@
 import { map, pipe } from 'ramda'
 import { Flex, Button } from 'rebass'
-import { number } from 'prop-types'
 import { PERCENTAGES } from '../constants'
 import { useClick, useModel } from '../hooks'
 import { tipInputAction } from '../actions'
@@ -12,11 +11,13 @@ const flexProps = {
   variant: `card.gradient`,
   width: 1,
   p: 1,
-}
+} as const
 
-const TipCircle = ({ percentage }) => {
+type Props = { readonly percentage: number }
+
+const TipCircle: React.FC<Props> = ({ percentage }) => {
   const { tipPercentage } = useModel()
-  const onClick = useClick(tipInputAction(percentage))
+  const onClick = useClick(tipInputAction(`${percentage}`))
   const tipCircleProps = {
     title: `Apply ${percentage} percent`,
     variant: `outline.circle`,
@@ -25,21 +26,17 @@ const TipCircle = ({ percentage }) => {
     p: 1,
     color: tipPercentage === percentage ? `secondary` : `text`,
     bg: `background`,
-    fontSize: 4,
-    fontWeight: `normal`,
+    sx: { fontSize: 4, fontWeight: `normal` },
     onClick,
-  }
+  } as const
+
   return <Button {...tipCircleProps}>{percentage}%</Button>
 }
 
-const TipPercentage = () =>
+export const TipPercentage: React.FC = () =>
   pipe(
-    map(percentage => (
+    map<number, React.ReactElement>(percentage => (
       <TipCircle {...{ percentage, key: `${percentage}-percent` }} />
     )),
     wrapWith(Flex, flexProps),
   )(PERCENTAGES)
-
-TipCircle.propTypes = { percentage: number }
-
-export default TipPercentage

@@ -1,11 +1,17 @@
 import NextHead from 'next/head'
-import { string } from 'prop-types'
 
 const defaultDescription = ``
 const defaultOGURL = ``
 const defaultOGImage = ``
 
-const Head = ({ title, description, url, ogImage }) => (
+type Meta = {
+  readonly title: string
+  readonly description: string
+  readonly url?: string
+  readonly ogImage?: string
+}
+
+export const Head: React.FC<Meta> = ({ title, description, url, ogImage }) => (
   <NextHead>
     <meta charSet='UTF-8' />
     <title>{title || ``}</title>
@@ -26,12 +32,3 @@ const Head = ({ title, description, url, ogImage }) => (
     <meta property='og:image:height' content='630' />
   </NextHead>
 )
-
-Head.propTypes = {
-  title: string,
-  description: string,
-  url: string,
-  ogImage: string,
-}
-
-export default Head
