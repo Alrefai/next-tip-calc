@@ -4,11 +4,12 @@
     "dev": "next",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint . --ext .js,.jsx,.ts,.tsx",
-    "lint:fix": "eslint . --fix --ext .js,.jsx,.ts,.tsx",
+    "lint": "eslint . --ext .js,.ts,.tsx",
+    "lint:fix": "eslint . --fix --ext .js,.ts,.tsx",
     "prettier": "prettier \"**/*.+(json|yml)\"",
     "format": "yarn prettier --write",
-    "validate": "yarn lint && yarn prettier --list-different"
+    "type-check": "tsc -p tsconfig.json --noEmit",
+    "validate": "yarn lint; yarn prettier --list-different; yarn type-check"
   },
   "husky": {
     "hooks": {
