@@ -48,7 +48,12 @@
       }
     ],
     "import/extensions": [2, "never"],
-    "import/order": 2,
+    "import/order": [
+      2,
+      {
+        "groups": ["builtin", "external", "parent", "sibling", "index"]
+      }
+    ],
     "import/no-named-default": 2,
     "import/no-anonymous-default-export": 2,
     "import/no-extraneous-dependencies": 0,

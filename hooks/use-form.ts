@@ -1,7 +1,7 @@
 import { Dispatch, SyntheticEvent } from 'react'
 import { Action } from '../actions'
-import { useDispatch } from './use-ctx'
 import { assertError } from '../utils'
+import { useDispatch } from './use-ctx'
 
 type Event = Dispatch<SyntheticEvent>
 type ActionCreator = (payload: string) => Action
