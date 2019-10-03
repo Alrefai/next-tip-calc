@@ -44,7 +44,7 @@
       {
         "unusedExports": true,
         "missingExports": true,
-        "ignoreExports": ["pages/", "*.d.ts"]
+        "ignoreExports": ["pages/", "**/*.d.ts"]
       }
     ],
     "import/extensions": [2, "never"],
