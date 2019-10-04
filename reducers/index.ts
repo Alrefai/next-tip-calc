@@ -28,7 +28,7 @@ const calculateTip: (a: number, b: number) => number = pipe(
   formatNumber,
 )
 
-const reducer = (model: Model, action: Action): Model => {
+export const reducer = (model: Model, action: Action): Model => {
   switch (action.type) {
     case `AMOUNT_INPUT`: {
       const { tipPercentage } = model
@@ -72,5 +72,3 @@ const reducer = (model: Model, action: Action): Model => {
     }
   }
 }
-
-export default reducer

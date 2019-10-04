@@ -1,9 +1,9 @@
 import { FunctionComponent, ReactNode, useReducer } from 'react'
 import { initModel } from '../constants'
 import { ModelContext, DispatchContext } from '../hooks'
-import reducer from '../reducers'
+import { reducer } from '../reducers'
 
-const StoreProvider: FunctionComponent<ReactNode> = ({ children }) => {
+export const StoreProvider: FunctionComponent<ReactNode> = ({ children }) => {
   const [model, dispatch] = useReducer(reducer, initModel)
   return (
     <ModelContext value={model}>
@@ -11,5 +11,3 @@ const StoreProvider: FunctionComponent<ReactNode> = ({ children }) => {
     </ModelContext>
   )
 }
-
-export default StoreProvider

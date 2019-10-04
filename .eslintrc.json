@@ -59,7 +59,7 @@
     "import/no-anonymous-default-export": 2,
     "import/no-extraneous-dependencies": 0,
     "import/prefer-default-export": 0,
-    // "import/no-default-export": 2,
+    "import/no-default-export": 2,
     "functional/functional-parameters": 0,
     "functional/no-conditional-statement": [
       2,
@@ -88,9 +88,11 @@
     {
       // enable the rule specifically for TypeScript files
       "files": ["*.ts{,x}"],
-      "rules": {
-        "@typescript-eslint/explicit-function-return-type": 2
-      }
+      "rules": { "@typescript-eslint/explicit-function-return-type": 2 }
+    },
+    {
+      "files": ["pages/*.tsx"],
+      "rules": { "import/no-default-export": 0 }
     }
   ]
 }

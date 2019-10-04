@@ -24,7 +24,7 @@ type FormReturnProps = {
   readonly getInputProps: GetProps
 }
 
-const useForm = (submitAction: Action): FormReturnProps => {
+export const useForm = (submitAction: Action): FormReturnProps => {
   if (submitAction === undefined) {
     return assertError(`submit action must be passed to useForm as an argument`)
   }
@@ -51,5 +51,3 @@ const useForm = (submitAction: Action): FormReturnProps => {
 
   return { onSubmit, getInputProps } as const
 }
-
-export default useForm
