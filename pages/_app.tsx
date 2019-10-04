@@ -1,5 +1,3 @@
-/* eslint-disable functional/no-this-expression */
-/* eslint-disable functional/no-class */
 import App from 'next/app'
 import { ThemeProvider, Styled, ColorMode } from 'theme-ui'
 import { Head } from '../components/head'

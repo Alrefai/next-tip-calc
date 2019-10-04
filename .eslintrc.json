@@ -93,6 +93,10 @@
     {
       "files": ["pages/*.tsx"],
       "rules": { "import/no-default-export": 0 }
+    },
+    {
+      "files": ["pages/_*.tsx"],
+      "rules": { "functional/no-this-expression": 0, "functional/no-class": 0 }
     }
   ]
 }
