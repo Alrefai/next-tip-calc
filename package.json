@@ -3,35 +3,70 @@
   "scripts": {
     "dev": "next",
     "build": "next build",
-    "start": "next start"
+    "start": "next start",
+    "lint": "eslint . --ext .js,.ts,.tsx",
+    "lint:fix": "eslint . --fix --ext .js,.ts,.tsx",
+    "prettier": "prettier \"**/*.+(json|yml)\"",
+    "format": "yarn prettier --write",
+    "type-check": "tsc -p tsconfig.json --noEmit",
+    "validate": "yarn lint; yarn prettier --list-different; yarn type-check"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged",
+      "prepare-commit-msg": "exec < /dev/tty && git cz --hook || true",
+      "commit-msg": "commitlint -E HUSKY_GIT_PARAMS"
+    }
   },
   "dependencies": {
-    "@mdx-js/react": "^1.4.4",
-    "@rebass/forms": "^4.0.5",
-    "@rebass/preset": "^4.0.5",
-    "next": "^9.0.5",
+    "@mdx-js/react": "^1.5.0",
+    "@rebass/forms": "^4.0.6",
+    "modern-normalize": "^0.5.0",
+    "next": "^9.0.6",
     "ramda": "^0.26.1",
     "react": "^16.9.0",
     "react-dom": "^16.9.0",
-    "rebass": "^4.0.5",
-    "theme-ui": "^0.2.41"
+    "rebass": "^4.0.6",
+    "theme-ui": "^0.2.43"
   },
   "author": "Mohammed Alrefai",
   "license": "MIT",
   "description": "Tip Calculator – React app built with Next.js and Rebass.",
   "private": true,
   "devDependencies": {
+    "@commitlint/cli": "^8.2.0",
+    "@commitlint/config-conventional": "^8.2.0",
+    "@types/node": "^12.7.6",
+    "@types/ramda": "^0.26.22",
+    "@types/react": "^16.9.2",
+    "@types/react-dom": "^16.9.0",
+    "@types/rebass": "^4.0.1",
+    "@types/theme-ui": "^0.2.3",
+    "@typescript-eslint/eslint-plugin": "^2.3.1",
+    "@typescript-eslint/parser": "^2.3.1",
     "@zeit/next-css": "^1.0.1",
-    "eslint": "^6.3.0",
-    "eslint-config-prettier": "^6.2.0",
-    "eslint-plugin-prettier": "^3.1.0",
+    "cz-conventional-changelog": "3.0.2",
+    "eslint": "^6.4.0",
+    "eslint-config-airbnb": "18.0.1",
+    "eslint-config-prettier": "^6.3.0",
+    "eslint-plugin-functional": "^1.0.0-rc.2",
+    "eslint-plugin-import": "^2.18.2",
+    "eslint-plugin-jsx-a11y": "^6.2.3",
+    "eslint-plugin-prettier": "^3.1.1",
     "eslint-plugin-react": "^7.14.3",
     "eslint-plugin-react-hooks": "^2.0.1",
-    "lodash.debounce": "^4.0.8",
-    "modern-normalize": "^0.5.0",
-    "prettier": "1.18.2"
+    "eslint-plugin-unicorn": "^12.0.1",
+    "husky": "^3.0.5",
+    "lint-staged": "^9.3.0",
+    "prettier": "1.18.2",
+    "typescript": "^3.6.3"
   },
   "version": "1.1.2",
   "main": "index.js",
-  "repository": "https://github.com/Alrefai/next-tip-calc.git"
+  "repository": "https://github.com/Alrefai/next-tip-calc.git",
+  "config": {
+    "commitizen": {
+      "path": "./node_modules/cz-conventional-changelog"
+    }
+  }
 }

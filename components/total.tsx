@@ -12,7 +12,6 @@ const totalCardProps = {
 }
 
 const currencyCardProps = {
-  as: `p`,
   variant: `card`,
   m: 1,
   py: 0,
@@ -22,7 +21,7 @@ const currencyCardProps = {
   fontSize: [2, 3],
 }
 
-export const Total = () => {
+export const Total: React.FC = () => {
   const { total } = useModel()
   return (
     <>
@@ -30,7 +29,9 @@ export const Total = () => {
         <Heading ml='auto' px={1}>
           Total
         </Heading>
-        <Box {...currencyCardProps}>$</Box>
+        <Box as='p' {...currencyCardProps}>
+          $
+        </Box>
       </Flex>
       <Text as='p' py={4} fontSize={[7, 8]} textAlign='center'>
         {total}
