@@ -1,13 +1,13 @@
-import { FunctionComponent, ReactNode, useReducer } from 'react'
+import { FC, ReactNode, useReducer } from 'react'
 import { initModel } from '../constants'
-import { ModelContext, DispatchContext } from '../hooks'
+import { ModelProvider, DispatchProvider } from '../hooks'
 import { reducer } from '../reducers'
 
-export const StoreProvider: FunctionComponent<ReactNode> = ({ children }) => {
+export const StoreProvider: FC<ReactNode> = ({ children }) => {
   const [model, dispatch] = useReducer(reducer, initModel)
   return (
-    <ModelContext value={model}>
-      <DispatchContext value={dispatch}>{children}</DispatchContext>
-    </ModelContext>
+    <ModelProvider value={model}>
+      <DispatchProvider value={dispatch}>{children}</DispatchProvider>
+    </ModelProvider>
   )
 }

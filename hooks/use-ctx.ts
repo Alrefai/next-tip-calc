@@ -27,8 +27,8 @@ const createCtx = <T>(
   return [useCtx, ctx.Provider] as const
 }
 
-export const [useModel, ModelContext] = createCtx<Model>(`useModel`)
+export const [useModel, ModelProvider] = createCtx<Model>(`useModel`)
 
-export const [useDispatch, DispatchContext] = createCtx<Dispatch<Action>>(
+export const [useDispatch, DispatchProvider] = createCtx<Dispatch<Action>>(
   `useDispatch`,
 )
