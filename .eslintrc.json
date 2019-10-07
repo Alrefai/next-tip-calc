@@ -24,7 +24,7 @@
     "sourceType": "module"
   },
   "settings": { "react": { "version": "detect" } },
-  "plugins": ["functional"],
+  "plugins": ["react-hooks", "functional"],
   "rules": {
     "quotes": [2, "backtick"],
     "radix": 0,
@@ -35,6 +35,8 @@
     "react/prop-types": 0,
     "react/react-in-jsx-scope": 0,
     "react/display-name": 0,
+    "react-hooks/rules-of-hooks": 2,
+    "react-hooks/exhaustive-deps": 1,
     "import/no-internal-modules": [
       2,
       { "allow": ["next/*", "**/components/*", "**/*.css"] }
