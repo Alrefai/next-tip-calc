@@ -1,9 +1,8 @@
-import { Dispatch, SyntheticEvent } from 'react'
+import { FormEventHandler, ChangeEventHandler } from 'react'
 import { Action } from '../actions'
 import { assertError } from '../utils'
 import { useDispatch } from './use-ctx'
 
-type Event = Dispatch<SyntheticEvent>
 type ActionCreator = (payload: string) => Action
 
 type InputProps = {
@@ -12,7 +11,7 @@ type InputProps = {
 }
 
 type ReturnProps = {
-  readonly onChange: Event
+  readonly onChange: ChangeEventHandler<HTMLInputElement>
   readonly name: string
   readonly id: string
 }
@@ -20,18 +19,18 @@ type ReturnProps = {
 type GetProps = (props: InputProps) => ReturnProps
 
 type FormReturnProps = {
-  readonly onSubmit: Event
+  readonly onSubmit: FormEventHandler
   readonly getInputProps: GetProps
 }
 
 export const useForm = (submitAction: Action): FormReturnProps => {
+  const dispatch = useDispatch()
+
   if (submitAction === undefined) {
     return assertError(`submit action must be passed to useForm as an argument`)
   }
 
-  const dispatch = useDispatch()
-
-  const onSubmit: Event = e => {
+  const onSubmit: FormEventHandler = e => {
     e.preventDefault()
     dispatch(submitAction)
   }
@@ -45,7 +44,7 @@ export const useForm = (submitAction: Action): FormReturnProps => {
           id,
           name: id,
           ...props,
-          onChange: e => dispatch(action((e.target as HTMLInputElement).value)),
+          onChange: e => dispatch(action(e.target.value)),
         }
   }
 
