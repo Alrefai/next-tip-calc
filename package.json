@@ -22,7 +22,7 @@
     "@mdx-js/react": "^1.5.0",
     "@rebass/forms": "^4.0.6",
     "modern-normalize": "^0.5.0",
-    "next": "^9.0.6",
+    "next": "^9.3.2",
     "ramda": "^0.26.1",
     "react": "^16.9.0",
     "react-dom": "^16.9.0",
