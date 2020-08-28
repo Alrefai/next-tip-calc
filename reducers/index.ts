@@ -1,74 +1,50 @@
-import { both, defaultTo, divide, multiply, lt, pipe, test, __ } from 'ramda'
-import { Action } from '../actions'
+import { Action, MSG } from '../actions'
 import { MAX_BILL_AMOUNT, Model } from '../constants'
 import { assertError } from '../utils'
 
-const toInt: typeof parseInt = pipe(
-  parseInt,
-  defaultTo(0),
-)
+const toFixed2 = (n: number): number => +n.toFixed(2)
+const calculateTip = (a: number, b: number): number => toFixed2((a * b) / 100)
 
-const toFloat: typeof parseFloat = pipe(
-  parseFloat,
-  defaultTo(0),
-)
+const onAmountInput = (state: Model, amountInput: string): Model => {
+  const amount = amountInput ? amountInput.replace(/^0(\d)/, `$1`) : `0`
+  const validAmountRegEx = /^(\d+?(\.\d{0,2})?)$/
 
-const formatNumber = pipe(
-  (n: number) => n.toFixed(2),
-  toFloat,
-)
+  if (!validAmountRegEx.test(amount)) return state
 
-const lessThanMax = lt(__, MAX_BILL_AMOUNT)
-const isValidNumber = test(/^(0\.\d{0,2}|[1-9]\d*(\.\d{0,2})?)$/)
-const isValidAmount: (str: string) => boolean = both(isValidNumber, lessThanMax)
+  const amountNumber = +amount < MAX_BILL_AMOUNT ? +amount : MAX_BILL_AMOUNT
+  const tip = calculateTip(amountNumber, state.tipPercentage)
+  const total = toFixed2(amountNumber + tip)
 
-const calculateTip: (a: number, b: number) => number = pipe(
-  multiply,
-  divide(__, 100),
-  formatNumber,
-)
+  if (amountNumber === MAX_BILL_AMOUNT) {
+    return { ...state, amount: `${MAX_BILL_AMOUNT}`, tip, total }
+  }
 
-export const reducer = (model: Model, action: Action): Model => {
+  return { ...state, amount, tip, total }
+}
+
+const onTipInput = (state: Model, percentage: string): Model => {
+  const tipPercentage = +percentage
+  const tip = calculateTip(+state.amount, tipPercentage)
+  const total = toFixed2(+state.amount + tip)
+
+  return { ...state, tipPercentage, tip, total }
+}
+
+export const reducer = (state: Model, action: Action): Model => {
   switch (action.type) {
-    case `AMOUNT_INPUT`: {
-      const { tipPercentage } = model
+    case MSG.AMOUNT_INPUT:
+      return onAmountInput(state, action.amount)
 
-      const amountNumber = pipe(
-        toFloat,
-        lessThanMax,
-      )(action.amount)
-        ? pipe(
-            toFloat,
-            formatNumber,
-          )(action.amount)
-        : MAX_BILL_AMOUNT
+    case MSG.SHOW_TIP_FORM:
+      return { ...state, showTipForm: action.showTipForm }
 
-      const amount = isValidAmount(action.amount)
-        ? action.amount
-        : `${amountNumber}`
-
-      const tip = calculateTip(amountNumber, tipPercentage)
-      const total = formatNumber(amountNumber + tip)
-
-      return { ...model, amount, amountNumber, tip, total }
-    }
-
-    case `SHOW_TIP_FORM`: {
-      const { showTipForm = false } = action
-      return { ...model, showTipForm }
-    }
-
-    case `TIP_INPUT`: {
-      const { amountNumber } = model
-      const tipPercentage = toInt(action.tipPercentage)
-      const tip = calculateTip(amountNumber, tipPercentage)
-      const total = formatNumber(amountNumber + tip)
-      return { ...model, tipPercentage, tip, total }
-    }
+    case MSG.TIP_INPUT:
+      return onTipInput(state, action.tipPercentage)
 
     default: {
-      const { type } = action
-      return assertError(`Unhandled action type: ${type}`)
+      const unHandledAction: never = action // catches unused valid action type
+      const { type } = unHandledAction
+      return assertError(`Unhandled action type: ${type as string}`)
     }
   }
 }

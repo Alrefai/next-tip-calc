@@ -1,14 +1,13 @@
-import { Flex } from 'rebass'
-import { useColorMode } from 'theme-ui'
+import { Flex, useColorMode, BoxProps } from 'theme-ui'
 import { useModel } from '../hooks'
-import { Theme } from '../constants'
+import { withThemeShadow } from '../utils'
 import { Bill } from './bill'
 import { Tip } from './tip'
 import { TipPercentage } from './tipPercentage'
 import { TipInput } from './tipInput'
-import { wrapWith } from './wrappers'
 
 const billForm = [<Bill key='bill-amount' />, <Tip key='tip-amount' />] as const
+
 const tipForm = [
   <TipPercentage key='tip-percentage' />,
   <TipInput key='tip-input' />,
@@ -16,20 +15,23 @@ const tipForm = [
 
 type Modes = `dracula`
 
-export const CalculatorInput: React.FC = () => {
+export const CalculatorInput = (): JSX.Element => {
   const { showTipForm } = useModel()
   const [mode] = useColorMode<Modes>()
-  const boxShadow = ({ withShadow }: Theme): ((theme: Theme) => string) =>
-    withShadow({ dracula: { preSet: `0 0 8px`, alpha: 0.35 } }[mode])
 
-  const flexProps = {
-    variant: `card`,
-    width: 1,
+  const boxShadow = withThemeShadow(
+    { dracula: { preSet: `0 0 8px`, alpha: 0.35 } }[mode],
+  )
+
+  const flexProps: BoxProps = {
+    variant: `cards.primary`,
     p: 0,
-    bg: `muted`,
-    flexDirection: [`column`, `row`],
-    sx: { boxShadow, borderRadius: `card` },
-  } as const
+    sx: {
+      flexDirection: [`column`, `row`],
+      width: `full`,
+      boxShadow,
+    },
+  }
 
-  return wrapWith(Flex, flexProps, !showTipForm ? billForm : tipForm)
+  return <Flex {...flexProps}>{!showTipForm ? billForm : tipForm}</Flex>
 }

@@ -1,19 +1,31 @@
-import { Box, BoxProps } from 'rebass'
+import { Box, BoxProps } from 'theme-ui'
+import { keyframes } from '@emotion/core'
 
-export const Bar: React.FC<BoxProps> = ({ sx, ...props }) => {
-  const barProps = {
-    variant: `bar`,
+const grow = keyframes`
+  from {
+    transform: scaleX(0);
+  }
+  to {
+    transform: scaleX(1);
+  }
+`
+
+export const Bar = ({ sx, ...props }: BoxProps): JSX.Element => {
+  const boxProps: BoxProps = {
+    variant: `styles.hr.primary`,
+    m: 0,
     sx: {
+      border: 0,
+      height: `2px`,
       transformOrigin: `0 0`,
-      animationName: `grow`,
+      animationName: grow,
       animationDuration: `1s`,
       animationTimingFunction: `ease-out`,
       animationFillMode: `forwards`,
       ...sx,
     },
+    ...props,
   }
 
-  // eslint-disable-next-line @typescript-eslint/ban-ts-ignore
-  // @ts-ignore Could not fix Box type checking error
-  return <Box as='hr' {...{ ...barProps, ...props }} />
+  return <Box as='hr' {...boxProps} />
 }

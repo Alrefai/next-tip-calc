@@ -1,3 +1,4 @@
+/* eslint-disable import/no-unused-modules */
 import {
   ProviderExoticComponent,
   ProviderProps,
@@ -15,16 +16,18 @@ const createCtx = <T>(
   () => T,
   ProviderExoticComponent<ProviderProps<T | undefined>>,
 ] => {
+  // eslint-disable-next-line unicorn/no-useless-undefined
   const ctx = createContext<T | undefined>(undefined)
 
   const useCtx = (): T => {
     const context = useContext(ctx)
+
     return context === undefined
       ? assertError(`${hookName} must be used inside a Provider with a value`)
       : context
   }
 
-  return [useCtx, ctx.Provider] as const
+  return [useCtx, ctx.Provider]
 }
 
 export const [useModel, ModelProvider] = createCtx<Model>(`useModel`)

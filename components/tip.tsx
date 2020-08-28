@@ -1,50 +1,43 @@
-import { Box, Flex, Button } from 'rebass'
+import { Box, Flex, Button, BoxProps, ButtonProps } from 'theme-ui'
 import { useClick, useModel } from '../hooks'
 import { showTipFormAction } from '../actions'
 
-const tipAmountProps = {
-  variant: `card.gradient`,
-  width: 1,
+const flexProps: BoxProps = {
+  variant: `cards.gradient`,
   p: 1,
-  alignItems: `center`,
-} as const
+  sx: { width: `full`, alignItems: `center` },
+}
 
-const tipPercentageProps = {
-  variant: `card`,
+const boxProps: BoxProps = {
+  variant: `cards.default`,
   ml: -3,
   px: 1,
   py: 0,
   color: `background`,
   bg: `primary`,
-  fontSize: 1,
-  alignSelf: `flex-start`,
-} as const
+  sx: { fontSize: 1, alignSelf: `flex-start` },
+}
 
-const tipResultsProps = {
-  mx: `auto`,
-  color: `background`,
-  fontSize: 5,
-} as const
-
-const tipButtonPorps = {
-  title: `Change tip percantage`,
+const buttonProps: ButtonProps = {
+  title: `Change tip percentage`,
   type: `button`,
   variant: `outline.circle`,
   m: 1,
   bg: `background`,
-  fontSize: 3,
-} as const
+  sx: { fontSize: 3 },
+}
 
-export const Tip: React.FC = () => {
+export const Tip = (): JSX.Element => {
   const { tipPercentage, tip } = useModel()
   const onClick = useClick(showTipFormAction(true))
+
   return (
-    <Flex {...tipAmountProps}>
-      <Button {...{ ...tipButtonPorps, onClick }}>Tip</Button>
-      <Box as='p' {...tipPercentageProps}>
+    <Flex {...flexProps}>
+      <Button {...{ ...buttonProps, onClick }}>Tip</Button>
+      <Box as='p' {...boxProps}>
         {tipPercentage}%
       </Box>
-      <Box as='p' {...tipResultsProps}>
+      <Box as='p' mx='auto' color='background' sx={{ fontSize: 5 }}>
         ${tip}
       </Box>
     </Flex>

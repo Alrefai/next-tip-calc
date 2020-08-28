@@ -1,9 +1,9 @@
 import App from 'next/app'
-import { ThemeProvider, Styled, ColorMode } from 'theme-ui'
+import { ThemeProvider } from 'theme-ui'
 import { Head } from '../components/head'
 import { Header } from '../components/header'
 import { meta, theme } from '../constants'
-import '../static/webFonts.css'
+import '../webFonts.css'
 import 'modern-normalize/modern-normalize.css' /* keep it last */
 
 export default class MyApp extends App {
@@ -21,11 +21,8 @@ export default class MyApp extends App {
       <>
         <Head {...meta} />
         <ThemeProvider {...{ theme }}>
-          <ColorMode />
-          <Styled.root>
-            <Header />
-            <Component />
-          </Styled.root>
+          <Header />
+          <Component />
         </ThemeProvider>
       </>
     )

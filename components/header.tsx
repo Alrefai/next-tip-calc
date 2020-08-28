@@ -1,93 +1,93 @@
-import { FC, useState } from 'react'
-import { Box, Heading, Button, Flex } from 'rebass'
-import { useColorMode } from 'theme-ui'
+import { useState } from 'react'
+import {
+  Box,
+  Heading,
+  Button,
+  Flex,
+  useColorMode,
+  HeadingProps,
+  BoxProps,
+  ButtonProps,
+} from 'theme-ui'
+import { keyframes } from '@emotion/core'
 import { meta, modes } from '../constants'
 import { Bar } from './bar'
+import { Dot } from './dot'
 
-const { title } = meta
+const fadeIn = keyframes`
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  `
 
-const svgProps = {
-  viewBox: `0 0 32 32`,
-  width: `24`,
-  height: `24`,
-  fill: `currentcolor`,
-  style: { display: `block` },
-} as const
-
-const circleProps = {
-  cx: `16`,
-  cy: `16`,
-  r: `14`,
-  fill: `none`,
-  stroke: `currentcolor`,
-  strokeWidth: `4`,
-} as const
-
-const pathProps = {
-  d: `
-    M 16 0
-    A 16 16 0 0 0 16 32
-    z
-  `,
-} as const
-
-// Theme switcher icon was bootstraped from:
-// https://github.com/rebassjs/rebass/blob/master/packages/docs/src/components/header.js
-const Dot: FC = () => (
-  <svg {...svgProps}>
-    <circle {...circleProps} />
-    <path {...pathProps} />
-  </svg>
-)
+const fadeOut = keyframes`
+    from {
+      opacity: 1;
+    }
+    to {
+      opacity: 0;
+    }
+  `
 
 type Modes = typeof modes[number]
 
-export const Header: FC = () => {
-  const [visible, setVisible] = useState(false)
+const nextMode = (prevMode: Modes): Modes =>
+  modes[(modes.indexOf(prevMode) + 1) % modes.length]
+
+export const Header = (): JSX.Element => {
+  const [isVisible, setVisibility] = useState(false)
   const [mode, setMode] = useColorMode<Modes>(`neon`)
-  const nextModeIndex = (modes.indexOf(mode) + 1) % modes.length
-  const nextMode = modes[nextModeIndex]
 
-  const headingProps = {
-    fontSize: 5,
-    opacity: visible ? 0 : 1,
+  const flexProps: BoxProps = {
+    mt: 2,
+    py: 2,
+    sx: { justifyContent: `space-between`, alignItems: `center` },
+  }
+
+  const headingProps: HeadingProps = {
     sx: {
-      position: visible ? `absolute` : ``,
-      overflow: visible ? `hidden` : ``,
-      animationName: visible ? `fadeOut` : `fadeIn`,
+      fontSize: 5,
+      opacity: isVisible ? 0 : 1,
+      position: isVisible ? `absolute` : undefined,
+      overflow: isVisible ? `hidden` : undefined,
+      animationName: isVisible ? fadeOut : fadeIn,
       animationDuration: `1s`,
-      animationTimingFunction: visible ? `ease-out` : `ease-in`,
+      animationTimingFunction: isVisible ? `ease-out` : `ease-in`,
     },
-  } as const
+  }
 
-  const modeProps = {
+  const modeProps: BoxProps = {
     ml: `auto`,
     px: 2,
     color: `primary`,
     sx: {
-      display: !visible ? `none` : ``,
-      animationName: `fadeIn`,
+      display: !isVisible ? `none` : undefined,
+      animationName: fadeIn,
       animationDuration: `2s`,
       animationTimingFunction: `ease-in`,
     },
-  } as const
+  }
 
-  const buttonProps = {
-    title: `Change color mode to ${nextMode}`,
+  const buttonProps: ButtonProps = {
+    title: `Change color mode to ${nextMode(mode)}`,
     type: `button`,
     variant: `transparent`,
     my: 1,
     p: 1,
-    size: 32,
     sx: { borderRadius: `circle` },
-    onMouseEnter: () => setVisible(true),
-    onMouseLeave: () => setVisible(false),
-    onClick: () => setMode(nextMode),
-  } as const
+    onMouseEnter: () => setVisibility(true),
+    onMouseLeave: () => setVisibility(false),
+    onClick: () => setMode(prevMode => nextMode(prevMode)),
+  }
+
+  const { title } = meta
 
   return (
-    <Box as='header' maxWidth={512} mx='auto' px={2} mb={1}>
-      <Flex mt={2} py={2} justifyContent='space-between' alignItems='center'>
+    <Box as='header' mx='auto' mb={1} px={2} sx={{ maxWidth: `container` }}>
+      <Flex {...flexProps}>
         <Heading as='h1' {...headingProps}>
           {title}
         </Heading>
@@ -98,7 +98,7 @@ export const Header: FC = () => {
           <Dot />
         </Button>
       </Flex>
-      <Bar height='3px' />
+      <Bar sx={{ height: `3px` }} />
     </Box>
   )
 }
