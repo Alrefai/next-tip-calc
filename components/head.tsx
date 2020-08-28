@@ -11,7 +11,12 @@ type Meta = {
   readonly ogImage?: string
 }
 
-export const Head: React.FC<Meta> = ({ title, description, url, ogImage }) => (
+export const Head = ({
+  title,
+  description,
+  url,
+  ogImage,
+}: Meta): JSX.Element => (
   <NextHead>
     <meta charSet='UTF-8' />
     <title>{title || ``}</title>

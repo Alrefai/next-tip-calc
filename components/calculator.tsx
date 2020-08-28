@@ -1,9 +1,16 @@
-import { Box } from 'rebass'
+import { Box, BoxProps } from 'theme-ui'
 import { Total } from './total'
 import { CalculatorInput } from './calculatorInput'
 
-export const Calculator: React.FC = () => (
-  <Box as='main' minHeight='100vh' maxWidth={512} mx='auto' px={2} py={3}>
+const boxProps: BoxProps = {
+  mx: `auto`,
+  px: 2,
+  py: 3,
+  sx: { minHeight: `100vh`, maxWidth: `container` },
+}
+
+export const Calculator = (): JSX.Element => (
+  <Box as='main' {...boxProps}>
     <Total />
     <CalculatorInput />
   </Box>

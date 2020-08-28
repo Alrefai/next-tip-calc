@@ -1,26 +1,13 @@
-import { map, pathOr } from 'ramda'
-import { keyframes } from '@emotion/core'
+import { Theme } from 'theme-ui'
+import { Property } from 'csstype'
+import { withThemeGradient } from '../utils'
 
-/* Rebass styled-system reference
-
-Preset repo:
-https://github.com/rebassjs/rebass/blob/master/packages/preset/src/index.js
-
-Default Breakpoints
-const breakpoints = [ '40em', '52em', '64em' ]
-@media screen and (min-width: 40em)
-@media screen and (min-width: 52em)
-@media screen and (min-width: 64em)
-
-Default fontSizes
-const fontSizes = [ 12, 14, 16, 20, 24, 32, 48, 64, 96 ]
-
-Default space for margin and padding
-const space = [ 0, 4, 8, 16, 32, 64, 128, 256, 512 ]
-*/
-
-// All colors must be defined with 6 digits hex color code
-// Colors were partially obtained from: https://github.com/mrmrs/colors
+/**
+ * Colors Pallet:
+ * All colors must be defined with 6 digits hex color code.
+ *
+ * Colors were partially obtained from: https://github.com/mrmrs/colors
+ */
 const COLORS = {
   navy: `#001F3F`,
   blue: `#0074D9`,
@@ -40,7 +27,7 @@ const COLORS = {
   gray: `#AAAAAA`,
   white: `#FFFFFF`,
 
-  // my custome colors
+  // my custom colors
   nearWhite: `#F4F4F4`,
   trueBlack: `#000000`,
   darkGray: `#333333`,
@@ -63,79 +50,46 @@ const COLORS = {
   },
 } as const
 
-export const modes = [`neon`, `dracula`, `eclectus`] as const
+// Define theme color scales, theme modes and default theme mode
+type ColorScales = `primary` | `secondary` | `text` | `background` | `muted`
+type Modes = `neon` | `dracula` | `eclectus`
+const defaultMode: Modes = `neon`
+/* ~*~ */
 
-const [initMode, ...otherModes] = modes
-const fontSizes = [12, 14, 16, 20, 24, 32, 48, 64, 96] as const
-const space = [0, 4, 8, 16, 32, 64, 128, 256, 512] as const
+type PropertyColor = Exclude<Property.Color, Property.All>
+type ColorModes = Readonly<Record<ColorScales, PropertyColor>>
 
-type InitMode = { readonly initialColorMode: typeof initMode }
-type Modes = typeof otherModes[number]
-type FontSizes = typeof fontSizes
-type Space = typeof space
+// Define theme colors for each mode
+const colorModes: Readonly<Record<Modes, ColorModes>> = {
+  neon: {
+    text: COLORS.nearWhite,
+    background: COLORS.trueBlack,
+    primary: COLORS.cyan,
+    secondary: COLORS.magenta,
+    muted: COLORS.dracula.background,
+  },
 
-type Mode = {
-  readonly text: string // Body foreground color
-  readonly background: string // Body background color
-  readonly primary: string // Primary brand color for links, buttons, etc.
-  readonly secondary: string // A secondary brand color for alternative styling
-  readonly muted: string // A faint color for backgrounds, borders, and accents
+  dracula: {
+    text: COLORS.dracula.foreground,
+    background: COLORS.dracula.background,
+    primary: COLORS.dracula.pink,
+    secondary: COLORS.dracula.cyan,
+    muted: COLORS.dracula.selection,
+  },
+
+  eclectus: {
+    text: COLORS.dracula.selection,
+    background: COLORS.nearWhite,
+    primary: COLORS.blue,
+    secondary: COLORS.red,
+    muted: `#f6f6f9`,
+  },
 }
-
-type Colors = Mode & {
-  readonly [key: string]: string | object
-  readonly modes: Record<Modes, Mode> // modes: { [key in Modes]: Mode }
-}
-
-export type Theme = InitMode & {
-  readonly [key: string]: string | boolean | object
-  readonly useCustomProperties: true // ! must be true
-  readonly colors: Colors
-  readonly fontSizes: FontSizes
-  readonly space: Space
-  readonly withShadow: (shadowSet: {
-    readonly preSet?: string
-    readonly color?: string
-    readonly alpha?: number
-  }) => (theme: Theme) => string
-}
-
-const getColorCode = (color: string): string =>
-  pathOr(color, color.split(`.`), COLORS)
-
-const withColors: (mode: Mode) => Mode = map<Mode, Mode>(getColorCode)
-
-const neon = withColors({
-  text: `nearWhite`,
-  background: `trueBlack`,
-  primary: `cyan`,
-  secondary: `magenta`,
-  muted: `dracula.background`,
-})
-
-const dracula = withColors({
-  text: `dracula.foreground`,
-  background: `dracula.background`,
-  primary: `dracula.pink`,
-  secondary: `dracula.cyan`,
-  muted: `dracula.selection`,
-})
-
-const eclectus = withColors({
-  text: `dracula.selection`,
-  background: `nearWhite`,
-  primary: `blue`,
-  secondary: `red`,
-  muted: `#f6f6f9`,
-})
-
-const gradient = ({ colors: { primary, secondary } }: Theme): string =>
-  `linear-gradient(19deg, ${primary}, ${secondary})`
+/* ~*~ */
 
 const card = {
   p: 2,
-  bg: `background`,
-  boxShadow: `card`,
+  bg: `muted`,
   borderRadius: `default`,
 } as const
 
@@ -164,84 +118,26 @@ const outlineButton = {
   bg: `transparent`,
   boxShadow: `inset 0 0 2px`,
   ':hover,:focus': {
-    color: [``, `primary`],
+    color: [undefined, `primary`],
     outline: `none`,
-    boxShadow: [``, `0 0 0 2px`],
+    boxShadow: [undefined, `0 0 0 2px`],
   },
 } as const
 
-const fadeIn = keyframes`
-  from {
-    opacity: 0;
-  }
-  to {
-    opacity: 1;
-  }
-`
+const primaryGradient = withThemeGradient<ColorScales>(`primary`, `secondary`)
+const secondaryGradient = withThemeGradient<ColorScales>(`secondary`, `primary`)
 
-const fadeOut = keyframes`
-  from {
-    opacity: 1;
-  }
-  to {
-    opacity: 0;
-  }
-`
-
-const grow = keyframes`
-  from {
-    transform: scaleX(0);
-  }
-  to {
-    transform: scaleX(1);
-  }
-`
-
-type RGB = {
-  readonly red: number
-  readonly green: number
-  readonly blue: number
-}
-
-const hexToRGB = (color: string): RGB => {
-  // get hex color code from selected variable theme color
-  // e.g. `var(--theme-ui-colors-background,#000000)`
-  const themeColor = color.match(/(#\w+?)(?=\))/g)
-
-  const hexColor = parseInt(
-    (themeColor ? themeColor[0] : getColorCode(color)).replace(`#`, `0x`),
-  )
-
-  // Convert hex color code to RGB
-  // https://stackoverflow.com/a/55858933/9185553
-  return {
-    red: (hexColor >> 16) & 0xff,
-    green: (hexColor >> 8) & 0xff,
-    blue: hexColor & 0xff,
-  }
-}
-
-// eslint-disable-next-line quotes
-const withShadow: Theme['withShadow'] = ({
-  preSet = `0 0 4px`,
-  color = `#000000`,
-  alpha = 0.125,
-} = {}) => ({ colors: { [color]: themeColor } }) => {
-  const hexColor = themeColor ? (themeColor as string) : color
-  const { red, green, blue } = hexToRGB(hexColor)
-
-  return `${preSet} rgba(${red}, ${green}, ${blue}, ${alpha})`
-}
+const { [defaultMode]: initMode, ...otherModes } = colorModes
 
 export const theme: Theme = {
-  initialColorMode: initMode,
-  useCustomProperties: true,
-  fontSizes,
-  space,
-  withShadow,
-  animationName: { grow, fadeIn, fadeOut },
-
-  colors: { ...neon, modes: { dracula, eclectus } },
+  colors: { ...initMode, modes: { ...otherModes } },
+  breakpoints: [`40em`, `52em`, `64em`],
+  space: [0, 4, 8, 16, 32, 64, 128, 256, 512],
+  sizes: { container: 512, full: `100%` },
+  radii: { default: 4, circle: 99999, card: 15 },
+  fontSizes: [12, 14, 16, 20, 24, 32, 48, 64, 96],
+  fontWeights: { body: 400, heading: 700, bold: 700 },
+  lineHeights: { body: 1.5, heading: 1.25 },
 
   fonts: {
     body: `Fira Mono, monospace`,
@@ -249,50 +145,14 @@ export const theme: Theme = {
     monospace: `Fira Mono, monospace`,
   },
 
-  fontWeights: { body: 400, heading: 700, bold: 700 },
-
-  lineHeights: { body: 1.5, heading: 1.25 },
-
-  sizes: { avatar: 48 },
-
-  radii: { default: 4, circle: 99999, card: 15 },
-
-  text: {
-    heading: {
-      fontFamily: `heading`,
-      lineHeight: `heading`,
-      fontWeight: `heading`,
-    },
-    display: {
-      fontFamily: `heading`,
-      fontWeight: `heading`,
-      lineHeight: `heading`,
-      fontSize: [5, 6, 7],
-    },
-    caps: { textTransform: `uppercase`, letterSpacing: `0.1em` },
-  },
-
-  variants: {
-    avatar: { width: `avatar`, height: `avatar`, borderRadius: `circle` },
-
-    card: {
+  cards: {
+    default: { ...card },
+    primary: { ...card, borderRadius: `card` },
+    gradient: {
       ...card,
-      gradient: { ...card, borderRadius: `card`, backgroundImage: gradient },
+      borderRadius: `card`,
+      backgroundImage: primaryGradient,
     },
-
-    link: { color: `primary` },
-
-    nav: {
-      fontSize: 1,
-      fontWeight: `bold`,
-      display: `inline-block`,
-      p: 2,
-      color: `inherit`,
-      textDecoration: `none`,
-      ':hover,:focus,.active': { color: `primary` },
-    },
-
-    bar: { margin: 0, border: 0, height: 2, backgroundImage: gradient },
   },
 
   buttons: {
@@ -324,5 +184,11 @@ export const theme: Theme = {
       color: `text`,
       bg: `background`,
     },
+    hr: {
+      primary: { backgroundImage: primaryGradient },
+      secondary: { backgroundImage: secondaryGradient },
+    },
   },
 }
+
+export const modes = Object.keys(colorModes) as ReadonlyArray<Modes>

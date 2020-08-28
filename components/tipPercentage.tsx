@@ -1,42 +1,40 @@
 import { map, pipe } from 'ramda'
-import { Flex, Button } from 'rebass'
+import { Flex, Button, BoxProps, ButtonProps } from 'theme-ui'
 import { PERCENTAGES } from '../constants'
 import { useClick, useModel } from '../hooks'
 import { tipInputAction } from '../actions'
-import { wrapWith } from './wrappers'
-
-const flexProps = {
-  justifyContent: `space-evenly`,
-  alignItems: `center`,
-  variant: `card.gradient`,
-  width: 1,
-  p: 1,
-} as const
 
 type Props = { readonly percentage: number }
 
-const TipCircle: React.FC<Props> = ({ percentage }) => {
+const TipCircle = ({ percentage }: Props): JSX.Element => {
   const { tipPercentage } = useModel()
   const onClick = useClick(tipInputAction(`${percentage}`))
-  const tipCircleProps = {
+
+  const buttonProps: ButtonProps = {
     title: `Apply ${percentage} percent`,
-    variant: `outline.circle`,
     type: `button`,
+    variant: `outline.circle`,
     m: 1,
     p: 1,
     color: tipPercentage === percentage ? `secondary` : `text`,
     bg: `background`,
-    sx: { fontSize: 4, fontWeight: `normal` },
+    sx: { fontSize: 4, fontWeight: `body` },
     onClick,
-  } as const
+  }
 
-  return <Button {...tipCircleProps}>{percentage}%</Button>
+  return <Button {...buttonProps}>{percentage}%</Button>
 }
 
-export const TipPercentage: React.FC = () =>
+const flexProps: BoxProps = {
+  variant: `cards.gradient`,
+  p: 1,
+  sx: { width: `full`, justifyContent: `space-evenly`, alignItems: `center` },
+}
+
+export const TipPercentage = (): JSX.Element =>
   pipe(
-    map<number, React.ReactElement>(percentage => (
+    map((percentage: number) => (
       <TipCircle {...{ percentage, key: `${percentage}-percent` }} />
     )),
-    wrapWith(Flex, flexProps),
+    children => <Flex {...flexProps}>{children}</Flex>,
   )(PERCENTAGES)

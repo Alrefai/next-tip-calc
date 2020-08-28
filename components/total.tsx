@@ -1,39 +1,42 @@
-import { Box, Flex, Text, Heading } from 'rebass'
+import { Box, Flex, Text, Heading, BoxProps } from 'theme-ui'
 import { useModel } from '../hooks'
 
-const totalCardProps = {
-  variant: `card.gradient`,
-  alignItems: `center`,
-  width: [2 / 5, 1 / 3],
+const flexProps: BoxProps = {
+  variant: `cards.gradient`,
   ml: [-2, 0],
   p: 0,
   color: `background`,
-  sx: { borderRadius: [`0 4px 4px 0`, `default`] },
+  sx: {
+    width: [`40%`, `33%`],
+    alignItems: `center`,
+    borderRadius: [`0 4px 4px 0`, `default`],
+  },
 }
 
-const currencyCardProps = {
-  variant: `card`,
+const boxProps: BoxProps = {
+  variant: `cards.default`,
   m: 1,
   py: 0,
   px: 1,
   color: `text`,
   bg: `background`,
-  fontSize: [2, 3],
+  sx: { fontSize: [2, 3] },
 }
 
-export const Total: React.FC = () => {
+export const Total = (): JSX.Element => {
   const { total } = useModel()
+
   return (
     <>
-      <Flex {...totalCardProps}>
+      <Flex {...flexProps}>
         <Heading ml='auto' px={1}>
           Total
         </Heading>
-        <Box as='p' {...currencyCardProps}>
+        <Box as='p' {...boxProps}>
           $
         </Box>
       </Flex>
-      <Text as='p' py={4} fontSize={[7, 8]} textAlign='center'>
+      <Text as='p' py={4} sx={{ fontSize: [7, 8], textAlign: `center` }}>
         {total}
       </Text>
     </>
