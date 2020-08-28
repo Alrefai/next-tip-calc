@@ -24,8 +24,12 @@ export const Bill = (): JSX.Element => {
   // eslint-disable-next-line unicorn/no-null
   const ref = useRef(null)
   const { amount: value } = useModel()
-  const { onSubmit, getInputProps } = useForm(showTipFormAction(true))
-  const { onChange } = getInputProps({ action: amountInputAction })
+
+  const { onSubmit, onChange } = useForm({
+    handleSubmit: showTipFormAction(true),
+    handleChange: amountInputAction,
+  })
+
   const labelText = +value < MAX_BILL_AMOUNT ? `Bill Amount` : `Max Bill Amount`
 
   return (

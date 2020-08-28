@@ -48,8 +48,12 @@ export const TipInput = (): JSX.Element => {
   // eslint-disable-next-line unicorn/no-null
   const ref = useRef(null)
   const { tipPercentage: value } = useModel()
-  const { onSubmit, getInputProps } = useForm(showTipFormAction(false))
-  const { onChange } = getInputProps({ action: tipInputAction })
+
+  const { onSubmit, onChange } = useForm({
+    handleSubmit: showTipFormAction(false),
+    handleChange: tipInputAction,
+  })
+
   const buttonText = value >= 20 ? (value >= 25 ? `Generous` : `Nice`) : `OK`
 
   return (

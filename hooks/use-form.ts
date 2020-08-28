@@ -5,48 +5,35 @@ import { useDispatch } from './use-ctx'
 
 type ActionCreator = (payload: string) => Action
 
-type InputProps = {
-  readonly action: ActionCreator
-  readonly id: string
+type FormProps = {
+  readonly handleSubmit: Action
+  readonly handleChange: ActionCreator
 }
-
-type ReturnProps = {
-  readonly onChange: ChangeEventHandler<HTMLInputElement>
-  readonly name: string
-  readonly id: string
-}
-
-type GetProps = (props: InputProps) => ReturnProps
 
 type FormReturnProps = {
   readonly onSubmit: FormEventHandler
-  readonly getInputProps: GetProps
+  readonly onChange: ChangeEventHandler<HTMLInputElement>
 }
 
-export const useForm = (submitAction: Action): FormReturnProps => {
+export const useForm = ({
+  handleSubmit,
+  handleChange,
+}: FormProps): FormReturnProps => {
   const dispatch = useDispatch()
 
-  if (submitAction === undefined) {
-    return assertError(`submit action must be passed to useForm as an argument`)
+  if (handleSubmit === undefined || handleChange === undefined) {
+    return assertError(
+      `handleSubmit and handleChange must be passed to useForm as props`,
+    )
   }
 
-  const onSubmit: FormEventHandler = e => {
-    e.preventDefault()
-    dispatch(submitAction)
+  return {
+    onSubmit: e => {
+      e.preventDefault()
+      dispatch(handleSubmit)
+    },
+    onChange: e => {
+      dispatch(handleChange(e.target.value))
+    },
   }
-
-  const getInputProps: GetProps = ({ id = `input-id`, action, ...props }) => {
-    return action === undefined
-      ? assertError(
-          `action prop (onChange handler) must be passed to getInputProps`,
-        )
-      : {
-          id,
-          name: id,
-          ...props,
-          onChange: e => dispatch(action(e.target.value)),
-        }
-  }
-
-  return { onSubmit, getInputProps } as const
 }
