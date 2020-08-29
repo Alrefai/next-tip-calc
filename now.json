@@ -1,7 +1,0 @@
-{
-  "name": "next-tip-calc",
-  "alias": "tipcalc",
-  "regions": ["all"],
-  "public": true,
-  "version": 2
-}
