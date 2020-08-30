@@ -23,6 +23,8 @@ const onAmountInput = (state: Model, amountInput: string): Model => {
 }
 
 const onTipInput = (state: Model, percentage: string): Model => {
+  if (percentage && !+percentage) return state
+
   const tipPercentage = +percentage
   const tip = calculateTip(+state.amount, tipPercentage)
   const total = toFixed2(+state.amount + tip)
